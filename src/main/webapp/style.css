@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+.fullscreen {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	font-size: 3vw;
+	align-items: center;
+}
+
+h1 {
+	color: #f4f6ff;
+	margin-top: 30%;
+	text-align: center;
+		
+	
+}
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+body {
+	background-color: #e0f7fa !important;
+	font-family: "Quicksand", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.buttonPharm {
+	background-color: #0000ef;
+	border: black;
+	color: #f4f6ff;
+	padding: 10px;
+	text-align: center;
+	border-radius: 8px;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 4px;
+	border: 1px solid black;
+}
+
+.container {
+	display: grid;
+	grid-area: 2/2;
+}
