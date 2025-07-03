@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css" type="text/css">
-<title>PhrmaFinder</title>
+<title>PharmaFinder</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -42,7 +42,7 @@
 				<div class="col-sm-6 mb-3 mb-sm-0">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">User</h5>
+							<h5 class="card-title">Users</h5>
 							<p class="card-text">Click here to find the nearest Pharmacy.</p>
 							<a href="#" class="btn btn-primary">User Page</a>
 						</div>
@@ -51,10 +51,10 @@
 				<div class="col-sm-6">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">Pharmacy Log in</h5>
-							<p class="card-text">Register your pharmacy or log in</p>
-							<a href="pharmacyPage.jsp" class="btn btn-primary">Phramacy
-								page</a>
+							<h5 class="card-title">Pharmacies</h5>
+							<p class="card-text">Register your Pharmacy or log in.</p>
+							<a href="pharmacyPage.jsp" class="btn btn-primary">Pharmacy
+								Page</a>
 						</div>
 					</div>
 				</div>
