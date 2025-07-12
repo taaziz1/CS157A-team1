@@ -12,14 +12,16 @@
 	rel="stylesheet"
 	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
 	crossorigin="anonymous">
-	<style>
-	.button{
-	display:flex;
-	padding:30px;
-	  }
-	  .btn{
-	  margin:20px;}
-	</style>
+<style>
+.button {
+	display: flex;
+	padding: 30px;
+}
+
+.btn {
+	margin: 20px;
+}
+</style>
 </head>
 
 <body>
@@ -34,19 +36,20 @@
 					d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
             </svg>
 
-			<a  class="navstart homePage" href="index.jsp">PharmaFinder</a>
+			<a class="navstart homePage" href="index.jsp">PharmaFinder</a>
 		</div>
 	</nav>
-
+	<div>
+	<div style="padding:20px">
 	<h1>Register your Pharmacy</h1>
-
+</div>
 	<%-- REGISTRATION --%>
 
-	<div class="center">
-		<div class="col-md-7 col-lg-8">
+    <div class=" center">
+		<div class="col-lg-8">
 			<form class="needs-validation" novalidate="">
 				<div class="row">
-                   <%-- TAX NUMBER --%>
+					<%-- TAX NUMBER --%>
 					<div class="col-sm-6">
 						<label for="tax_Number" class="form-label">Tax Number</label> <input
 							type="text" class="form-control" id="tax_Number" placeholder=""
@@ -58,7 +61,7 @@
 							Name</label> <input type="text" class="form-control" id="pharmacy_name"
 							placeholder="" value="" required="">
 					</div>
-                   <%-- USERNAME--%>
+					<%-- USERNAME--%>
 					<div class="col-sm-12">
 						<label for="username" class="form-label">Username</label>
 						<div class="input-group has-validation">
@@ -68,32 +71,13 @@
 							<div class="invalid-feedback">Your username is required.</div>
 						</div>
 					</div>
-                    <%-- PASSWORD --%>
+					<%-- PASSWORD --%>
 					<div class="col-sm-12">
 						<label for="password" class="form-label">Password</label> <input
 							type="password" class="form-control" id="password" placeholder=""
 							value="" required="">
 					</div>
-					 <%-- PHONE NUMBER --%>
-					<div class="col-sm-12">
-						<label for="phone" class="form-label">Phone Number</label> <input
-							type="text" class="form-control" id="phone" placeholder=""
-							value="" required="">
-					</div>
-                    <%-- FAX NUMBER --%>
-					<div class="col-sm-12">
-						<label for="fax" class="form-label">Fax Number</label> <input
-							type="text" class="form-control" id="fax" placeholder="" value=""
-							required="">
-					</div>
-                    <%-- URL --%>
-					<div class="col-12">
-						<label for="url" class="form-label"> URL <span
-							class="text-body-secondary">(Optional)</span></label> <input type="url"
-							class="form-control" id="url" placeholder="https://example.com">
-						<div class="invalid-feedback">Please enter a valid URL
-							(e.g., https://example.com)</div>
-					</div>
+
 					<%-- ADDRESS --%>
 					<div class="col-12">
 						<label for="address" class="form-label">Address</label> <input
@@ -103,7 +87,7 @@
 							address.</div>
 
 					</div>
-                    <%-- STATE --%>
+					<%-- STATE --%>
 					<div class="col-md-6">
 						<label for="state" class="form-label">State</label> <select
 							class="form-select" id="state" required="">
@@ -163,23 +147,71 @@
 						</select>
 						<div class="invalid-feedback">Please provide a valid state.</div>
 					</div>
+
 					<%-- ZIPCODE --%>
 					<div class="col-md-6">
 						<label for="zip" class="form-label">Zip Code</label> <input
-							type="number" class="form-control" id="zip"
-							placeholder="" required="">
+							type="number" class="form-control" id="zip" placeholder=""
+							required="">
 						<div class="invalid-feedback">Zip code required.</div>
 					</div>
 
-    <%-- BUTTON --%>
-    <div class="button">
-                    <button class="w-100 btn btn-primary btn-lg" type="cancel">Cancel</button>
-					<button class="w-100 btn btn-primary btn-lg" type="submit">Register</button>
-		        	
-			
-			</div></form>
+
+					<%-- PHONE NUMBER --%>
+					<div class="col-sm-12">
+						<label for="phone" class="form-label">Phone Number</label> <span
+							class="text-body-secondary">(Optional)</span><input type="text"
+							class="form-control" id="phone" placeholder="" value="">
+					</div>
+					<%-- FAX NUMBER --%>
+					<div class="col-sm-12">
+						<label for="fax" class="form-label">Fax Number</label><span
+							class="text-body-secondary">(Optional)</span> <input type="text"
+							class="form-control" id="fax" placeholder="" value="">
+					</div>
+					<%-- URL --%>
+					<div class="col-12">
+						<label for="url" class="form-label"> URL <span
+							class="text-body-secondary">(Optional)</span></label> <input type="url"
+							class="form-control" id="url" placeholder="https://example.com">
+						<div class="invalid-feedback">Please enter a valid URL
+							(e.g., https://example.com)</div>
+					</div>
+					<%--OPERATING HOURS --%>
+					<div class="col-sm-12">
+						<label class="form-label">Operating Hours</label> 
+						<span class="text-body-secondary"> In military time-format</span></div>
+						<br>
+						<label>Sunday</label><input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00">
+						 <label>Monday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00"> 
+							<label>Tuesday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00"> 
+							<label>Wednesday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00"> 
+							<label>Thursday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00"> 
+							<label>Friday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00">
+							 <label>Saturday</label><input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00">
+					</div>
+
+
+
+					<%-- BUTTON --%>
+					<div class="button">
+
+						<button class="w-100 btn btn-primary btn-lg" type="submit">Register</button>
+
+
+					</div>
+					<a href="index.jsp" style="text-decoration: none; color: gray;">Cancel</a>
+			</form>
 		</div>
 	</div>
-
+		</div>
+		</div>
 </body>
 </html>

@@ -28,16 +28,14 @@ color: black;
 /**/
 
 .center{
+	display:block;
 	display:flex;
+	
 	justify-content:center;
 	align-items:center;
 	height: 100vh;
 }
 
-.container {
-	display:flex;
-	align-items: stretch;
-}
 
 /*TO CENTER LOG IN */
 .form-signin {

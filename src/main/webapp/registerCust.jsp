@@ -75,37 +75,7 @@
 						<div class="invalid-feedback">Email required.</div>
 					</div>
 					
-					 <!--  AVATAR FROM DATABASE -->
-			<%
-			    String db ="pharmafinder";
-				String user ="root";
-				String password ="newpassword";
-				
-			try{
-				 Class.forName("com.mysql.jdbc.Driver"); 
-				 java.sql.Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder?autoReconnect=true&useSSL=false",user, password);
-		           
-		            Statement stmt = con.createStatement();
-		            ResultSet rs = stmt.executeQuery("SELECT directory_path FROM avatar");
-		             while(rs.next()){
-		            	 String imagePath = rs.getString("directory_path");
-		            
-		             %>
-		             <!--  image -->
-		             <img src="<%= imagePath %>" alt="Avatar">
-		     <%
-		             }
-		            rs.close();
-		            stmt.close();
-		            con.close();
-	
-			}
-			catch(SQLException e){
-				 out.println("SQLException caught: " + e.getMessage());	
-			}
-			
-			%>		
-
+					
 <%-- BUTTON --%>
 <div class="button">
             
