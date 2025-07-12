@@ -16,15 +16,12 @@ width: fit-content;
 padding:5px;
 white-space: normal;
 text-align: center;
-border-radius: 20px;
- white-space: nowrap;
+border-radius: 10%;
+white-space: pre-line;
 }
 
 .btn{
- white-space: nowrap;
- padding:12px;
- width: 100%;
-  margin-bottom: 0.25rem;
+padding:20px;
 }
 
 /*SEARCH BAR*/
@@ -44,9 +41,9 @@ align-items:center;
 .pharm, .customer{
   display: none;
   position: absolute;
-  top: 100%;
-  z-index: 1000;
+  z-index: 10;
 }
+
 @media (hover: hover) {
   .pharm-card:hover .pharm {
     display: block;
@@ -88,25 +85,26 @@ align-items:center;
 		
 		 <div class="navend">
 		
-	
+	<%--PHARMACY CARD--%>
   <div class="pharm-card">	
 	  	<p class="formPath">Customers</p>	
 		<div class="pharm">
 		<div class="card">
 		
 				<p>Make an account or log in.</p>
-				<a href="" class="btn btn-primary">Log in</a>
-			    <a href="" class="btn btn-primary">Register</a>
+				<a href="custLogIn.jsp" class="btn btn-primary">Log in</a>
+			    <a href="registerCust.jsp" class="btn btn-primary">Register</a>
 			</div>
 		
 	</div>
 </div>
+<%--USER CARD--%>
 	<div class="customer-card">	
-	  	<p class="formPath">Customers</p>	
+	  	<p class="formPath">Pharmacies</p>	
 		<div class="customer">
 		<div class="card">
 		
-				<p>Make an account or log in.</p>
+				<p>Register your pharmacy or log in.</p>
 				<a href="pharmLogIn.jsp" class="btn btn-primary">Log in</a>
 			    <a href="registerPharm.jsp" class="btn btn-primary">Register</a>
 			</div>

@@ -19,11 +19,13 @@ h1 {
 	height: 100vh;
      margin: 0;
 }
-
-.container {
-	display:flex;
-	align-items: stretch;
+/*HOMEPAGE*/
+.homePage{
+text-decoration:none; /*To Remove the hyperlink underline*/
+color: black;	
 }
+
+/**/
 
 .center{
 	display:flex;
@@ -32,6 +34,12 @@ h1 {
 	height: 100vh;
 }
 
+.container {
+	display:flex;
+	align-items: stretch;
+}
+
+/*TO CENTER LOG IN */
 .form-signin {
 	width: 100vw;
 	height: 100vh;
@@ -40,6 +48,7 @@ h1 {
 	justify-content: center;
 	align-items: center;
 }
+
 
 /*NAVIGATION BAR*/
 
@@ -63,7 +72,6 @@ h1 {
 
 .formPath{
 margin: 0 1.5em; /*top-bottom  left-rigth margin*/
-text-decoration:none;/*To Remove the hyperlink underline*/
 background-image:linear-gradient( #4a484a 50%, #2B06FF 50%);
 color:transparent;
 background-clip: text;

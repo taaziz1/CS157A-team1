@@ -5,13 +5,14 @@
 <head>
 <meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css" type="text/css">
-    <title> Pharmacy Login Page</title>
+    <title>Customer Login Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 </head>
 
 <body>
-<%--NAVIGATION BAR--%>
-<nav class=" bg-body-tertiary navbar">
+
+<%--NAVIGATION BAR --%>
+	<nav class=" bg-body-tertiary navbar">
 		<div class="navstart">
 			<%--ICON--%>
 			<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
@@ -21,10 +22,11 @@
 					d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
             </svg>
 
-			<a  class="navstart homePage" href="index.jsp">PharmaFinder</a>
+			<a  class="navstart homePage"
+				href="index.jsp">PharmaFinder</a>
 		</div>
 	</nav>
-	<%--LOG IN--%>
+	
 	<main class="form-signin w-100 m-auto">
 	<div class="bubble">
 		<form action="LoginServlet">
