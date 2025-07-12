@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css" type="text/css">
-<title>Login Page</title>
+<title>Customer Create Account</title>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -45,7 +46,7 @@
 
 	<div class="center">
 		<div class="col-md-7 col-lg-8">
-			<form class="needs-validation" novalidate="">
+			<form class="needs-validation" action="RegisterServlet" method="post" novalidate="">
 				<div class="row">
                   	
                    <%-- USERNAME--%>
@@ -69,18 +70,50 @@
 					<%-- EMAIL --%>
 					<div class="col-md-12">
 						<label for="email" class="form-label">Email</label> <input
-							type="number" class="form-control" id="email"
+							type="email" class="form-control" id="email"
 							placeholder="" required="">
 						<div class="invalid-feedback">Email required.</div>
 					</div>
+					
+					 <!--  AVATAR FROM DATABASE -->
+			<%
+			    String db ="pharmafinder";
+				String user ="root";
+				String password ="newpassword";
+				
+			try{
+				 Class.forName("com.mysql.jdbc.Driver"); 
+				 java.sql.Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder?autoReconnect=true&useSSL=false",user, password);
+		           
+		            Statement stmt = con.createStatement();
+		            ResultSet rs = stmt.executeQuery("SELECT directory_path FROM avatar");
+		             while(rs.next()){
+		            	 String imagePath = rs.getString("directory_path");
+		            
+		             %>
+		             <!--  image -->
+		             <img src="<%= imagePath %>" alt="Avatar">
+		     <%
+		             }
+		            rs.close();
+		            stmt.close();
+		            con.close();
+	
+			}
+			catch(SQLException e){
+				 out.println("SQLException caught: " + e.getMessage());	
+			}
+			
+			%>		
 
 <%-- BUTTON --%>
 <div class="button">
-                    <button class="w-100 btn btn-primary btn-lg" type="cancel">Cancel</button>
+            
 					<button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
 		        	
 			
-			</div></form>
+			</div>
+			 <a href="index.jsp"style="text-decoration:none; color:gray;">Cancel</a></form>
 		</div>
 	</div>
 
