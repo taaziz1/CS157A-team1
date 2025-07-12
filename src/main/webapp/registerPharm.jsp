@@ -39,14 +39,12 @@
 			<a class="navstart homePage" href="index.jsp">PharmaFinder</a>
 		</div>
 	</nav>
-	<div>
-	<div style="padding:20px">
-	<h1>Register your Pharmacy</h1>
-</div>
+	
 	<%-- REGISTRATION --%>
 
-    <div class=" center">
-		<div class="col-lg-8">
+    <div class=" container">
+    	<h1>Register your Pharmacy</h1>
+	
 			<form class="needs-validation" novalidate="">
 				<div class="row">
 					<%-- TAX NUMBER --%>
@@ -210,8 +208,7 @@
 					<a href="index.jsp" style="text-decoration: none; color: gray;">Cancel</a>
 			</form>
 		</div>
-	</div>
-		</div>
-		</div>
+	
+		
 </body>
 </html>
