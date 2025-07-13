@@ -6,22 +6,25 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
-import usermanagement.model.User;
+import usermanagement.model.Address;
 
-public class UserDao {
-    public int registerUser(User user) {
+public class AddressDao {
+    public int registerAddress(Address address) {
         int status = 0;
         int insertedId = 0;
-        String INSERT_USER_SQL = "INSERT INTO user (username, password) VALUES (?, ?)";
+        String INSERT_ADDRESS_SQL = "INSERT INTO address (street_address, city, state, zip_code) VALUES (?, ?, ?, ?)";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
 
             // Ask for generated keys
-            PreparedStatement ps = con.prepareStatement(INSERT_USER_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
+            PreparedStatement ps = con.prepareStatement(INSERT_ADDRESS_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, address.getStreetName());
+            ps.setString(2, address.getCity());
+            ps.setString(3, address.getState());
+            ps.setInt(4, address.getZipcode());
+
             status = ps.executeUpdate();
 
             // Get generated ID
@@ -30,13 +33,14 @@ public class UserDao {
                 insertedId = rs.getInt(1);
             }
 
-            // Set the userId in the User object
-            user.setUserId(insertedId);
+            // Set the addressId in the Address object
+            address.setAddressId(insertedId);
 
             con.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+
         return status;
     }
 
