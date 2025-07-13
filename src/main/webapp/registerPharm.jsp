@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css" type="text/css">
-<title>Login Page</title>
+<title>Pharmacy Register Page</title>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"

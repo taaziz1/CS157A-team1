@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 
 public class LoginDao {
+    private static int user_id = 0;
     public boolean validate(User user) throws ClassNotFoundException {
         boolean status = false;
         String SELECT_USER_SQL = "SELECT * FROM user WHERE username = ? AND password = ?";
@@ -22,6 +23,11 @@ public class LoginDao {
 
             ResultSet rs = ps.executeQuery();
             status = rs.next();
+            if (status) {
+                // If the user is found, retrieve the user_id
+                user_id = rs.getInt("user_id");
+                user.setUserId(user_id); // Set the userId in the User object
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
