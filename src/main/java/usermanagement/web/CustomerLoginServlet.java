@@ -37,6 +37,7 @@ public class CustomerLoginServlet extends HttpServlet {
                 session.setAttribute("user", username);
                 response.sendRedirect("custLogIn.jsp");
             }
+            
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ import usermanagement.model.User;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PharmacyDao {
@@ -43,7 +44,7 @@ public class PharmacyDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "newpassword");
             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pharmacy.getUserId());
             ps.setInt(2, pharmacy.getAddressId());
@@ -62,6 +63,41 @@ public class PharmacyDao {
         }
         return status;
     }
+    
+    //pharmacy dashboard to get according to userId
+    public Pharmacy getPharmacyDashboard(int userId) {
+        Pharmacy pharmacy = null;
+
+       
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "newpassword");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM pharmacy WHERE user_id = ?");
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                pharmacy = new Pharmacy();
+                pharmacy.setUserId(userId);
+                pharmacy.setAddressId(rs.getInt("address_id"));
+                pharmacy.setTaxNum(rs.getString("tax_num"));
+                pharmacy.setPharmacyName(rs.getString("name"));
+                pharmacy.setPhoneNumber(rs.getString("phone_number"));
+                pharmacy.setFaxNumber(rs.getString("fax_number"));
+                pharmacy.setWebURL(rs.getString("web_url"));
+                pharmacy.setOperatingHours(rs.getString("operating_hours"));
+            }
+
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pharmacy;
+    }
+    
+    
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

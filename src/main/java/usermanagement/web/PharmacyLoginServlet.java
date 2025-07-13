@@ -9,15 +9,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpSession;
 import usermanagement.model.User;
+
 import usermanagement.dao.LoginDao;
+
 
 @WebServlet("/loginPharmacy")
 public class PharmacyLoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private LoginDao loginDao;
+    
 
     public void init() {
         loginDao = new LoginDao();
+       ;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,9 +33,12 @@ public class PharmacyLoginServlet extends HttpServlet {
 
         try {
             if (loginDao.validate(user, "pharmacy")) {
+            	HttpSession session = request.getSession();
+            	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
+            	
                 response.sendRedirect("loginPharmacySuccess.jsp");
-                HttpSession session = request.getSession();
-                session.setAttribute("user_id", user.getUserId()); // Store user ID in session
+              
+                
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);

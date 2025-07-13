@@ -18,7 +18,7 @@ public class LoginDao {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "newpassword");
             PreparedStatement ps = con.prepareStatement(SELECT_USER_SQL);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
