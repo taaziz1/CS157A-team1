@@ -28,7 +28,7 @@ public class Utilities {
     //Reads the value stored for property v in .\conf\database.properties
     public static String getdbvar(String v) {
         try {
-            String path = System.getProperty("user.dir") + "\\conf\\database.properties";
+            String path = System.getProperty("catalina.base") + "\\conf\\database.properties";
             Properties prop = new Properties();
             prop.load(new FileInputStream(path));
             return prop.getProperty(v);
