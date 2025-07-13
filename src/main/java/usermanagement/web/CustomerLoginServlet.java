@@ -29,7 +29,7 @@ public class CustomerLoginServlet extends HttpServlet {
 
         try {
             if (loginDao.validate(user, "customer")) {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("loginCustomerSuccess.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
             } else {

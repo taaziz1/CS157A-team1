@@ -20,7 +20,7 @@ public class PharmacyDao {
         // Create a User object from the Pharmacy object
         User user = new User();
         user.setUsername(pharmacy.getUsername());
-        user.setPassword(pharmacy.getPassword());
+        user.copyPassword(pharmacy.getPassword());
 
         // Register the user
         userDao.registerUser(user);
@@ -43,7 +43,7 @@ public class PharmacyDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "admin");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pharmacy.getUserId());
             ps.setInt(2, pharmacy.getAddressId());

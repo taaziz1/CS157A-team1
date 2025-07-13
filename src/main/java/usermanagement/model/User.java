@@ -31,4 +31,6 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = Utilities.hash(password);
     }
+
+    public void copyPassword(String password) {this.password = password;}
 }

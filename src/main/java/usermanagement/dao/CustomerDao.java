@@ -15,7 +15,7 @@ public class CustomerDao {
         // Create a User object from the Customer object
         User user = new User();
         user.setUsername(customer.getUsername());
-        user.setPassword(customer.getPassword());
+        user.copyPassword(customer.getPassword());
 
         // Register the user
         userDao.registerUser(user);
@@ -32,7 +32,7 @@ public class CustomerDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "admin");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
 
             //Randomly generate and set a valid avatar ID in the Customer object
             String SELECT_NUMBER_AVATARS = "SELECT COUNT(*) FROM avatar";
