@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 
 import usermanagement.model.User;
 
+import util.Utilities;
+
 public class UserDao {
     public int registerUser(User user) {
         int status = 0;
@@ -16,7 +18,8 @@ public class UserDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
 
             // Ask for generated keys
             PreparedStatement ps = con.prepareStatement(INSERT_USER_SQL, PreparedStatement.RETURN_GENERATED_KEYS);

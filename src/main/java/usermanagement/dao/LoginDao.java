@@ -2,6 +2,8 @@ package usermanagement.dao;
 
 import usermanagement.model.User;
 
+import util.Utilities;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,7 +20,8 @@ public class LoginDao {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
             PreparedStatement ps = con.prepareStatement(SELECT_USER_SQL);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());

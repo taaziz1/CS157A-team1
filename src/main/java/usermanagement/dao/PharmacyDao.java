@@ -4,6 +4,8 @@ import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
 import usermanagement.model.User;
 
+import util.Utilities;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,7 +45,8 @@ public class PharmacyDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pharmacy.getUserId());
             ps.setInt(2, pharmacy.getAddressId());

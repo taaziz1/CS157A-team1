@@ -1,7 +1,9 @@
 package util;
 
+import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Properties;
 
 public class Utilities {
 
@@ -18,6 +20,20 @@ public class Utilities {
             return sb.toString();
         }
         catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //Reads the value stored for property v in .\conf\database.properties
+    public static String getdbvar(String v) {
+        try {
+            String path = System.getProperty("user.dir") + "\\conf\\database.properties";
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(path));
+            return prop.getProperty(v);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return null;
