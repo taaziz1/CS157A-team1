@@ -16,7 +16,7 @@ public class AddressDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "admin");
 
             // Ask for generated keys
             PreparedStatement ps = con.prepareStatement(INSERT_ADDRESS_SQL, PreparedStatement.RETURN_GENERATED_KEYS);

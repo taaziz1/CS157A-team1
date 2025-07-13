@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.ResultSet;
 
 public class PharmacyDao {
     public int registerPharmacy(Pharmacy pharmacy, Address address) {
@@ -44,7 +43,7 @@ public class PharmacyDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "admin");
             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pharmacy.getUserId());
             ps.setInt(2, pharmacy.getAddressId());

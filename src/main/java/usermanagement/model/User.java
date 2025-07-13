@@ -1,5 +1,6 @@
 package usermanagement.model;
 import java.io.Serializable;
+import util.Utilities;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,6 +29,6 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = Utilities.hash(password);
     }
 }

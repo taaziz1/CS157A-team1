@@ -46,7 +46,7 @@
 
 	<div class="center">
 		<div class="col-md-7 col-lg-8">
-			<form class="needs-validation" action="RegisterServlet" method="post" novalidate="">
+			<form class="needs-validation" action="registerCustomer" method="post" novalidate="">
 				<div class="row">
                   	
                    <%-- USERNAME--%>
@@ -54,7 +54,7 @@
 						<label for="username" class="form-label">Username</label>
 						<div class="input-group has-validation">
 							<span class="input-group-text">@</span> <input type="text"
-								class="form-control" id="username" placeholder="Username"
+								class="form-control" id="username" name="username" placeholder="Username"
 								required="">
 							<div class="invalid-feedback">Your username is required.</div>
 						</div>
@@ -63,14 +63,14 @@
                     <%-- PASSWORD --%>
 					<div class="col-sm-12">
 						<label for="password" class="form-label">Password</label> <input
-							type="password" class="form-control" id="password" placeholder=""
+							type="password" class="form-control" id="password" name="password" placeholder=""
 							value="" required="">
 					</div>
 					
 					<%-- EMAIL --%>
 					<div class="col-md-12">
-						<label for="email" class="form-label">Email</label> <input
-							type="email" class="form-control" id="email"
+						<label for="emailAddress" class="form-label">Email Address</label> <input
+							type="email" class="form-control" id="emailAddress" name="emailAddress"
 							placeholder="" required="">
 						<div class="invalid-feedback">Email required.</div>
 					</div>

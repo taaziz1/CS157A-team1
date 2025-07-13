@@ -11,7 +11,7 @@ import usermanagement.model.Customer;
 import usermanagement.dao.CustomerDao;
 
 @WebServlet("/registerCustomer")
-public class CustomerServlet  extends HttpServlet {
+public class CustomerRegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CustomerDao customerDao;
 
@@ -37,7 +37,7 @@ public class CustomerServlet  extends HttpServlet {
         int status = customerDao.registerCustomer(customer);
 
         if (status > 0) {
-            response.sendRedirect("success.jsp");
+            response.sendRedirect("index.jsp");
         } else {
             response.sendRedirect("error.jsp");
         }

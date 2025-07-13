@@ -11,13 +11,15 @@ import java.sql.SQLException;
 
 public class LoginDao {
     private static int user_id = 0;
-    public boolean validate(User user) throws ClassNotFoundException {
+    public boolean validate(User user, String source) throws ClassNotFoundException {
         boolean status = false;
-        String SELECT_USER_SQL = "SELECT * FROM user WHERE username = ? AND password = ?";
+        String SELECT_USER_SQL = "SELECT * FROM user JOIN $TABLE".replace("$TABLE", source) +
+                " USING(user_id) WHERE username = ? AND password = ?";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
-             PreparedStatement ps = con.prepareStatement(SELECT_USER_SQL)) {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "admin");
+            PreparedStatement ps = con.prepareStatement(SELECT_USER_SQL);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
 

@@ -32,7 +32,7 @@ public class CustomerDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "root", "admin");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "admin");
 
             //Randomly generate and set a valid avatar ID in the Customer object
             String SELECT_NUMBER_AVATARS = "SELECT COUNT(*) FROM avatar";

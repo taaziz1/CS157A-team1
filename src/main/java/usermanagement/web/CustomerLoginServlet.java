@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpSession;
 import usermanagement.model.User;
 import usermanagement.dao.LoginDao;
 
-@WebServlet("/loginPharmacy")
-public class PharmacyLoginServlet extends HttpServlet {
+@WebServlet("/loginCustomer")
+public class CustomerLoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private LoginDao loginDao;
 
@@ -28,14 +28,14 @@ public class PharmacyLoginServlet extends HttpServlet {
         user.setPassword(password);
 
         try {
-            if (loginDao.validate(user, "pharmacy")) {
-                response.sendRedirect("loginPharmacySuccess.jsp");
+            if (loginDao.validate(user, "customer")) {
+                response.sendRedirect("index.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);
-                response.sendRedirect("pharmLogIn.jsp");
+                response.sendRedirect("custLogIn.jsp");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
