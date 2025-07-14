@@ -15,9 +15,9 @@ Web application that was built using JSP ,servlet, JDBC and MySQL to help custom
 
 ##Setup Instructions
 
-1. Clone this project
-2. Import into  Java environment.
-3.Import the database into your MySQL database.
-4. Add 'database.properties' file in  'Tomcat/conf/'
-5.In the database.properties  pass= your_password, change your_password to your mysql password.
-6. Run Tomcat and access the application in the browser using http://localhost:8080/PharmaFinder/
+1. Clone this project<br>
+2. Import into  Java environment.  
+3.Import the database into your MySQL database.  
+4. Add 'database.properties' file in  'Tomcat/conf/'.  
+5.In the database.properties  pass= your_password, change your_password to your mysql password.  
+6. Run Tomcat and access the application in the browser using http://localhost:8080/PharmaFinder/ .  
