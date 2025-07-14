@@ -75,7 +75,8 @@ public class PharmacyDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "newpassword");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
             PreparedStatement ps = con.prepareStatement("SELECT * FROM pharmacy WHERE user_id = ?");
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
