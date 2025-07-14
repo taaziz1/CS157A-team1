@@ -3,6 +3,8 @@ package usermanagement.dao;
 import usermanagement.model.Customer;
 import usermanagement.model.User;
 
+import util.Utilities;
+
 import java.sql.*;
 
 public class CustomerDao {
@@ -32,14 +34,15 @@ public class CustomerDao {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder", "root", "SicSemperTyrannis@@00");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
 
             //Randomly generate and set a valid avatar ID in the Customer object
             String SELECT_NUMBER_AVATARS = "SELECT COUNT(*) FROM avatar";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(SELECT_NUMBER_AVATARS);
             rs.next();
-            int avatarId = (int) (Math.random() * (rs.getInt(1) + 1));
+            int avatarId = (int) (Math.random() * rs.getInt(1) + 1);
             customer.setAvatarId(avatarId);
 
             PreparedStatement ps = con.prepareStatement(INSERT_CUSTOMER_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
