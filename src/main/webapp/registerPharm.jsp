@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css" type="text/css">
-<title>Login Page</title>
+<title>Pharmacy Register Page</title>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -45,18 +45,18 @@
     <div class=" container">
     	<h1>Register your Pharmacy</h1>
 	
-			<form class="needs-validation" novalidate="">
+			<form action="registerPharmacy" method="post" class="needs-validation" novalidate="">
 				<div class="row">
 					<%-- TAX NUMBER --%>
 					<div class="col-sm-6">
 						<label for="tax_Number" class="form-label">Tax Number</label> <input
-							type="text" class="form-control" id="tax_Number" placeholder=""
+							type="text" class="form-control" id="tax_Number" name="tax_Number" placeholder=""
 							value="" required="">
 					</div>
 					<%-- PHARMACY NAME --%>
 					<div class="col-sm-6">
 						<label for="pharmacy_name" class="form-label">Pharmacy
-							Name</label> <input type="text" class="form-control" id="pharmacy_name"
+							Name</label> <input type="text" class="form-control" id="pharmacy_name" name="pharmacy_name"
 							placeholder="" value="" required="">
 					</div>
 					<%-- USERNAME--%>
@@ -64,7 +64,7 @@
 						<label for="username" class="form-label">Username</label>
 						<div class="input-group has-validation">
 							<span class="input-group-text">@</span> <input type="text"
-								class="form-control" id="username" placeholder="Username"
+								class="form-control" id="username" name ="username" placeholder="Username"
 								required="">
 							<div class="invalid-feedback">Your username is required.</div>
 						</div>
@@ -72,23 +72,29 @@
 					<%-- PASSWORD --%>
 					<div class="col-sm-12">
 						<label for="password" class="form-label">Password</label> <input
-							type="password" class="form-control" id="password" placeholder=""
+							type="password" class="form-control" id="password" name="password" placeholder=""
 							value="" required="">
 					</div>
 
 					<%-- ADDRESS --%>
 					<div class="col-12">
 						<label for="address" class="form-label">Address</label> <input
-							type="text" class="form-control" id="address"
+							type="text" class="form-control" id="address" name="address"
 							placeholder="1234 Main St" required="">
 						<div class="invalid-feedback">Please enter your shipping
 							address.</div>
-
 					</div>
+					<%-- CITY --%>
+					<div class="col-12">
+						<label for="city" class="form-label">City</label> <input type="text"
+							class="form-control" id="city" name="city" placeholder="" required="">
+						<div class="invalid-feedback">Please provide a valid city.</div>
+					</div>
+
 					<%-- STATE --%>
 					<div class="col-md-6">
 						<label for="state" class="form-label">State</label> <select
-							class="form-select" id="state" required="">
+							class="form-select" id="state" name="state" required="">
 							<option value="">Choose...</option>
 
 							<option>Alabama</option>
@@ -149,7 +155,7 @@
 					<%-- ZIPCODE --%>
 					<div class="col-md-6">
 						<label for="zip" class="form-label">Zip Code</label> <input
-							type="number" class="form-control" id="zip" placeholder=""
+							type="number" class="form-control" id="zip" name="zip" placeholder=""
 							required="">
 						<div class="invalid-feedback">Zip code required.</div>
 					</div>
@@ -159,19 +165,19 @@
 					<div class="col-sm-12">
 						<label for="phone" class="form-label">Phone Number</label> <span
 							class="text-body-secondary">(Optional)</span><input type="text"
-							class="form-control" id="phone" placeholder="" value="">
+							class="form-control" id="phone" name="phone" placeholder="" value="">
 					</div>
 					<%-- FAX NUMBER --%>
 					<div class="col-sm-12">
 						<label for="fax" class="form-label">Fax Number</label><span
 							class="text-body-secondary">(Optional)</span> <input type="text"
-							class="form-control" id="fax" placeholder="" value="">
+							class="form-control" id="fax" name="fax" placeholder="" value="">
 					</div>
 					<%-- URL --%>
 					<div class="col-12">
 						<label for="url" class="form-label"> URL <span
 							class="text-body-secondary">(Optional)</span></label> <input type="url"
-							class="form-control" id="url" placeholder="https://example.com">
+							class="form-control" id="url" name="url" placeholder="https://example.com">
 						<div class="invalid-feedback">Please enter a valid URL
 							(e.g., https://example.com)</div>
 					</div>
