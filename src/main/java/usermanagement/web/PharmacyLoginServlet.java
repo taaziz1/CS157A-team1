@@ -40,12 +40,16 @@ public class PharmacyLoginServlet extends HttpServlet {
               
                 
             } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-                response.sendRedirect("pharmLogIn.jsp");
+                // Set error message
+                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
+
+                // Forward to login page with error message
+                request.getRequestDispatcher("pharmLogIn.jsp").forward(request, response);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.getRequestDispatcher("pharmLogIn.jsp").forward(request, response);
         }
     }
 }
