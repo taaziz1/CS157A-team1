@@ -1,131 +1,191 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page import="util.Utilities" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 
-<style>
-/*PREVENTS SCROLLING OPTION*/
-.html{
-overflow:hidden;
-}
+	<style>
+	/*PREVENTS SCROLLING OPTION*/
+	.html {
+		overflow:hidden;
+	}
 
-/*CARD*/
-.card{
-width: fit-content;
-padding:5px;
-white-space: normal;
-text-align: center;
-border-radius: 10%;
-white-space: pre-line;
-}
+	/*CARD*/
+	.card {
+		width: fit-content;
+		padding:5px;
+		white-space: normal;
+		text-align: center;
+		border-radius: 10%;
+		white-space: pre-line;
+	}
 
-.btn{
-padding:20px;
-}
+	.btn {
+		padding:20px;
+	}
 
-/*SEARCH BAR*/
-.searchdiv{
-margin:20px 100px;
-display:flex;
-justify-content: center;
-align-items:center;
+	/*SEARCH BAR*/
+	.searchdiv {
+		margin:20px 100px;
+		display:flex;
+		justify-content: center;
+		align-items:center;
+	}
 
-}
-/*CARDS DROPDOWN*/
- .customer-card,.pharm-card{
-	position:relative;
-	margin:1em;
-}
+	/*CARDS DROPDOWN*/
+	.customer-card,.pharm-card{
+		position:relative;
+		margin:1em;
+	}
 
-.pharm, .customer{
-  display: none;
-  position: absolute;
-  z-index: 10;
-}
+	.pharm, .customer {
+		display: none;
+		position: absolute;
+		z-index: 10;
+	}
 
-@media (hover: hover) {
-  .pharm-card:hover .pharm {
-    display: block;
-  }
-  .customer-card:hover .customer {
-    display: block;
-  }
-}
+	@media (hover: hover) {
+		.pharm-card:hover .pharm {
+			display: block;
+	  	}
+		.customer-card:hover .customer {
+			display: block;
+		}
+	}
 
-</style>
+	</style>
 
-<meta charset="UTF-8">
-<%--LINKS TO THE CSS PAGE--%>
-<link rel="stylesheet" href="style.css" type="text/css">
-<%--TAB NAME--%>
-<title>PharmaFinder</title>
-<%-- TO LINK BOOTSTRAP--%>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
-	crossorigin="anonymous">
+	<meta charset="UTF-8">
+
+	<%--LINKS TO THE CSS PAGE--%>
+	<link rel="stylesheet" href="style.css" type="text/css">
+
+	<%--TAB NAME--%>
+	<title>PharmaFinder</title>
+
+	<%--TO LINK AND STYLE JQUERY--%>
+	<link rel = "stylesheet" href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+	<%--TO LINK BOOTSTRAP--%>
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+		crossorigin="anonymous">
 
 </head>
 
 <body>
 	<%--NAVIGATION BAR --%>
- <div class="fullscreen">
-	 <nav class=" bg-body-tertiary navbar">
-		<div class="navstart">
-		   <%--ICON--%>
-			<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25">
-             <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"></path>
-             <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
-            </svg>
-           
-		    <span style = "font-weight:bold;" class="navstart">PharmaFinder</span>
+	 <div class="fullscreen">
+		 <nav class=" bg-body-tertiary navbar">
+			<div class="navstart">
+			   <%--ICON--%>
+				<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25">
+				 <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"></path>
+				 <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
+				</svg>
+
+				<span style = "font-weight:bold;" class="navstart">PharmaFinder</span>
+			</div>
+
+			 <div class="navend">
+
+		<%--PHARMACY CARD--%>
+	  <div class="pharm-card">
+			<p class="formPath">Customers</p>
+			<div class="pharm">
+			<div class="card">
+
+					<p>Make an account or log in.</p>
+					<a href="custLogIn.jsp" class="btn btn-primary">Log in</a>
+					<a href="registerCust.jsp" class="btn btn-primary">Register</a>
+				</div>
+
 		</div>
-		
-		 <div class="navend">
-		
-	<%--PHARMACY CARD--%>
-  <div class="pharm-card">	
-	  	<p class="formPath">Customers</p>	
-		<div class="pharm">
-		<div class="card">
-		
-				<p>Make an account or log in.</p>
-				<a href="custLogIn.jsp" class="btn btn-primary">Log in</a>
-			    <a href="registerCust.jsp" class="btn btn-primary">Register</a>
-			</div>
-		
 	</div>
-</div>
-<%--USER CARD--%>
-	<div class="customer-card">	
-	  	<p class="formPath">Pharmacies</p>	
-		<div class="customer">
-		<div class="card">
-		
-				<p>Register your pharmacy or log in.</p>
-				<a href="pharmLogIn.jsp" class="btn btn-primary">Log in</a>
-			    <a href="registerPharm.jsp" class="btn btn-primary">Register</a>
-			</div>
-		
+	<%--USER CARD--%>
+		<div class="customer-card">
+			<p class="formPath">Pharmacies</p>
+			<div class="customer">
+			<div class="card">
+
+					<p>Register your pharmacy or log in.</p>
+					<a href="pharmLogIn.jsp" class="btn btn-primary">Log in</a>
+					<a href="registerPharm.jsp" class="btn btn-primary">Register</a>
+				</div>
+
+		</div>
 	</div>
-</div>
-</div>
-</nav>
-	<%--HEADING--%>
-	<h1>Welcome to PharmaFinder</h1>
-	
-	<%--PHARMACY CARD--%>
+	</div>
+	</nav>
+		<%--HEADING--%>
+		<h1>Welcome to PharmaFinder</h1>
 
-	<%--SEARCH BAR--%>
-    <div class="searchdiv">
-	 <form class="w-100 me-3" role="search">
-	  <input  type="search" class="form-control" placeholder="Search..." aria-label="Search">
-	 </form>
-    </div>
- 
-</div>
+		<%--PHARMACY CARD--%>
 
+		<%--SEARCH BAR--%>
+		<div class="searchdiv">
+		 <form class="w-100 me-3" role="search">
+		  <input id="mainSearch" type="search" class="form-control" placeholder="Search..." aria-label="Search">
+		 </form>
+		</div>
+
+	</div>
+
+	<script>
+		$( function() {
+
+			//Prepare list of pharmacy and medication names
+			var queryResult = [<%
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                        Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+
+                    Statement stmt = con.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT name, zip_code FROM pharmacy JOIN address USING(address_id)");
+                    while(rs.next()) {
+                        out.print("\"" + rs.getString(1) + " - " +
+                        	rs.getInt(2) + "\"" + ",");
+                    }
+                    rs = stmt.executeQuery("SELECT name FROM medication");
+                    while(rs.next()) {
+                        out.print("\"" + rs.getString(1) + "\"" + ",");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            %>];
+
+			//Initialize JQuery autocomplete for search bar
+			$( "#mainSearch" ).autocomplete({
+				source: queryResult,
+
+				//Redirect to search page on click
+				select: function( event, ui ) {
+					event.preventDefault();
+					window.location.href = window.location.origin +
+							"/search.jsp?query=" + ui.item.value;
+				}
+			})
+
+			.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+				return $( "<li>" )
+					.append( "<a>" + item.value + "<br>" + "</a>" )
+					.appendTo( ul );
+			};
+
+		});
+	</script>
 </body>
 </html>
