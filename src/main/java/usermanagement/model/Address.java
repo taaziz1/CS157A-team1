@@ -53,4 +53,9 @@ public class Address implements Serializable {
     public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
     }
+
+   @Override
+   public String toString(){
+        return streetName +" "+city+" "+state+" "+zipcode;
+   }
 }

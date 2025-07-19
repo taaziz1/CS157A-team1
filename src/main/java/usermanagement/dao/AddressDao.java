@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 
 import usermanagement.model.Address;
 
+import usermanagement.model.Pharmacy;
 import util.Utilities;
 
 public class AddressDao {
@@ -36,6 +37,7 @@ public class AddressDao {
                 insertedId = rs.getInt(1);
             }
 
+
             // Set the addressId in the Address object
             address.setAddressId(insertedId);
 
@@ -46,6 +48,36 @@ public class AddressDao {
 
         return status;
     }
+    public Address getAddress(int addressId) {
+        Address address = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM address  WHERE address_id = ?");
+            ps.setInt(1, addressId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                address = new Address();
+
+                address.setAddressId(addressId);
+                address.setState(rs.getString("state"));
+                address.setZipcode(rs.getInt("zip_code"));
+                address.setCity(rs.getString("city"));
+                address.setStreetName(rs.getString("street_address"));
+            }
+
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return address;
+    }
+
+
+
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

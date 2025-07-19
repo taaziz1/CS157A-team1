@@ -21,7 +21,7 @@ public class PharmacyLoginServlet extends HttpServlet {
 
     public void init() {
         loginDao = new LoginDao();
-       ;
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,10 +35,10 @@ public class PharmacyLoginServlet extends HttpServlet {
             if (loginDao.validate(user, "pharmacy")) {
             	HttpSession session = request.getSession();
             	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
-            	
+
                 response.sendRedirect("loginPharmacySuccess.jsp");
-              
-                
+
+
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", username);

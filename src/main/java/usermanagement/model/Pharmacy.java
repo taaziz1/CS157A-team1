@@ -12,6 +12,8 @@ public class Pharmacy extends User implements Serializable{
     private String webURL;
     private String operatingHours;
 
+    private int rating;
+
     public String getPharmacyName() {
         return pharmacyName;
     }
@@ -67,4 +69,21 @@ public class Pharmacy extends User implements Serializable{
     public void setOperatingHours(String operatingHours) {
         this.operatingHours = operatingHours;
     }
+
+    private Address address;
+    public void setAddress(Address address) {
+        this.address=address;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setRating(int rating) {
+        this.rating =rating;
+    }
+     public int getRating(){
+        return rating;
+     }
+
 }
