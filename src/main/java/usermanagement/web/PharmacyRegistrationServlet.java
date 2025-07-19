@@ -59,7 +59,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         // Check if operatingHoursArray is not null and has exactly 7 elements
         if (operatingHoursArray != null && operatingHoursArray.length == 7) {
             // Join with commas (or any other separator)
-            operatingHours = String.join(",", operatingHoursArray);
+           operatingHours = String.join(",", operatingHoursArray);
         } else {
             // Handle missing or malformed input
             operatingHours = "Unavailable";
