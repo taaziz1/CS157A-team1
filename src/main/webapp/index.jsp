@@ -39,6 +39,14 @@
 		align-items:center;
 	}
 
+	/*SEARCH CATEGORIES*/
+	.ui-autocomplete-category {
+		font-weight: bold;
+		padding: .2em .4em;
+		margin: .1em 0 .2em;
+		line-height: 1.5;
+	}
+
 	/*CARDS DROPDOWN*/
 	.customer-card,.pharm-card{
 		position:relative;
@@ -71,7 +79,7 @@
 	<title>PharmaFinder</title>
 
 	<%--TO LINK AND STYLE JQUERY--%>
-	<link rel = "stylesheet" href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+	<link rel = "stylesheet" href = "https://code.jquery.com/ui/1.10.4/themes/cupertino/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
@@ -142,8 +150,32 @@
 
 	</div>
 
+	<%--Functionality for Search--%>
 	<script>
 		$( function() {
+
+			//Custom widget based on JQuery autocomplete that adds support for categories
+			$.widget( "custom.catComplete", $.ui.autocomplete, {
+				_create: function() {
+					this._super();
+					this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+				},
+				_renderMenu: function( ul, items ) {
+					var that = this,
+							currentCategory = "";
+					$.each( items, function( index, item ) {
+						var li;
+						if ( item.category != currentCategory ) {
+							ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+							currentCategory = item.category;
+						}
+						li = that._renderItemData( ul, item );
+						if ( item.category ) {
+							li.attr( "aria-label", item.category + " : " + item.label );
+						}
+					});
+				}
+			});
 
 			//Prepare list of pharmacy and medication names
 			var queryResult = [<%
@@ -155,20 +187,24 @@
                     Statement stmt = con.createStatement();
                     ResultSet rs = stmt.executeQuery("SELECT name, zip_code FROM pharmacy JOIN address USING(address_id)");
                     while(rs.next()) {
-                        out.print("\"" + rs.getString(1) + " - " +
-                        	rs.getInt(2) + "\"" + ",");
+                        out.print("{label: \"" + rs.getString(1) + " - " +
+                        	rs.getInt(2) + "\", category: \"Pharmacies\"},");
                     }
+
                     rs = stmt.executeQuery("SELECT name FROM medication");
                     while(rs.next()) {
-                        out.print("\"" + rs.getString(1) + "\"" + ",");
+                        out.print("{label: \"" + rs.getString(1) + "\", " +
+                         "category: \"Medication\"},");
                     }
+
+                    con.close();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             %>];
 
 			//Initialize JQuery autocomplete for search bar
-			$( "#mainSearch" ).autocomplete({
+			$( "#mainSearch" ).catComplete({
 				source: queryResult,
 
 				//Redirect to search page on click
