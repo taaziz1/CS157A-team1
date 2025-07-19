@@ -38,6 +38,10 @@
 				<input type="password" class="form-control" id="floatingPassword" name="password"
 					placeholder="Password"> <label for="floatingPassword">Password</label>
 			</div>
+			<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+			<% if (errorMessage != null) { %>
+			<div style="color: red; font-weight: bold;"><%= errorMessage %></div>
+			<% } %>
 
 			<button class="btn btn-primary w-100 py-2 " type="submit" value="submit">Sign
 				in</button>
