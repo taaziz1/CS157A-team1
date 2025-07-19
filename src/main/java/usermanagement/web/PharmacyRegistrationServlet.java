@@ -35,11 +35,23 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         String streetAddress = request.getParameter("address");
         String city = request.getParameter("city");
         String state = request.getParameter("state");
-        int zipcode = Integer.parseInt(request.getParameter("zip"));
+        String zipString = request.getParameter("zip");
         String phoneNumber = request.getParameter("phone");
         String faxNumber = request.getParameter("fax");
         String webURL = request.getParameter("url");
         String[] operatingHoursArray = request.getParameterValues("operating_hours");
+
+        // Basic validation
+        if (username == null || username.isEmpty() || password == null || password.isEmpty() ||
+            pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
+            streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
+            state == null || state.isEmpty() || phoneNumber == null || phoneNumber.isEmpty() ||
+            faxNumber == null || faxNumber.isEmpty() || webURL == null || webURL.isEmpty() ||
+            operatingHoursArray == null || operatingHoursArray.length != 7) {
+            request.setAttribute("errorMessage", "All fields are required.");
+            request.getRequestDispatcher("registerPharm.jsp").forward(request, response);
+            return;
+        }
 
         // Initialize operatingHours as an empty string
         String operatingHours = "";
@@ -67,14 +79,18 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         address.setStreetName(streetAddress);
         address.setCity(city);
         address.setState(state);
-        address.setZipcode(zipcode);
+        address.setZipcode(Integer.parseInt(zipString));
 
         int status = pharmacyDao.registerPharmacy(pharmacy, address);
 
         if (status > 0) {
             response.sendRedirect("index.jsp");
         } else {
-            response.sendRedirect("error.jsp");
+            // Set error message
+            request.setAttribute("errorMessage", "Please choose a different username.");
+
+            // Forward to login page with error message
+            request.getRequestDispatcher("registerPharm.jsp").forward(request, response);
         }
     }
 }
