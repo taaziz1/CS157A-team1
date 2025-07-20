@@ -107,6 +107,51 @@ public class PharmacyDao {
         return pharmacy;
     }
 
+    public int resetPharmacyPassword(int userId, String userInputTaxNum, String userInputPassword, String newPassword) {
+        int status = 0;
+        String RETRIEVE_PHARMACY_CREDENTIALS_SQL = "SELECT password, tax_num " +
+                "FROM pharmacy JOIN user ON pharmacy.user_id = user.user_id " +
+                "WHERE user.user_id = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(RETRIEVE_PHARMACY_CREDENTIALS_SQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            String currentPassword = "";
+            String taxNum = "";
+
+            if (rs.next()) {
+                currentPassword = rs.getString("password");
+                taxNum = rs.getString("tax_num");
+            }
+
+            if (!currentPassword.equals(Utilities.hash(userInputPassword))) {
+                status = 2; // Current password does not match
+            }
+            else if (!taxNum.equals(userInputTaxNum)) {
+                status = 3; // Tax number does not match
+            }
+            else if (currentPassword.equals(Utilities.hash(newPassword))) {
+                status =  4; // New password is the same as the current password
+            }
+            else {
+                String UPDATE_PHARMACY_PASSWORD_SQL = "UPDATE user SET password = ? WHERE user_id = ?";
+                PreparedStatement updatePs = con.prepareStatement(UPDATE_PHARMACY_PASSWORD_SQL);
+                updatePs.setString(1, Utilities.hash(newPassword));
+                updatePs.setInt(2, userId);
+                status = updatePs.executeUpdate();
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            printSQLException((SQLException) e);
+        }
+        return status;
+    }
+
     public int  updatePharmacy(Pharmacy pharmacy) {
         int status = 0;
         String UPDATE_PHARMACY_SQL = "UPDATE pharmacy SET tax_num = ?, name = ?, phone_number = ?, fax_number = ?, web_url = ?, operating_hours = ? WHERE user_id = ?";

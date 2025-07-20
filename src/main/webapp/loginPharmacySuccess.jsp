@@ -134,8 +134,11 @@
 	</script>
 
 	<div class="button">
-		<a href="pharmInfoUpdate.jsp"><button class="w-100 btn btn-primary btn-lg"
+		<a href="pharmInfoUpdate.jsp"><button class="w-50 btn btn-primary btn-lg"
 			type="submit">Update Info</button></a>
+		<div class="button">
+			<a href="pharmResetPassword.jsp"><button class="w-50 btn btn-primary btn-lg"
+												  type="submit">Reset Password</button></a>
 
 </body>
 </html>
