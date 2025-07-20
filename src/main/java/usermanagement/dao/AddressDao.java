@@ -76,6 +76,32 @@ public class AddressDao {
         return address;
     }
 
+    public int updateAddress(Address address) throws SQLException {
+        int status = 0;
+        String UPDATE_ADDRESS_SQL = "UPDATE address SET street_address = ?, city = ?, state = ?, zip_code = ? WHERE address_id = ?";
+
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+             PreparedStatement ps = con.prepareStatement(UPDATE_ADDRESS_SQL)) {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            ps.setString(1, address.getStreetName());
+            ps.setString(2, address.getCity());
+            ps.setString(3, address.getState());
+            ps.setInt(4, address.getZipcode());
+            ps.setInt(5, address.getAddressId());
+
+            status = ps.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+            throw e; // Rethrow the exception after logging
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
 
 
 

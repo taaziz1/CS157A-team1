@@ -44,12 +44,12 @@
 					d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
     </svg>
 
-			<a class="navstart homePage" href="index.jsp">PharmaFinder</a>
+			<a class="navstart homePage">PharmaFinder</a>
 			<%-- NEED TO CHANGE THIS LATER ON FOR IT TO LOG OUT --%>
 
 		</div>
 		<div class="navend ">
-		<a   class="test" href="logout.jsp" style="color:grey;" >Log Out</a>
+		<a   class="test" href="logout" style="color:grey;" >Log Out</a>
 		</div>
 	</nav>
 
@@ -132,6 +132,10 @@
 			star.style.color="#f7d792";
 		}
 	</script>
+
+	<div class="button">
+		<a href="pharmInfoUpdate.jsp"><button class="w-100 btn btn-primary btn-lg"
+			type="submit">Update Info</button></a>
 
 </body>
 </html>

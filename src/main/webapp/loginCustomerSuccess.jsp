@@ -38,7 +38,7 @@
 <h1>Welcome, User ID: <%= session.getAttribute("user_id") %></h1>
 
 
-<a href="logout.jsp" >Log Out</a>
+<a href="logout" >Log Out</a>
 
 </body>
 </html>

@@ -107,8 +107,20 @@
 			</div>
 
 			 <div class="navend">
+				 <%
+					 String pharmacyName = (String) session.getAttribute("username");
+					 if (session != null && session.getAttribute("user_id") != null) {
+				 %>
+				 <span class="me-2">Welcome, <strong><%= pharmacyName %></strong></span>
+				 <a href="logout" class="btn btn-outline-danger">Logout</a>
+				 <%
+					 }
+				 %>
+			 </div>
 
-		<%--PHARMACY CARD--%>
+
+	<% if (session.getAttribute("user_id") == null) { %>
+		 <%--PHARMACY CARD--%>
 	  <div class="pharm-card">
 			<p class="formPath">Customers</p>
 			<div class="pharm">
@@ -134,7 +146,7 @@
 
 		</div>
 	</div>
-	</div>
+	<% } %>
 	</nav>
 		<%--HEADING--%>
 		<h1>Welcome to PharmaFinder</h1>

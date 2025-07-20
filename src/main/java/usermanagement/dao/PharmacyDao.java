@@ -71,9 +71,6 @@ public class PharmacyDao {
     //pharmacy dashboard to get according to userId
     public Pharmacy getPharmacyDashboard(int userId)  {
     Pharmacy pharmacy = null;
-
-
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
@@ -109,8 +106,32 @@ public class PharmacyDao {
 
         return pharmacy;
     }
-    
-    
+
+    public int  updatePharmacy(Pharmacy pharmacy) {
+        int status = 0;
+        String UPDATE_PHARMACY_SQL = "UPDATE pharmacy SET tax_num = ?, name = ?, phone_number = ?, fax_number = ?, web_url = ?, operating_hours = ? WHERE user_id = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(UPDATE_PHARMACY_SQL);
+            ps.setString(1, pharmacy.getTaxNum());
+            ps.setString(2, pharmacy.getPharmacyName());
+            ps.setString(3, pharmacy.getPhoneNumber());
+            ps.setString(4, pharmacy.getFaxNumber());
+            ps.setString(5, pharmacy.getWebURL());
+            ps.setString(6, pharmacy.getOperatingHours());
+            ps.setInt(7, pharmacy.getUserId());
+
+            status = ps.executeUpdate();
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            printSQLException((SQLException) e);
+        }
+        return status;
+    }
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
