@@ -29,6 +29,13 @@ public class CustomerRegistrationServlet extends HttpServlet {
         String password = request.getParameter("password");
         String emailAddress = request.getParameter("emailAddress");
 
+        // Basic validation
+        if (username == null || username.isEmpty() || password == null || password.isEmpty() || emailAddress == null || emailAddress.isEmpty()) {
+            request.setAttribute("errorMessage", "All fields are required.");
+            request.getRequestDispatcher("registerCust.jsp").forward(request, response);
+            return;
+        }
+
         Customer customer = new Customer();
         customer.setUsername(username);
         customer.setPassword(password);
@@ -39,7 +46,11 @@ public class CustomerRegistrationServlet extends HttpServlet {
         if (status > 0) {
             response.sendRedirect("index.jsp");
         } else {
-            response.sendRedirect("error.jsp");
+            // Set error message
+            request.setAttribute("errorMessage", "Please choose a different username.");
+
+            // Forward to login page with error message
+            request.getRequestDispatcher("registerCust.jsp").forward(request, response);
         }
     }
 }

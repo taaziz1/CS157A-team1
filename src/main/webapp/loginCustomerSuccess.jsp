@@ -13,14 +13,7 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
   <style>
-    .button {
-      display: flex;
-      padding: 30px;
-    }
 
-    .btn {
-      margin: 20px;
-    }
   </style>
 </head>
 
@@ -44,7 +37,8 @@
 <%-- DASHBOARD CONTENT --%>
 <h1>Welcome, User ID: <%= session.getAttribute("user_id") %></h1>
 
-<a href="logout.jsp" style="text-decoration: none; color: dodgerblue;">Log Out</a>
+
+<a href="logout" >Log Out</a>
 
 </body>
 </html>

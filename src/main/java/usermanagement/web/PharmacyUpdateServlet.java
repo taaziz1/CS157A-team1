@@ -1,35 +1,31 @@
 package usermanagement.web;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 
-
 import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
 import usermanagement.dao.PharmacyDao;
+import usermanagement.dao.AddressDao;
 
-@WebServlet("/registerPharmacy")
-public class PharmacyRegistrationServlet extends HttpServlet {
+@WebServlet("/updatePharmacy")
+public class PharmacyUpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private PharmacyDao pharmacyDao;
+    private AddressDao addressDao;
 
     public void init() {
         pharmacyDao = new PharmacyDao();
+        addressDao = new AddressDao();
     }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println("Servlet is working!");
-    }
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String pharmacyName = request.getParameter("pharmacy_name");
         String taxNum = request.getParameter("tax_Number");
         String streetAddress = request.getParameter("address");
@@ -42,14 +38,13 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         String[] operatingHoursArray = request.getParameterValues("operating_hours");
 
         // Basic validation
-        if (username == null || username.isEmpty() || password == null || password.isEmpty() ||
-            pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
-            streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
-            state == null || state.isEmpty() || phoneNumber == null || phoneNumber.isEmpty() ||
-            faxNumber == null || faxNumber.isEmpty() || webURL == null || webURL.isEmpty() ||
-            operatingHoursArray == null || operatingHoursArray.length != 7) {
+        if (pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
+                streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
+                state == null || state.isEmpty() || phoneNumber == null || phoneNumber.isEmpty() ||
+                faxNumber == null || faxNumber.isEmpty() || webURL == null || webURL.isEmpty() ||
+                operatingHoursArray == null || operatingHoursArray.length != 7) {
             request.setAttribute("errorMessage", "All fields are required.");
-            request.getRequestDispatcher("registerPharm.jsp").forward(request, response);
+            request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);
             return;
         }
 
@@ -59,15 +54,14 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         // Check if operatingHoursArray is not null and has exactly 7 elements
         if (operatingHoursArray != null && operatingHoursArray.length == 7) {
             // Join with commas (or any other separator)
-           operatingHours = String.join(",", operatingHoursArray);
+            operatingHours = String.join(",", operatingHoursArray);
         } else {
             // Handle missing or malformed input
             operatingHours = "Unavailable";
         }
 
         Pharmacy pharmacy = new Pharmacy();
-        pharmacy.setUsername(username);
-        pharmacy.setPassword(password);
+        pharmacy.setUserId(Integer.parseInt(request.getParameter("user_id")));
         pharmacy.setPharmacyName(pharmacyName);
         pharmacy.setTaxNum(taxNum);
         pharmacy.setPhoneNumber(phoneNumber);
@@ -76,21 +70,27 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         pharmacy.setOperatingHours(operatingHours);
 
         Address address = new Address();
+        address.setAddressId(Integer.parseInt(request.getParameter("address_id")));
         address.setStreetName(streetAddress);
         address.setCity(city);
         address.setState(state);
         address.setZipcode(Integer.parseInt(zipString));
 
-        int status = pharmacyDao.registerPharmacy(pharmacy, address);
+        int status = 0;
+        try {
+            status = pharmacyDao.updatePharmacy(pharmacy) * addressDao.updateAddress(address);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         if (status > 0) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("loginPharmacySuccess.jsp");
         } else {
             // Set error message
             request.setAttribute("errorMessage", "Please choose a different username.");
 
             // Forward to login page with error message
-            request.getRequestDispatcher("registerPharm.jsp").forward(request, response);
+            request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);
         }
     }
 }

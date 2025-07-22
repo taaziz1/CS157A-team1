@@ -74,6 +74,10 @@
 							placeholder="" required="">
 						<div class="invalid-feedback">Email required.</div>
 					</div>
+						   <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+						   <% if (errorMessage != null) { %>
+					   <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
+						   <% } %>
 					
 					
 <%-- BUTTON --%>

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 
 import usermanagement.model.Address;
 
+import usermanagement.model.Pharmacy;
 import util.Utilities;
 
 public class AddressDao {
@@ -36,6 +37,7 @@ public class AddressDao {
                 insertedId = rs.getInt(1);
             }
 
+
             // Set the addressId in the Address object
             address.setAddressId(insertedId);
 
@@ -46,6 +48,62 @@ public class AddressDao {
 
         return status;
     }
+    public Address getAddress(int addressId) {
+        Address address = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM address  WHERE address_id = ?");
+            ps.setInt(1, addressId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                address = new Address();
+
+                address.setAddressId(addressId);
+                address.setState(rs.getString("state"));
+                address.setZipcode(rs.getInt("zip_code"));
+                address.setCity(rs.getString("city"));
+                address.setStreetName(rs.getString("street_address"));
+            }
+
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return address;
+    }
+
+    public int updateAddress(Address address) throws SQLException {
+        int status = 0;
+        String UPDATE_ADDRESS_SQL = "UPDATE address SET street_address = ?, city = ?, state = ?, zip_code = ? WHERE address_id = ?";
+
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+             PreparedStatement ps = con.prepareStatement(UPDATE_ADDRESS_SQL)) {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            ps.setString(1, address.getStreetName());
+            ps.setString(2, address.getCity());
+            ps.setString(3, address.getState());
+            ps.setInt(4, address.getZipcode());
+            ps.setInt(5, address.getAddressId());
+
+            status = ps.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+            throw e; // Rethrow the exception after logging
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

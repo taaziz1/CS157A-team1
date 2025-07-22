@@ -202,7 +202,10 @@
 							placeholder="e.g., 09:00-17:00">
 					</div>
 
-
+				<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+				<% if (errorMessage != null) { %>
+				<div style="color: red; font-weight: bold;"><%= errorMessage %></div>
+				<% } %>
 
 					<%-- BUTTON --%>
 					<div class="button">

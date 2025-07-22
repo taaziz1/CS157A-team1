@@ -21,7 +21,7 @@ public class PharmacyLoginServlet extends HttpServlet {
 
     public void init() {
         loginDao = new LoginDao();
-       ;
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,17 +35,21 @@ public class PharmacyLoginServlet extends HttpServlet {
             if (loginDao.validate(user, "pharmacy")) {
             	HttpSession session = request.getSession();
             	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
-            	
+
                 response.sendRedirect("loginPharmacySuccess.jsp");
-              
-                
+
+
             } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-                response.sendRedirect("pharmLogIn.jsp");
+                // Set error message
+                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
+
+                // Forward to login page with error message
+                request.getRequestDispatcher("pharmLogIn.jsp").forward(request, response);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            request.setAttribute("errorMessage", "An unexpected error occurred.");
+            request.getRequestDispatcher("pharmLogIn.jsp").forward(request, response);
         }
     }
 }

@@ -29,13 +29,16 @@ public class CustomerLoginServlet extends HttpServlet {
 
         try {
             if (loginDao.validate(user, "customer")) {
-                response.sendRedirect("loginCustomerSuccess.jsp");
+                response.sendRedirect("index.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
+                session.setAttribute("username", username);
             } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-                response.sendRedirect("custLogIn.jsp");
+                // Set error message
+                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
+
+                // Forward to login page with error message
+                request.getRequestDispatcher("custLogIn.jsp").forward(request, response);
             }
             
         } catch (ClassNotFoundException e) {
