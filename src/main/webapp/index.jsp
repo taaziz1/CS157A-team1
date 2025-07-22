@@ -207,17 +207,25 @@
                         Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
 
                     Statement stmt = con.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT name, zip_code FROM pharmacy JOIN address USING(address_id)");
-                    while(rs.next()) {
-                        out.print("{label: \"" + rs.getString(1) + " - " +
-                        	rs.getInt(2) + "\", category: \"Pharmacies\"},");
-                    }
 
-                    rs = stmt.executeQuery("SELECT name FROM medication");
+					ResultSet rs = stmt.executeQuery("SELECT name FROM medication");
                     while(rs.next()) {
                         out.print("{label: \"" + rs.getString(1) + "\", " +
                          "category: \"Medication\"},");
                     }
+
+					rs = stmt.executeQuery("SELECT name, zip_code, user_id FROM pharmacy JOIN address USING(address_id)");
+					while(rs.next()) {
+                        out.print("{label: \"" + rs.getString(1) + " - " + rs.getInt(2) +
+                        	"\", user_id: \"" + rs.getInt(3) +
+                        	"\", category: \"Pharmacies\"},");
+                    }
+
+					rs = stmt.executeQuery("SELECT name FROM type");
+					while(rs.next()) {
+						out.print("{label: \"" + rs.getString(1) + "\", " +
+                         "category: \"Type\"},");
+					}
 
                     con.close();
                 } catch (Exception e) {
@@ -232,14 +240,20 @@
 				//Redirect to search page on click
 				select: function( event, ui ) {
 					event.preventDefault();
-					window.location.href = window.location.origin +
-							"/search.jsp?query=" + ui.item.value;
+					if(ui.item.category === "Pharmacies") {
+						window.location.href = window.location.origin +
+								"/pharmacy.jsp?p=" + ui.item.user_id;
+					} else {
+						window.location.href = window.location.origin +
+								"/search.jsp?query=" + ui.item.label +
+								"&cat=" + ui.item.category;
+					}
 				}
 			})
 
 			.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 				return $( "<li>" )
-					.append( "<a>" + item.value + "<br>" + "</a>" )
+					.append( "<a>" + item.label + "<br>" + "</a>" )
 					.appendTo( ul );
 			};
 
