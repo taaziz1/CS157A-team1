@@ -104,13 +104,23 @@
 
 
 <h1>Welcome, <%=pharmacy.getPharmacyName()%></h1>
+<div style="width:100vw;display:flex;justify-content: right; padding-right: 80px;">
+<a type="submit" class="formPath" href="pharmInfoUpdate.jsp" > Edit</a>
+</div>
+<div style="display:flex;justify-content: right;padding-right: 30px">
+	<a  class="formPath" href="pharmResetPassword.jsp" type="submit">Reset Password</a>
+
+	</div>
 <div class="center1">
+
 	<div class=" pharmDashBorder">
 		<%--information display--%>
+
 		<table >
 			<tr>
 				<th>User ID</th>
 				<td><%=pharmacy.getUserId()%></td>
+
 			</tr>
 			<tr>
 				<th>Tax Number</th>
@@ -197,6 +207,8 @@
 			<div class="functionOptions">
 				<%--edit function--%>
 					<li><form method="get" action="medEditPage.jsp" style="display: inline;">
+						<input type="hidden" name="med_id" value="<%=meds.getMedId()%>"/>
+						<input type="hidden" name="user_id" value="<%=userId%>"/>
 						<button type="submit" style="background: none; border: none; padding: 0;">
 				 <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
 					<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
@@ -230,12 +242,7 @@
 
 
 </script>
-<div class="button">
-	<a href="pharmInfoUpdate.jsp"><button class="w-50 btn btn-primary btn-lg"
-										  type="submit">Update Info</button></a>
-	<div class="button">
-		<a href="pharmResetPassword.jsp"><button class="w-50 btn btn-primary btn-lg"
-												 type="submit">Reset Password</button></a>
+
 
 
 </body>

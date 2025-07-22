@@ -35,7 +35,7 @@ public class PharmacyLoginServlet extends HttpServlet {
             if (loginDao.validate(user, "pharmacy")) {
             	HttpSession session = request.getSession();
             	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
-
+                session.setAttribute("username2", user.getUsername());
                 response.sendRedirect("loginPharmacySuccess.jsp");
 
 

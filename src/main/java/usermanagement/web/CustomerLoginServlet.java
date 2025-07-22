@@ -32,7 +32,7 @@ public class CustomerLoginServlet extends HttpServlet {
                 response.sendRedirect("index.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
-                session.setAttribute("username", username);
+                session.setAttribute("username1", username);
             } else {
                 // Set error message
                 request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
