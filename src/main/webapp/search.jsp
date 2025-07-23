@@ -101,14 +101,12 @@
                             double price = rs.getDouble(5);
 
                             //Create a hyperlinked box for each pharmacy
-                            out.println(String.format("<div class=\"card\" style=\"width: 26rem; margin: 1.2rem;\">\n" +
-                                    "<a href=\"pharmacy.jsp?p=%d\" style=\"text-decoration:none; color:black;\">\n" +
+                            out.println(String.format("<div class=\"card\" onclick=\"location.href='pharmacy.jsp?p=%d';\" style=\"width: 26rem; cursor: pointer; margin: 1.2rem;\">\n" +
                                     "<div class=\"card-body\">\n" +
                                     "<h4 class=\"card-title\">%s</h4>\n" +
                                     "<h6 class=\"card-title\">%s</h6>\n" +
                                     "<p class=\"card-text\">Quantity: %d, Price: %.2f</p>\n" +
                                     "</div>\n" +
-                                    "</a>\n" +
                                     "</div>", pharmId, name, address, quantity, price));
                         }
                     }
@@ -147,12 +145,10 @@
                             String medName = rs.getString(1);
 
                             //Create a hyperlinked box for each medication
-                            out.println(String.format("<div class=\"card\" style=\"width: 12rem; text-align: center; margin: 1.2rem;\">\n" +
-                                    "<a href=\"search.jsp?query=%s&cat=Medication\" style=\"text-decoration:none; color:black;\">\n" +
+                            out.println(String.format("<div class=\"card\" onclick=\"location.href='search.jsp?query=%s&cat=Medication';\" style=\"width: 12rem; cursor: pointer; text-align: center; margin: 1.2rem;\">\n" +
                                     "<div class=\"card-body\">\n" +
                                     "<h4 class=\"card-title\">%s</h4>\n" +
                                     "</div>\n" +
-                                    "</a>\n" +
                                     "</div>", medName, medName));
                         }
                     }
