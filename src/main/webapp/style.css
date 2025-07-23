@@ -79,15 +79,12 @@ background-size:100% 200%;
 transition:all 200ms ease-out ;
 }
 
-
-
-
 /*only for laptops/computers*/
 @media(hover : hover){ 
 	.formPath:hover{
      background-position:0 100%;
      
 	}
+
 	
 }
-

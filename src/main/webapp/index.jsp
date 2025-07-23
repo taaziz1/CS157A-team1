@@ -114,12 +114,12 @@
 						 if(customerName!=null && pharmName==null){
 				 %>
 
-				 <span class="navend" style="margin:0;padding-right: 20px;"> <a href="custDashboard.jsp"><%= customerName %></a></span>
+				 <span class="navend " style="margin:0;padding-right: 20px;"> <a  class="formPath" href="custDashboard.jsp"><%= customerName %></a></span>
 				 <a href="logout" class="btn btn-outline-danger">Logout</a>
 				 <%
-					 }else{
+					 }else if(customerName==null && pharmName!=null){
 				 %>
-				 <span class="navend" style="margin:0;padding-right: 20px;"><strong> <%= pharmName %></strong></span>
+				 <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath" href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
 				 <a href="logout" class="btn btn-outline-danger">Logout</a>
 				 <%
 					 }
