@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `pharmafinder` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `pharmafinder`;
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for macos15 (arm64)
 --
--- Host: 127.0.0.1    Database: pharmafinder
+-- Host: localhost    Database: pharmafinder
 -- ------------------------------------------------------
--- Server version	8.0.42
+-- Server version	9.3.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +29,7 @@ CREATE TABLE `address` (
   `city` varchar(45) NOT NULL,
   `street_address` varchar(255) NOT NULL,
   PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +38,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'CA',95132,'San Jose','2514 Berryessa Rd'),(2,'CA',95119,'San Jose','276 Hospital Pkwy'),(3,'CA',95123,'San Jose','440 Blossom Hill Rd'),(4,'CA',95128,'San Jose','455 O\'Connor Dr Suite 190'),(5,'CA',94538,'Sunnyvale','2600 Mowry Ave'),(6,'CA',94089,'Santa Clara','1287 Hammerwood Ave Suite B'),(7,'CA',95054,'Fremont','3970 Rivermark Plaza'),(8,'CA',94538,'Fremont','4020 Fremont Hub'),(9,'CA',95035,'Milpitas','114 S Park Victoria Dr'),(10,'CA',95014,'Cupertino','1655 South De Anza Boulevard, Suite 2');
+INSERT INTO `address` VALUES (1,'CA',95132,'San Jose','2514 Berryessa Rd'),(2,'CA',95119,'San Jose','276 Hospital Pkwy'),(3,'CA',95123,'San Jose','440 Blossom Hill Rd'),(4,'CA',95128,'San Jose','455 O\'Connor Dr Suite 190'),(5,'CA',94538,'Sunnyvale','2600 Mowry Ave'),(6,'CA',94089,'Santa Clara','1287 Hammerwood Ave Suite B'),(7,'CA',95054,'Fremont','3970 Rivermark Plaza'),(8,'CA',94538,'Fremont','4020 Fremont Hub'),(9,'CA',95035,'Milpitas','114 S Park Victoria Dr'),(10,'CA',95014,'Cupertino','1655 South De Anza Boulevard, Suite 2'),(11,'Alabama',28323,'New City','New Address'),(12,'Pennsylvania',122121,'weewddwe','weddwe'),(13,'Alaska',122121,'wdwedewdwe','wedewewd');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +62,7 @@ CREATE TABLE `avatar` (
 
 LOCK TABLES `avatar` WRITE;
 /*!40000 ALTER TABLE `avatar` DISABLE KEYS */;
-INSERT INTO `avatar` VALUES (1,'../photos/avatar1.png'),(2,'../photos/avatar2.png'),(3,'../photos/avatar3.png'),(4,'../photos/avatar4.png'),(5,'../photos/avatar5.png'),(6,'../photos/avatar6.png'),(7,'../photos/avatar7.png'),(8,'../photos/avatar8.png'),(9,'../photos/avatar9.png'),(10,'../photos/avatar10.png');
+INSERT INTO `avatar` VALUES (1,'AvatarImages/cat.png'),(2,'AvatarImages/dragon.png'),(3,'AvatarImages/duck.png'),(4,'AvatarImages/hen.png'),(5,'AvatarImages/lion.png'),(6,'AvatarImages/owl.png'),(7,'AvatarImages/panda.png'),(8,'AvatarImages/rabbit.png'),(9,'AvatarImages/sea-lion.png'),(10,'AvatarImages/weasel.png');
 /*!40000 ALTER TABLE `avatar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +114,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (11,1,'joe.bob@gmail.com'),(12,3,'alex.javier18@gmail.com'),(13,2,'maria.cristo@hotmail.com'),(14,3,'lisa.adams01@yahoo.com'),(15,8,'tyler.do@proton.me'),(16,5,'sam.mason2@gmail.com'),(17,10,'wesley.smith@proton.me'),(18,9,'sara.brown@yahoo.com'),(19,6,'melissa.garcia21@gmail.com'),(20,4,'mark.davis@proton.me');
+INSERT INTO `customer` VALUES (0,2,'cust-test@gmail.com'),(11,1,'joe.bob@gmail.com'),(12,3,'alex.javier18@gmail.com'),(13,2,'maria.cristo@hotmail.com'),(14,3,'lisa.adams01@yahoo.com'),(15,8,'tyler.do@proton.me'),(16,5,'sam.mason2@gmail.com'),(17,10,'wesley.smith@proton.me'),(18,9,'sara.brown@yahoo.com'),(19,6,'melissa.garcia21@gmail.com'),(20,4,'mark.davis@proton.me'),(21,8,'test@gmail.com'),(25,1,'ewddwe');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +189,7 @@ CREATE TABLE `pharmacy` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `tax_id_UNIQUE` (`tax_num`),
   KEY `address_id_idx` (`address_id`),
-  CONSTRAINT `address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON UPDATE CASCADE
+  CONSTRAINT `address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -201,7 +199,7 @@ CREATE TABLE `pharmacy` (
 
 LOCK TABLES `pharmacy` WRITE;
 /*!40000 ALTER TABLE `pharmacy` DISABLE KEYS */;
-INSERT INTO `pharmacy` VALUES (1,1,'CVS Pharmacy','11-1111111','https://www.cvs.com/store-locator/san-jose-ca-pharmacies/2514-berryessa-rd-san-jose-ca-95132/storeid=9812','00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59',2.00,'(408) 272-1431','(408) 231-4291'),(2,2,'Kaiser Permanente Pharmacy','11-1111112','https://healthy.kaiserpermanente.org/northern-california/facilities/san-jose-medical-center-100322/departments/pharmacy-dlp-102744','08:30-19:30,08:30-19:30,08:30-19:30,08:30-19:30,08:30-19:30,09:00-18:00,09:00-18:00',NULL,'(408) 972-6911',NULL),(3,3,'Walgreens Pharmacy','11-1111113','https://www.walgreens.com/locator/walgreens-440+blossom+hill+rd-san+jose-ca-95123/id=2739','00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59',1.00,'(408) 229-8013','(408) 251-3989'),(4,4,'Savco Pharmacy','11-1111114','https://www.mygnp.com/pharmacies/savco-pharmacy-san-jose-ca-95128/','08:30-18:00,08:30-18:00,08:30-18:00,08:30-18:00,08:30-18:00,Closed,Closed',5.00,'(408) 298-6190',NULL),(5,5,'Walgreens Pharmacy','11-1111115','https://www.walgreens.com/locator/walgreens-2600+mowry+ave-fremont-ca-94538/id=4517','02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30',5.00,'(510) 742-9356',NULL),(6,6,'Q-Bit Wellness Pharmacy','11-1111116','https://qbitwellness.com/','10:00-17:00,10:00-17:00,10:00-17:00,10:00-17:00,10:00-17:00,Closed,Closed',4.00,'(650) 206-9343',NULL),(7,7,'Safeway Pharmacy','11-1111117','https://local.pharmacy.safeway.com/safeway/ca/santa-clara/3970-rivermark-plaza.html','09:00-20:00,09:00-20:00,09:00-20:00,09:00-20:00,09:00-20:00,09:00-17:00,09:00-17:00',5.00,'(408) 855-0985','(408) 837-0130'),(8,8,'CVS Pharmacy','11-1111118','https://www.cvs.com/store-locator/fremont-ca-pharmacies/4020-fremont-hub-fremont-ca-94538/storeid=9099','00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59',5.00,'(510) 791-9108',NULL),(9,9,'Calaveras Pharmacy','11-1111119','https://www.calaverasrx.com/','09:30-18:30,09:30-18:30,09:30-18:30,09:30-18:30,09:30-18:30,09:30-18:30,Closed',4.00,'(408) 262-2056','(408) 262-2055'),(10,10,'KML Pharmacy','11-1111120','https://www.mygnp.com/pharmacies/kml-pharmacy-cupertino-ca-95014/','09:30-18:00,09:30-18:00,09:30-18:00,09:30-18:00,09:30-18:00,09:30-14:00,Closed',3.00,'(408) 873-8123',NULL);
+INSERT INTO `pharmacy` VALUES (0,12,'wedwed','232132312','dwedew.cpm','1221,2121,2121,1221,2121,1221,1221',NULL,'212121121','12122121'),(1,1,'CVS Pharmacy','11-1111111','https://www.cvs.com/store-locator/san-jose-ca-pharmacies/2514-berryessa-rd-san-jose-ca-95132/storeid=9812','00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59',2.00,'(408) 272-1431','(408) 231-4291'),(2,2,'Kaiser Permanente Pharmacy','11-1111112','https://healthy.kaiserpermanente.org/northern-california/facilities/san-jose-medical-center-100322/departments/pharmacy-dlp-102744','08:30-19:30,08:30-19:30,08:30-19:30,08:30-19:30,08:30-19:30,09:00-18:00,09:00-18:00',NULL,'(408) 972-6911',NULL),(3,3,'Walgreens Pharmacy','11-1111113','https://www.walgreens.com/locator/walgreens-440+blossom+hill+rd-san+jose-ca-95123/id=2739','00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59',1.00,'(408) 229-8013','(408) 251-3989'),(4,4,'Savco Pharmacy','11-1111114','https://www.mygnp.com/pharmacies/savco-pharmacy-san-jose-ca-95128/','08:30-18:00,08:30-18:00,08:30-18:00,08:30-18:00,08:30-18:00,Closed,Closed',5.00,'(408) 298-6190',NULL),(5,5,'Walgreens Pharmacy','11-1111115','https://www.walgreens.com/locator/walgreens-2600+mowry+ave-fremont-ca-94538/id=4517','02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30,02:00-01:30',5.00,'(510) 742-9356',NULL),(6,6,'Q-Bit Wellness Pharmacy','11-1111116','https://qbitwellness.com/','10:00-17:00,10:00-17:00,10:00-17:00,10:00-17:00,10:00-17:00,Closed,Closed',4.00,'(650) 206-9343',NULL),(7,7,'Safeway Pharmacy','11-1111117','https://local.pharmacy.safeway.com/safeway/ca/santa-clara/3970-rivermark-plaza.html','09:00-20:00,09:00-20:00,09:00-20:00,09:00-20:00,09:00-20:00,09:00-17:00,09:00-17:00',5.00,'(408) 855-0985','(408) 837-0130'),(8,8,'CVS Pharmacy','11-1111118','https://www.cvs.com/store-locator/fremont-ca-pharmacies/4020-fremont-hub-fremont-ca-94538/storeid=9099','00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59,00:00-23:59',5.00,'(510) 791-9108',NULL),(9,9,'Calaveras Pharmacy','11-1111119','https://www.calaverasrx.com/','09:30-18:30,09:30-18:30,09:30-18:30,09:30-18:30,09:30-18:30,09:30-18:30,Closed',4.00,'(408) 262-2056','(408) 262-2055'),(10,10,'KML Pharmacy','11-1111120','https://www.mygnp.com/pharmacies/kml-pharmacy-cupertino-ca-95014/','09:30-18:00,09:30-18:00,09:30-18:00,09:30-18:00,09:30-18:00,09:30-14:00,Closed',3.00,'(408) 873-8123',NULL),(22,11,'Test-Pharmacy','7327847834287','eiurhuife.com','09:00-17:00,09:00-17:00,09:00-17:00,09:00-17:00,09:00-17:00,09:00-17:00,09:00-17:00',NULL,'2893284728','279482893782');
 /*!40000 ALTER TABLE `pharmacy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,8 +221,8 @@ CREATE TABLE `review` (
   PRIMARY KEY (`review_id`),
   KEY `customer_id_idx` (`customer_id`),
   KEY `pharm_id_idx` (`pharm_id`),
-  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`user_id`) ON UPDATE CASCADE,
-  CONSTRAINT `pharm_id` FOREIGN KEY (`pharm_id`) REFERENCES `pharmacy` (`user_id`)
+  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pharm_id` FOREIGN KEY (`pharm_id`) REFERENCES `pharmacy` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -301,7 +299,7 @@ CREATE TABLE `user` (
   `password` char(64) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +308,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'cvs1','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014'),(2,'kaiser1','60303ae22b998861bce3b28f33eec1be758a213c86c93c076dbe9f558c11c752'),(3,'walgreens1','fd61a03af4f77d870fc21e05e7e80678095c92d808cfb3b5c279ee04c74aca13'),(4,'savco1','a4e624d686e03ed2767c0abd85c14426b0b1157d2ce81d27bb4fe4f6f01d688a'),(5,'walgreens2','a140c0c1eda2def2b830363ba362aa4d7d255c262960544821f556e16661b6ff'),(6,'qbit1','ed0cb90bdfa4f93981a7d03cff99213a86aa96a6cbcf89ec5e8889871f088727'),(7,'safeway1','bd7c911264aae15b66d4291b6850829aa96986b1d3ead34d1fdbfef27056c112'),(8,'cvs2','1f9bfeb15fee8a10c4d0711c7eb0c083962123e1918e461b6a508e7146c189b2'),(9,'calaveras1','b4451034d3b6590060ce9484a28b88dd332a80a22ae8e39c9c5cb7357ab26c9f'),(10,'kml1','ec2738feb2bbb0bc783eb4667903391416372ba6ed8b8dddbebbdb37e5102473'),(11,'joe_b1','744ea9ec6fa0a83e9764b4e323d5be6b55a5accfc7fe4c08eab6a8de1fca4855'),(12,'alexxj','a98ec5c5044800c88e862f007b98d89815fc40ca155d6ce7909530d792e909ce'),(13,'maria.c','166fb78f0f44d271a2d9065272a67ba373c3266b59d85847c02ef695af0cbf3f'),(14,'lisaa3','40cca5cc13abf91c7d5a72c0aea9bcbea4108946e67f24c0c23003cbf307efa2'),(15,'tyl_do','ebb39b342baead7aa52c0bcd6c0d4ba061b42f3a9dd6bafa2407a096b91b2450'),(16,'samm2','8ffd063b93a29f84389a635552740a9f0a7234169994158fb19692f5964dd7f5'),(17,'wesley.smith','813e41d4092656716cb0b46a1e5002857066cdaef8decf182ae15abf0b43b8d5'),(18,'s.brown1','b3c0e5febe1ec8875cd4a06fa4a99abf270de3f131d83a65f897322edbc12aec'),(19,'mel_garcia','840b1bf550a873a1dbed1381abe379cb9f1e76067b6de54bcd37367ce6ca3c0a'),(20,'mark.d','946cc198869790373cd8424cd9073e9e29aaa17b6f6a6ec55b38110cae856385');
+INSERT INTO `user` VALUES (1,'cvs1','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014'),(2,'kaiser1','60303ae22b998861bce3b28f33eec1be758a213c86c93c076dbe9f558c11c752'),(3,'walgreens1','fd61a03af4f77d870fc21e05e7e80678095c92d808cfb3b5c279ee04c74aca13'),(4,'savco1','a4e624d686e03ed2767c0abd85c14426b0b1157d2ce81d27bb4fe4f6f01d688a'),(5,'walgreens2','a140c0c1eda2def2b830363ba362aa4d7d255c262960544821f556e16661b6ff'),(6,'qbit1','ed0cb90bdfa4f93981a7d03cff99213a86aa96a6cbcf89ec5e8889871f088727'),(7,'safeway1','bd7c911264aae15b66d4291b6850829aa96986b1d3ead34d1fdbfef27056c112'),(8,'cvs2','1f9bfeb15fee8a10c4d0711c7eb0c083962123e1918e461b6a508e7146c189b2'),(9,'calaveras1','b4451034d3b6590060ce9484a28b88dd332a80a22ae8e39c9c5cb7357ab26c9f'),(10,'kml1','ec2738feb2bbb0bc783eb4667903391416372ba6ed8b8dddbebbdb37e5102473'),(11,'joe_b1','744ea9ec6fa0a83e9764b4e323d5be6b55a5accfc7fe4c08eab6a8de1fca4855'),(12,'alexxj','a98ec5c5044800c88e862f007b98d89815fc40ca155d6ce7909530d792e909ce'),(13,'maria.c','166fb78f0f44d271a2d9065272a67ba373c3266b59d85847c02ef695af0cbf3f'),(14,'lisaa3','40cca5cc13abf91c7d5a72c0aea9bcbea4108946e67f24c0c23003cbf307efa2'),(15,'tyl_do','ebb39b342baead7aa52c0bcd6c0d4ba061b42f3a9dd6bafa2407a096b91b2450'),(16,'samm2','8ffd063b93a29f84389a635552740a9f0a7234169994158fb19692f5964dd7f5'),(17,'wesley.smith','813e41d4092656716cb0b46a1e5002857066cdaef8decf182ae15abf0b43b8d5'),(18,'s.brown1','b3c0e5febe1ec8875cd4a06fa4a99abf270de3f131d83a65f897322edbc12aec'),(19,'mel_garcia','840b1bf550a873a1dbed1381abe379cb9f1e76067b6de54bcd37367ce6ca3c0a'),(20,'mark.d','946cc198869790373cd8424cd9073e9e29aaa17b6f6a6ec55b38110cae856385'),(21,'customer-test','9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'),(22,'pharmacy-test','9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'),(25,'','86c1a9249c355d942ba041989fba493a2f7efcb94695a4aca34ab07bb092eed8');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -323,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-12  5:55:58
+-- Dump completed on 2025-07-22 22:58:49
