@@ -101,8 +101,8 @@
                             double price = rs.getDouble(5);
 
                             //Create a hyperlinked box for each pharmacy
-                            out.println(String.format("<div class=\"card\" onclick=\"window.location.href = window.location.origin + " +
-                                    "'/pharmacy.jsp?p=%d';\" style=\"width: 26rem; cursor: pointer; margin: 1.2rem;\">\n" +
+                            out.println(String.format("<div class=\"card\" onclick=\"location.href='/PharmaFinder/pharmacy.jsp?p=%d';\" " +
+                                    "style=\"width: 26rem; cursor: pointer; margin: 1.2rem;\">\n" +
                                     "<div class=\"card-body\">\n" +
                                     "<h4 class=\"card-title\">%s</h4>\n" +
                                     "<h6 class=\"card-title\">%s</h6>\n" +
@@ -146,8 +146,8 @@
                             String medName = rs.getString(1);
 
                             //Create a hyperlinked box for each medication
-                            out.println(String.format("<div class=\"card\" onclick=\"window.location.href = window.location.origin + " +
-                                    "'/search.jsp?query=%s&cat=Medication';\" style=\"width: 12rem; cursor: pointer; text-align: center; margin: 1.2rem;\">\n" +
+                            out.println(String.format("<div class=\"card\" onclick=\"location.href='/PharmaFinder/search.jsp?query=%s&cat=Medication';\" " +
+                                    "style=\"width: 12rem; cursor: pointer; text-align: center; margin: 1.2rem;\">\n" +
                                     "<div class=\"card-body\">\n" +
                                     "<h4 class=\"card-title\">%s</h4>\n" +
                                     "</div>\n" +

@@ -241,11 +241,9 @@
 				select: function( event, ui ) {
 					event.preventDefault();
 					if(ui.item.category === "Pharmacies") {
-						window.location.href = window.location.origin +
-								"/pharmacy.jsp?p=" + ui.item.user_id;
+						location.href="/PharmaFinder/pharmacy.jsp?p=" + ui.item.user_id;
 					} else {
-						window.location.href = window.location.origin +
-								"/search.jsp?query=" + ui.item.label +
+						location.href="/PharmaFinder/search.jsp?query=" + ui.item.label +
 								"&cat=" + ui.item.category;
 					}
 				}
