@@ -1,90 +1,188 @@
 @charset "UTF-8";
 
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-html,body{
+
+/* === Base === */
+html,
+body {
 	font-family: "Quicksand", sans-serif;
 	font-style: normal;
 	background-color: #e0f7fa !important;
-
 }
 
 h1 {
 	text-align: center;
-	padding :1%;
-	padding-bottom:20px;
-		
+	padding: 1%;
+	padding-bottom: 20px;
 }
 
 .fullscreen {
 	width: 100vw;
 	height: 100vh;
-     margin: 0;
-}
-/*HOMEPAGE*/
-.homePage{
-text-decoration:none; /*To Remove the hyperlink underline*/
-color: black;	
+	margin: 0;
 }
 
-/**/
-
-.center{
-	
-	display:flex;
-	justify-content:center;
-	align-items:center;
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 100vh;
-	
 }
 
+/* === Navigation === */
+.navbar {
+	width: 100%;
+	height: 50px;
+}
 
-/*TO CENTER LOG IN */
+.navstart {
+	padding: 0;
+	margin: 0;
+}
+
+.navend {
+	display: flex;
+	justify-content: flex-end;
+	list-style-type: none;
+	margin: 0;
+}
+
+/* === Home Page === */
+.homePage {
+	text-decoration: none;
+	color: black;
+}
+
+/* === Login Form === */
 .form-signin {
 	width: 100vw;
 	height: 100vh;
-	max-width:400px;
-	display:flex;
+	max-width: 400px;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-
-/*NAVIGATION BAR*/
-
-.navbar{
-	width:100%;
-	height:50px;
-	
-}
- .navstart{
- padding:0;
- margin:0;
- 
- }
-
-.navend{
-	display:flex;
-    justify-content:flex-end;
-    list-style-type:none;
-	margin:0;
+/* === Gradient Text === */
+.formPath {
+	margin: 0 1.5em;
+	background-image: linear-gradient(#4a484a 50%, #2B06FF 50%);
+	color: transparent;
+	background-clip: text;
+	-webkit-background-clip: text;
+	background-size: 100% 200%;
+	transition: all 200ms ease-out;
 }
 
-.formPath{
-margin: 0 1.5em; /*top-bottom  left-rigth margin*/
-background-image:linear-gradient( #4a484a 50%, #2B06FF 50%);
-color:transparent;
-background-clip: text;
--webkit-background-clip:text;
-background-size:100% 200%;
-transition:all 200ms ease-out ;
-}
-
-/*only for laptops/computers*/
-@media(hover : hover){ 
-	.formPath:hover{
-     background-position:0 100%;
-     
+@media (hover: hover) {
+	.formPath:hover {
+		background-position: 0 100%;
 	}
+}
 
-	
+/* === Comment / Review Styling === */
+.comment-container,
+.comment-box {
+	display: flex;
+	align-items: flex-start;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	padding: 15px;
+	margin: 20px auto;
+	width: 100%;
+	max-width: 700px;
+	background-color: #fff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	gap: 15px;
+	position: relative;
+}
+
+.avatar {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.comment-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.comment-meta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.username,
+.user-name {
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+.timestamp {
+	font-size: 0.85rem;
+	color: #888;
+}
+
+.comment-text,
+.comment-textarea {
+	font-size: 0.95rem;
+	margin: 10px 0;
+	line-height: 1.4;
+	resize: vertical;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	padding: 10px;
+	width: 100%;
+}
+
+.comment-textarea {
+	height: 100px;
+	width: 550px;
+}
+
+.comment-footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 10px;
+}
+
+/* === Star Rating === */
+.star-rating,
+.rating {
+	display: flex;
+	gap: 5px;
+}
+
+.star-rating .fa,
+.rating .fa {
+	font-size: 18px;
+	color: #ccc;
+	cursor: pointer;
+}
+
+.star-rating .fa.checked,
+.rating .fa.checked {
+	color: orange;
+}
+
+/* === Submit Button === */
+.comment-submit {
+	padding: 8px 18px;
+	background-color: #007BFF;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.comment-submit:hover {
+	background-color: #0056b3;
 }
