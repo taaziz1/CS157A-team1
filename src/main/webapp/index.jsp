@@ -131,6 +131,7 @@
 
 	<% if (session.getAttribute("user_id") == null) { %>
 		 <%--PHARMACY CARD--%>
+			 <div class="navend">
 	  <div class="pharm-card">
 			<p class="formPath">Customers</p>
 			<div class="pharm">
@@ -156,12 +157,11 @@
 
 		</div>
 	</div>
+			 </div>
 	<% } %>
 	</nav>
 		<%--HEADING--%>
 		<h1>Welcome to PharmaFinder</h1>
-
-		<%--PHARMACY CARD--%>
 
 		<%--SEARCH BAR--%>
 		<div class="searchdiv">

@@ -55,17 +55,33 @@
             <a class="navstart homePage" style = "font-weight:bold;" href="index.jsp">PharmaFinder</a>
         </div>
 
-        <div class="navend">
+        <div class="navend" >
+            <%--TAKE ADDRESS--%>
+
+            <input type="text" id="location"  placeholder="Enter your location">
+            <button id="submitBtnLocation">Submit</button>
+
             <%
-                String pharmacyName = (String) session.getAttribute("username");
+                String customerName = (String) session.getAttribute("username1");
+                String pharmName = (String) session.getAttribute("username2");
                 if (session != null && session.getAttribute("user_id") != null) {
+                    if(customerName!=null && pharmName==null){
             %>
-            <span class="me-2">Welcome, <strong><%= pharmacyName %></strong></span>
+
+            <span class="navend " style="margin:0;padding-right: 20px;"> <a  class="formPath" href="custDashboard.jsp"><%= customerName %></a></span>
             <a href="logout" class="btn btn-outline-danger">Logout</a>
             <%
+            }else if(customerName==null && pharmName!=null){
+            %>
+            <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath" href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
+            <a href="logout" class="btn btn-outline-danger">Logout</a>
+            <%
+                    }
                 }
             %>
+
         </div>
+
     </nav>
 
     <%
@@ -73,29 +89,73 @@
         int userId = Integer.parseInt(request.getParameter("p"));
         PharmacyDao pharmacyDao = new PharmacyDao();
         pharmacy = pharmacyDao.getPharmacyDashboard(userId);
+
     %>
 
     <div class="card" style="margin: 1.8rem;">
         <div class="card-header">
-            <h2 class="card-title" style="margin: 0.5rem; text-align: left;"><%=pharmacy.getPharmacyName()%> - <%=pharmacy.getAddress()%></h2>
+            <h2 class="card-title" style="margin: 0.5rem; text-align: left;"><%=pharmacy.getPharmacyName()%>-<h5 class="distDisplay" style="color:green;"></h5></h2>
         </div>
+        <%
+            String phoneNumber = pharmacy.getPhoneNumber();
+            String faxNumber = pharmacy.getFaxNumber();
+            String webUrl = pharmacy.getWebURL();
+
+        %>
         <div class="card-body">
             <table>
                 <tr>
+                    <th class="table_header">Address</th>
+                <td class="pharmDist"><%=pharmacy.getAddress()%></td>
+                </tr>
+
+                <tr>
                     <th class="table_header">Website</th>
-                    <td class="table_data"><a href="<%=pharmacy.getWebURL()%>"><%=pharmacy.getWebURL()%></a></td>
+                    <td><%
+                        if (webUrl == null || webUrl.isEmpty()) {
+                            webUrl = "N/A";
+                    %>
+                        <%=webUrl%>
+                        <% } else {%>
+                        <a href="<%=pharmacy.getWebURL()%>"><%=pharmacy.getWebURL()%>
+                        </a>
+                        <%}%>
+                    </td>
                 </tr>
                 <tr>
                     <th class="table_header">Phone Number</th>
-                    <td class="table_data"><%=pharmacy.getPhoneNumber()%></td>
+                    <td><%
+                        if (phoneNumber == null || phoneNumber.isEmpty())
+                            phoneNumber = "N/A";
+                    %><%=phoneNumber%>
+                    </td>
                 </tr>
                 <tr>
                     <th class="table_header">Fax Number</th>
-                    <td class="table_data"><%=pharmacy.getFaxNumber()%></td>
+                    <td><%
+                        if (faxNumber == null || faxNumber.isEmpty())
+                            faxNumber = "N/A";
+                    %><%=faxNumber%>
+                    </td>
                 </tr>
                 <tr>
                     <th class="table_header">Operating Hours</th>
-                    <td class="table_data"><%=pharmacy.getOperatingHours()%></td>
+                    <td>
+                    <table>
+                        <%
+                            String hours = pharmacy.getOperatingHours();
+                            String timings[] = hours.split(",");
+                            String daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                            for (int i = 0, j = 0; i < timings.length && j < daysOfWeek.length; i++, j++) {
+                        %>
+                        <tr>
+                            <td><%=daysOfWeek[j]%>
+                            </td>
+                            <td><%=timings[i]%>
+                            </td>
+                        </tr>
+                        <%}%>
+                    </table>
                 </tr>
             </table>
         </div>
@@ -143,6 +203,10 @@
         </div>
     </div>
 </div>
+<%-- jQuery--%>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 <%--Set tab title as the search query--%>
 <script>
@@ -151,7 +215,10 @@
     } else {
         document.getElementById("title").innerText = "Invalid Search";
     }
+
+
 </script>
+<script src="distancePharmacy.js"></script>
 
 </body>
 

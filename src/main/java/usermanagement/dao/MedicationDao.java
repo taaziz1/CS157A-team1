@@ -2,7 +2,6 @@ package usermanagement.dao;
 
 
 import usermanagement.model.Medication;
-import usermanagement.model.Pharmacy;
 import util.Utilities;
 
 
@@ -97,6 +96,57 @@ public class MedicationDao {
             rowDelete = ps.executeUpdate()>0;
         }
         return rowDelete;
+    }
+//list Med options
+private static final String LIST_MEDICATION_SQL ="SELECT * FROM medication";
+    public List<Medication> listMeds() {
+        ArrayList<Medication> medList = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(LIST_MEDICATION_SQL);) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Medication medication = new Medication();
+                medication.setMedId(rs.getInt("med_id"));
+                medication.setMedName(rs.getString("name"));
+medList.add(medication);
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    return medList;
+    }
+    // ADD Medication
+
+private static final String ADD_MEDICATION_SQL ="INSERT INTO sells (user_id, med_id, quantity, price) VALUES (?,?,?,?)";
+public boolean insertMedication(Medication medication, int userId) throws  SQLException {
+    boolean rowInserted = false;
+    try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(ADD_MEDICATION_SQL)) {
+            ps.setInt(1,userId);
+            ps.setInt(2,medication.getMedId());
+            ps.setInt(3,medication.getQuantity());
+            ps.setDouble(4,medication.getPrice());
+
+            rowInserted= ps.executeUpdate()>0;
+
+    } catch (SQLException e) {
+            printSQLException(e);
+        }
+return rowInserted;
+}  private void printSQLException(SQLException ex) {
+        for (Throwable e : ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
     }
 }
 
