@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="util.Utilities" %>
 <%@ page import="java.sql.*" %>
@@ -17,7 +17,7 @@
 <head>
     <meta charset="UTF-8">
 
-<%-- CSS & Bootstrap Links --%>
+    <%-- CSS & Bootstrap Links --%>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -114,7 +114,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -148,35 +148,37 @@
             <a class="navstart homePage" style="font-weight: bold;" href="index.jsp">PharmaFinder</a>
         </div>
 
-        <div class="navend" >
+        <div class="navend">
             <%--TAKE ADDRESS--%>
 
-            <input type="text" id="location"  placeholder="Enter your location">
+            <input type="text" id="location" placeholder="Enter your location">
             <button id="submitBtnLocation">Submit</button>
 
-        <div class="navend">
-            <%-- Welcome message + Logout for logged-in users --%>
-            <%
-                String customerName = (String) session.getAttribute("username1");
-                String pharmName = (String) session.getAttribute("username2");
-                if (session != null && session.getAttribute("user_id") != null) {
-                    if(customerName!=null && pharmName==null){
-            %>
-            <span class="me-2">Welcome, <strong><%= (pharmName != null) ? pharmName : customerName %></strong></span>
+            <div class="navend">
+                <%-- Welcome message + Logout for logged-in users --%>
+                <%
+                    String customerName = (String) session.getAttribute("username1");
+                    String pharmName = (String) session.getAttribute("username2");
+                    if (session != null && session.getAttribute("user_id") != null) {
+                        if (customerName != null && pharmName == null) {
+                %>
+                <span class="me-2">Welcome, <strong><%= (pharmName != null) ? pharmName : customerName %></strong></span>
 
-            <span class="navend " style="margin:0;padding-right: 20px;"> <a  class="formPath" href="custDashboard.jsp"><%= customerName %></a></span>
-            <a href="logout" class="btn btn-outline-danger">Logout</a>
-            <%
-            }else if(customerName==null && pharmName!=null){
-            %>
-            <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath" href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
-            <a href="logout" class="btn btn-outline-danger">Logout</a>
-            <%
+                <span class="navend " style="margin:0;padding-right: 20px;"> <a class="formPath"
+                                                                                href="custDashboard.jsp"><%= customerName %></a></span>
+                <a href="logout" class="btn btn-outline-danger">Logout</a>
+                <%
+                } else if (customerName == null && pharmName != null) {
+                %>
+                <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath"
+                                                                              href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
+                <a href="logout" class="btn btn-outline-danger">Logout</a>
+                <%
+                        }
                     }
-                }
-            %>
+                %>
 
-        </div>
+            </div>
 
     </nav>
 
@@ -190,7 +192,8 @@
     <%-- Pharmacy Info Card --%>
     <div class="card" style="margin: 1.8rem;">
         <div class="card-header">
-            <h2 class="card-title" style="margin: 0.5rem; text-align: left;"><%=pharmacy.getPharmacyName()%>-<h5 class="distDisplay" style="color:green;"></h5>
+            <h2 class="card-title" style="margin: 0.5rem; text-align: left;"><%=pharmacy.getPharmacyName()%>-<h5
+                    class="distDisplay" style="color:green;"></h5>
             </h2>
         </div>
         <%
@@ -203,7 +206,8 @@
             <table>
                 <tr>
                     <th class="table_header">Address</th>
-                <td class="pharmDist"><%=pharmacy.getAddress()%></td>
+                    <td class="pharmDist"><%=pharmacy.getAddress()%>
+                    </td>
                 </tr>
 
                 <tr>
@@ -238,21 +242,21 @@
                 <tr>
                     <th class="table_header">Operating Hours</th>
                     <td>
-                    <table>
-                        <%
-                            String hours = pharmacy.getOperatingHours();
-                            String timings[] = hours.split(",");
-                            String daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-                            for (int i = 0, j = 0; i < timings.length && j < daysOfWeek.length; i++, j++) {
-                        %>
-                        <tr>
-                            <td><%=daysOfWeek[j]%>
-                            </td>
-                            <td><%=timings[i]%>
-                            </td>
-                        </tr>
-                        <%}%>
-                    </table>
+                        <table>
+                            <%
+                                String hours = pharmacy.getOperatingHours();
+                                String timings[] = hours.split(",");
+                                String daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                                for (int i = 0, j = 0; i < timings.length && j < daysOfWeek.length; i++, j++) {
+                            %>
+                            <tr>
+                                <td><%=daysOfWeek[j]%>
+                                </td>
+                                <td><%=timings[i]%>
+                                </td>
+                            </tr>
+                            <%}%>
+                        </table>
                 </tr>
             </table>
         </div>
@@ -338,7 +342,8 @@
                 <div class="comment-content">
                     <div class="comment-meta">
                         <div class="comment-header">
-                            <div class="user-name"><%= currentCustomer.getUsername() %></div>
+                            <div class="user-name"><%= currentCustomer.getUsername() %>
+                            </div>
 
                             <div class="star-rating" id="star-rating">
                                 <span class="fa fa-star" data-value="1"></span>
@@ -356,7 +361,8 @@
                                       placeholder="Write your comment..." required></textarea>
 
                             <div class="comment-footer">
-                                <button type="submit" class="comment-submit" onclick="return validateReview()">Post</button>
+                                <button type="submit" class="comment-submit" onclick="return validateReview()">Post
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -379,7 +385,8 @@
                 <img class="avatar" src="<%= customer.getAvatarDirectory() %>" alt="User Avatar">
                 <div class="comment-content">
                     <div class="comment-meta">
-                        <div class="username"><%= customer.getUsername() %></div>
+                        <div class="username"><%= customer.getUsername() %>
+                        </div>
 
                         <%-- Show 3-dots menu only if current user is the review owner --%>
                         <%
@@ -399,7 +406,8 @@
                                 </button>
 
 
-                                <form action="deleteReview" method="POST" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                <form action="deleteReview" method="POST"
+                                      onsubmit="return confirm('Are you sure you want to delete this review?');">
                                     <input type="hidden" name="pharmacyId" value="<%= pharmacy.getUserId() %>">
                                     <input type="hidden" name="customerId" value="<%= currentUserId %>">
                                     <button type="submit">🗑 Delete️</button>
@@ -410,10 +418,12 @@
                             }
                         %>
                     </div>
-                    <div class="timestamp">Last updated: <%= review.getLastDate() %></div>
+                    <div class="timestamp">Last updated: <%= review.getLastDate() %>
+                    </div>
 
                     <div class="comment-text">
-                        <p><%= review.getContent() %></p>
+                        <p><%= review.getContent() %>
+                        </p>
                         <div class="rating">
                             <%
                                 for (int rate = 1; rate <= 5; rate++) {
@@ -438,13 +448,14 @@
 
 <div id="editModal" class="modal-overlay" style="display:none;">
     <form class="comment-box" id="editForm" method="POST" action="editReview">
-        <% Customer currentCustomer = customerDao.getCustomerDashboard((Integer) session.getAttribute("user_id")); %>
+            <% Customer currentCustomer = customerDao.getCustomerDashboard((Integer) session.getAttribute("user_id")); %>
         <img class="avatar" src="<%= currentCustomer.getAvatarDirectory() %>" alt="User Avatar">
 
         <div class="comment-content">
             <div class="comment-meta">
                 <div class="comment-header">
-                    <div class="user-name"><%= currentCustomer.getUsername() %></div>
+                    <div class="user-name"><%= currentCustomer.getUsername() %>
+                    </div>
 
                     <div class="star-rating" id="modal-star-rating">
                         <span class="fa fa-star" data-value="1"></span>
@@ -457,23 +468,19 @@
                     <input type="hidden" name="rating" id="modal-rating-value">
                     <input type="hidden" name="pharmacyId" value="<%= pharmacy.getUserId() %>">
                     <input type="hidden" name="customerId" value="<%= currentCustomer.getUserId() %>">
-</div>
-<%-- jQuery--%>
+                </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+                <textarea class="comment-textarea" name="content" id="modal-review-content"
+                          placeholder="Edit your comment..." required></textarea>
 
-                    <textarea class="comment-textarea" name="content" id="modal-review-content"
-                              placeholder="Edit your comment..." required></textarea>
-
-                    <div class="comment-footer">
-                        <button type="submit" class="comment-submit">Save</button>
-                        <button type="button" class="comment-submit" onclick="closeModal()">Cancel</button>
-                    </div>
+                <div class="comment-footer">
+                    <button type="submit" class="comment-submit">Save</button>
+                    <button type="button" class="comment-submit" onclick="closeModal()">Cancel</button>
                 </div>
             </div>
         </div>
-    </form>
+</div>
+</form>
 </div>
 <% } %>
 
@@ -529,7 +536,7 @@
     }
 
     // Close dropdown if clicked outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         if (!event.target.closest('.dropdown')) {
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 menu.style.display = 'none';
@@ -585,6 +592,10 @@
         });
     }
 </script>
+
+<%-- jQuery--%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 </body>
 
