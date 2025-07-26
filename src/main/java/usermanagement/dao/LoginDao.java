@@ -26,11 +26,6 @@ public class LoginDao {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
 
-            // 🔍 Print the username and password being validated
-            System.out.println("Trying to log in with:");
-            System.out.println("Username: " + user.getUsername());
-            System.out.println("Password: " + user.getPassword());
-
             ResultSet rs = ps.executeQuery();
             status = rs.next();
             if (status) {

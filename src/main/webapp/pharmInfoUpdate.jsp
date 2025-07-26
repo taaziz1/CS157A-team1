@@ -104,7 +104,7 @@
       <div class="col-md-6">
         <label for="state" class="form-label">State</label> <select
               class="form-select" id="state" name="state" required="">
-        <option disabled>">Choose...</option>
+        <option disabled <%= (address.getState() == null || address.getState().isEmpty()) ? "selected" : "" %>>Choose...</option>
 
         <option value="Alabama" <%= "Alabama".equals(address.getState()) ? "selected" : "" %>>Alabama</option>
         <option value="Alaska" <%= "Alaska".equals(address.getState()) ? "selected" : "" %>>Alaska</option>

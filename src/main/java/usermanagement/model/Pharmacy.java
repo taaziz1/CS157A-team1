@@ -1,6 +1,7 @@
 package usermanagement.model;
 
 import java.io.Serializable;
+import usermanagement.dao.ReviewDao;
 
 public class Pharmacy extends User implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -12,7 +13,9 @@ public class Pharmacy extends User implements Serializable{
     private String webURL;
     private String operatingHours;
 
-    private int rating;
+    private double rating;
+    private Address address;
+
 
     public String getPharmacyName() {
         return pharmacyName;
@@ -70,7 +73,6 @@ public class Pharmacy extends User implements Serializable{
         this.operatingHours = operatingHours;
     }
 
-    private Address address;
     public void setAddress(Address address) {
         this.address=address;
     }
@@ -79,11 +81,16 @@ public class Pharmacy extends User implements Serializable{
         return address;
     }
 
-    public void setRating(int rating) {
-        this.rating =rating;
+    public void setRating(double rating) {
+        this.rating = rating;
     }
-     public int getRating(){
-        return rating;
-     }
 
+    public double getRating(){
+        return rating;
+    }
+
+    public double getAverageRating() {
+        ReviewDao reviewDao = new ReviewDao();
+        return reviewDao.getAverageRating(this.getUserId());
+    }
 }
