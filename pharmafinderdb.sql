@@ -218,18 +218,18 @@ DROP TABLE IF EXISTS `review`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `review` (
-  `reviewId` int NOT NULL AUTO_INCREMENT,
-  `customerId` int NOT NULL,
-  `pharmacyId` int NOT NULL,
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `customer_id` int NOT NULL,
+  `pharm_id` int NOT NULL,
   `content` varchar(512) NOT NULL,
   `rating` int NOT NULL,
-  `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `lastDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`reviewId`),
-  KEY `customer_id_idx` (`customerId`),
-  KEY `pharm_id_idx` (`pharmacyId`),
-  CONSTRAINT `customerId` FOREIGN KEY (`customerId`) REFERENCES `customer` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `pharmacyId` FOREIGN KEY (`pharmacyId`) REFERENCES `pharmacy` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`review_id`),
+  KEY `customer_id_idx` (`customer_id`),
+  KEY `pharm_id_idx` (`pharm_id`),
+  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pharm_id` FOREIGN KEY (`pharm_id`) REFERENCES `pharmacy` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
