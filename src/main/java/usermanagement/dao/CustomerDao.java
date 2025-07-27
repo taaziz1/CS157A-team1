@@ -87,7 +87,6 @@ public class CustomerDao {
         return customer;
     }
 
-
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {

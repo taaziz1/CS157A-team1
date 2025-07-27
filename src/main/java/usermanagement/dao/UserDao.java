@@ -43,6 +43,48 @@ public class UserDao {
         return status;
     }
 
+    public int deleteAccount(int userId) {
+        int status = 0;
+        String DELETE_CUSTOMER_SQL = "DELETE FROM user WHERE user_id = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(DELETE_CUSTOMER_SQL);
+            ps.setInt(1, userId);
+            status = ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    public boolean checkPasswordMatch(int userId, String password) {
+        boolean isMatch = false;
+        String SELECT_PASSWORD_SQL = "SELECT password FROM user WHERE user_id = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(SELECT_PASSWORD_SQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                isMatch = storedPassword.equals(password);
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return isMatch;
+    }
+
+
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {
