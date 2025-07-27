@@ -4,10 +4,6 @@
 		 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
                              https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
 		 version="5.0">
-	<context-param>
-		<param-name>googleApiKey</param-name>
-		<param-value>AIzaSyD1bgPvIL_BJZzrIcdKlJyiTOyAHeFkx4k</param-value>
-	</context-param>
 
 	<display-name>Archetype Created Web Application</display-name>
   <servlet>
