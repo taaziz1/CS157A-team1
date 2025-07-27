@@ -102,8 +102,25 @@ public class AddressDao {
         return status;
     }
 
+    public int deleteAddress(int addressId) {
+        int status = 0;
+        String DELETE_ADDRESS_SQL = "DELETE FROM address WHERE address_id = ?";
 
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+             PreparedStatement ps = con.prepareStatement(DELETE_ADDRESS_SQL)) {
 
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            ps.setInt(1, addressId);
+            status = ps.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

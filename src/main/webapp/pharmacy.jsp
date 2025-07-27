@@ -162,7 +162,7 @@
                     if (session != null && session.getAttribute("user_id") != null) {
                         if (customerName != null && pharmName == null) {
                 %>
-                <span class="me-2">Welcome, <strong><%= (pharmName != null) ? pharmName : customerName %></strong></span>
+
 
                 <span class="navend " style="margin:0;padding-right: 20px;"> <a class="formPath"
                                                                                 href="custDashboard.jsp"><%= customerName %></a></span>

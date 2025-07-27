@@ -103,13 +103,46 @@
 <h1>Welcome, <%=pharmacy.getPharmacyName()%>
 </h1>
 
-<div style="width:100vw;display:flex;justify-content: right; padding-right: 80px;">
-    <a type="submit" class="formPath" href="pharmInfoUpdate.jsp"> Edit</a>
-</div>
-<div style="display:flex;justify-content: right;padding-right: 30px">
-    <a class="formPath" href="pharmResetPassword.jsp" type="submit">Reset Password</a>
+<div style="width: 100vw; display: flex; justify-content: flex-end; gap: 20px; padding-right: 80px; margin-top: 20px;">
+    <!-- Edit Info Button -->
+    <a href="pharmInfoUpdate.jsp" class="btn btn-primary">
+        ✏️ Edit Info
+    </a>
+
+    <!-- Reset Password Button -->
+    <a href="pharmResetPassword.jsp" class="btn btn-warning">
+        🔒 Reset Password
+    </a>
+
+    <!-- Delete Account Button with Confirmation -->
+    <button type="button" class="btn btn-danger" onclick="openDeleteModal()">
+        🗑 Delete Account
+    </button>
 
 </div>
+
+<!-- Modal -->
+<div id="deleteModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 9999;">
+    <form action="deletePharmacyAccount" method="POST"
+          style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333;"
+          onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
+        <h4>Please enter your tax number to confirm:</h4>
+        <input type="hidden" name="user_id" value="<%= pharmacy.getUserId() %>">
+        <input type="text" name="taxNumber" required placeholder="Enter Tax Number"
+               style="padding: 8px; width: 100%; margin-top: 10px; margin-bottom: 20px;">
+        <h4>Please enter your password to confirm:</h4>
+        <input type="password" name="password" required placeholder="Enter password"
+               style="padding: 8px; width: 100%; margin-top: 10px; margin-bottom: 20px;">
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="submit" class="comment-submit" style="background-color: #dc3545;">Confirm Delete</button>
+            <button type="button" class="comment-submit" onclick="closeDeleteModal()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
 
 <div class="center1">
 
@@ -303,6 +336,34 @@
 
 </script>
 
+<%
+    String error = request.getParameter("error");
+    if ("invalid_credentials".equals(error)) {
+%>
+<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+                padding: 10px; margin: 20px auto; width: fit-content; border-radius: 6px;">
+    ❌ Incorrect credentials. Please try again.
+</div>
+<%
+    }
+%>
+
+<script>
+    function openDeleteModal() {
+        document.getElementById("deleteModal").style.display = "flex";
+    }
+
+    function closeDeleteModal() {
+        document.getElementById("deleteModal").style.display = "none";
+    }
+</script>
+
+<script>
+    setTimeout(function () {
+        const alertBox = document.querySelector("div[style*='f8d7da']");
+        if (alertBox) alertBox.style.display = 'none';
+    }, 2000);
+</script>
 
 </body>
 </html>

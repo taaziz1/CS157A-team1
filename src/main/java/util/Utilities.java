@@ -2,13 +2,10 @@ package util;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.Properties;
 
-import static java.nio.file.Files.readString;
 
 public class Utilities {
 
