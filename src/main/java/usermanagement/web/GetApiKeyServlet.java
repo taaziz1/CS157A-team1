@@ -21,6 +21,7 @@ public class GetApiKeyServlet extends HttpServlet {
             prop.load(fis);
         }
 
+
         String apiKey = prop.getProperty("apiKey");
         req.setAttribute("apikey", apiKey);
         PrintWriter out = resp.getWriter();
