@@ -593,11 +593,23 @@
     }
 </script>
 
-<%-- jQuery--%>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script>
+
+    fetch('<%=request.getContextPath()%>/getApiKey')
+        .then(response => response.text())
+        .then(apiKey => {
+
+            const script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?key=" + apiKey + "&callback=initMap&v=weekly";
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        })
+        .catch(err => console.error('Error fetching API key:', err));
+</script>
+
+
 
 </body>
-
 
 </html>
