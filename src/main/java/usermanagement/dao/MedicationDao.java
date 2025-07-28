@@ -70,13 +70,13 @@ public class MedicationDao {
     }
 
     //insert new meds
-//private static final String INSERT_MEDICAION_SQL ="INSERT sells SET price=?,quantity=? WHERE user_id=?";
+//private static final String INSERT_MEDICATION_SQL ="INSERT sells SET price=?,quantity=? WHERE user_id=?";
 //edit function
-    private static final String UPDATE_MEDICAION_SQL = "UPDATE  sells SET price=?,quantity=? WHERE user_id=? and med_id=?";
+    private static final String UPDATE_MEDICATION_SQL = "UPDATE sells SET price=?,quantity=? WHERE user_id=? and med_id=?";
 
     public boolean editMedication(Medication medication, int userId) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_MEDICAION_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_MEDICATION_SQL);) {
             ps.setDouble(1, medication.getPrice());
             ps.setInt(2, medication.getQuantity());
             ps.setInt(3, userId);
@@ -87,10 +87,10 @@ public class MedicationDao {
     }
 
     //Delete Function
-    private static final String DELETE_MEDICAION_SQL = "DELETE FROM sells WHERE user_id=? and med_id=?";
+    private static final String DELETE_MEDICATION_SQL = "DELETE FROM sells WHERE user_id=? and med_id=?";
     public boolean deleteMedication(int userId,int medId) throws SQLException{
         boolean rowDelete;
-        try(Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(DELETE_MEDICAION_SQL); ){
+        try(Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(DELETE_MEDICATION_SQL); ){
             ps.setInt(1,userId);
             ps.setInt(2,medId);
             rowDelete = ps.executeUpdate()>0;
