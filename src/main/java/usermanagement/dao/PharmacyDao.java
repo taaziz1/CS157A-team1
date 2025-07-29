@@ -90,10 +90,13 @@ public class PharmacyDao {
                 pharmacy.setWebURL(rs.getString("web_url"));
                 pharmacy.setOperatingHours(rs.getString("operating_hours"));
                 pharmacy.setAddressId(rs.getInt("address_id"));
-                pharmacy.setRating(rs.getInt("average_rating"));
                 //Address
                 AddressDao addressDao = new AddressDao();
                 Address address = addressDao.getAddress(pharmacy.getAddressId());
+
+                // Compute and set the average rating
+                ReviewDao reviewDao = new ReviewDao();
+                pharmacy.setRating(reviewDao.getAverageRating(userId));
 
                 pharmacy.setAddress(address);
 
@@ -176,6 +179,47 @@ public class PharmacyDao {
             printSQLException((SQLException) e);
         }
         return status;
+    }
+
+    public int deleteAccount(int userId) {
+        int status = 0;
+        String DELETE_PHARMACY_SQL = "DELETE FROM user WHERE user_id = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(DELETE_PHARMACY_SQL);
+            ps.setInt(1, userId);
+            status = ps.executeUpdate();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            printSQLException((SQLException) e);
+        }
+        return status;
+    }
+
+    public boolean checkTaxNumMatch(int userId, String taxNum) {
+        boolean isMatch = false;
+        String SELECT_TAX_NUM_SQL = "SELECT tax_num FROM pharmacy WHERE user_id = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String storedTaxNum = rs.getString("tax_num");
+                isMatch = storedTaxNum.equals(taxNum);
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return isMatch;
     }
 
     private void printSQLException(SQLException ex) {

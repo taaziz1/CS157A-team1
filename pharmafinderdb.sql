@@ -64,7 +64,7 @@ CREATE TABLE `avatar` (
 
 LOCK TABLES `avatar` WRITE;
 /*!40000 ALTER TABLE `avatar` DISABLE KEYS */;
-INSERT INTO `avatar` VALUES (1,'../photos/avatar1.png'),(2,'../photos/avatar2.png'),(3,'../photos/avatar3.png'),(4,'../photos/avatar4.png'),(5,'../photos/avatar5.png'),(6,'../photos/avatar6.png'),(7,'../photos/avatar7.png'),(8,'../photos/avatar8.png'),(9,'../photos/avatar9.png'),(10,'../photos/avatar10.png');
+INSERT INTO `avatar` VALUES (1,'AvatarImages/cat.png'),(2,'AvatarImages/dragon.png'),(3,'AvatarImages/duck.png'),(4,'AvatarImages/hen.png'),(5,'AvatarImages/lion.png'),(6,'AvatarImages/owl.png'),(7,'AvatarImages/panda.png'),(8,'AvatarImages/rabbit.png'),(9,'AvatarImages/sea-lion.png'),(10,'AvatarImages/weasel.png');
 /*!40000 ALTER TABLE `avatar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,7 +78,10 @@ DROP TABLE IF EXISTS `categorized_as`;
 CREATE TABLE `categorized_as` (
   `med_id` int NOT NULL,
   `type_id` int NOT NULL,
-  PRIMARY KEY (`med_id`,`type_id`)
+  PRIMARY KEY (`med_id`,`type_id`),
+  KEY `type_id_idx` (`type_id`),
+  CONSTRAINT `medication_id` FOREIGN KEY (`med_id`) REFERENCES `medication` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `type_id` FOREIGN KEY (`type_id`) REFERENCES `type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -88,7 +91,7 @@ CREATE TABLE `categorized_as` (
 
 LOCK TABLES `categorized_as` WRITE;
 /*!40000 ALTER TABLE `categorized_as` DISABLE KEYS */;
-INSERT INTO `categorized_as` VALUES (1,2),(1,4),(1,5),(1,8),(2,2),(2,5),(3,2),(3,5),(3,8),(4,2),(4,5),(4,8),(5,1),(6,1),(7,6),(8,1),(8,3),(9,10),(10,1);
+INSERT INTO `categorized_as` VALUES (5,1),(6,1),(8,1),(10,1),(1,2),(2,2),(3,2),(4,2),(8,3),(1,4),(1,5),(2,5),(3,5),(4,5),(7,6),(1,8),(3,8),(4,8),(9,10);
 /*!40000 ALTER TABLE `categorized_as` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +109,8 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email_address_UNIQUE` (`email_address`),
   KEY `avatar_id_idx` (`avatar_id`),
-  CONSTRAINT `avatar_id` FOREIGN KEY (`avatar_id`) REFERENCES `avatar` (`avatar_id`) ON UPDATE CASCADE
+  CONSTRAINT `avatar_id` FOREIGN KEY (`avatar_id`) REFERENCES `avatar` (`avatar_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -157,7 +161,7 @@ CREATE TABLE `medication` (
   `name` varchar(128) NOT NULL,
   PRIMARY KEY (`med_id`),
   KEY `manf_id_idx` (`manf_id`),
-  CONSTRAINT `manf_id` FOREIGN KEY (`manf_id`) REFERENCES `manufacturer` (`manf_id`) ON UPDATE CASCADE
+  CONSTRAINT `manf_id` FOREIGN KEY (`manf_id`) REFERENCES `manufacturer` (`manf_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -191,7 +195,8 @@ CREATE TABLE `pharmacy` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `tax_id_UNIQUE` (`tax_num`),
   KEY `address_id_idx` (`address_id`),
-  CONSTRAINT `address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON UPDATE CASCADE
+  CONSTRAINT `address_id` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pharmacy_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -223,8 +228,8 @@ CREATE TABLE `review` (
   PRIMARY KEY (`review_id`),
   KEY `customer_id_idx` (`customer_id`),
   KEY `pharm_id_idx` (`pharm_id`),
-  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`user_id`) ON UPDATE CASCADE,
-  CONSTRAINT `pharm_id` FOREIGN KEY (`pharm_id`) REFERENCES `pharmacy` (`user_id`)
+  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `pharm_id` FOREIGN KEY (`pharm_id`) REFERENCES `pharmacy` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -250,7 +255,10 @@ CREATE TABLE `sells` (
   `med_id` int NOT NULL,
   `quantity` int NOT NULL,
   `price` decimal(18,2) NOT NULL,
-  PRIMARY KEY (`user_id`,`med_id`)
+  PRIMARY KEY (`user_id`,`med_id`),
+  KEY `product_id_idx` (`med_id`),
+  CONSTRAINT `product_id` FOREIGN KEY (`med_id`) REFERENCES `medication` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `seller_id` FOREIGN KEY (`user_id`) REFERENCES `pharmacy` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -323,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-12  5:55:58
+-- Dump completed on 2025-07-22 23:51:17

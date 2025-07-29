@@ -1,6 +1,8 @@
 package usermanagement.dao;
 
+import usermanagement.model.Address;
 import usermanagement.model.Customer;
+import usermanagement.model.Pharmacy;
 import usermanagement.model.User;
 
 import util.Utilities;
@@ -57,6 +59,32 @@ public class CustomerDao {
             e.printStackTrace();
         }
         return status;
+    }
+
+    //Customer DashBoard
+    public Customer getCustomerDashboard(int userId)  {
+        Customer customer = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM customer JOIN avatar USING (avatar_id)  JOIN user USING (user_id)WHERE user_id = ?");
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                customer = new Customer();
+                customer.setUserId(userId);
+                customer.setUsername(rs.getString("username"));
+                customer.setAvatarDirectory(rs.getString("directory_path"));
+                customer.setEmailAddress(rs.getString("email_address"));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return customer;
     }
 
     private void printSQLException(SQLException ex) {

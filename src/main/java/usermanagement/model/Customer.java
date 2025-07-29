@@ -7,6 +7,16 @@ public class Customer extends User implements Serializable {
     private int avatarId;
     private String emailAddress;
 
+    //for image display in customer dashboard
+    private String avatarDirectory;
+    public void setAvatarDirectory(String avatarDirectory) {
+        this.avatarDirectory = avatarDirectory;
+    }
+
+    public String getAvatarDirectory() {
+        return avatarDirectory;
+    }
+
     public int getAvatarId() {
         return avatarId;
     }

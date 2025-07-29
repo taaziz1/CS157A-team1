@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.Properties;
 
+
 public class Utilities {
 
     //SHA-256 hash for password storage and verification
