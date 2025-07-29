@@ -240,7 +240,17 @@
         </table>
     </div>
 </div>
-
+<%
+    String error = request.getParameter("error");
+    if ("invalid_credentials".equals(error)) {
+%>
+<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+                padding: 10px; margin: 20px auto; width: fit-content; border-radius: 6px;">
+    ❌ Incorrect credentials. Please try again.
+</div>
+<%
+    }
+%>
 
 <div style="display: block;">
     <hr style="width: 90%;  margin:30px ;">
@@ -336,18 +346,6 @@
 
 </script>
 
-<%
-    String error = request.getParameter("error");
-    if ("invalid_credentials".equals(error)) {
-%>
-<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
-                padding: 10px; margin: 20px auto; width: fit-content; border-radius: 6px;">
-    ❌ Incorrect credentials. Please try again.
-</div>
-<%
-    }
-%>
-
 <script>
     function openDeleteModal() {
         document.getElementById("deleteModal").style.display = "flex";
@@ -362,7 +360,7 @@
     setTimeout(function () {
         const alertBox = document.querySelector("div[style*='f8d7da']");
         if (alertBox) alertBox.style.display = 'none';
-    }, 2000);
+    }, 2500);
 </script>
 
 </body>
