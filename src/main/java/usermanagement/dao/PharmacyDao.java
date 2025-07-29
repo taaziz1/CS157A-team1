@@ -90,10 +90,13 @@ public class PharmacyDao {
                 pharmacy.setWebURL(rs.getString("web_url"));
                 pharmacy.setOperatingHours(rs.getString("operating_hours"));
                 pharmacy.setAddressId(rs.getInt("address_id"));
-                pharmacy.setRating(rs.getInt("average_rating"));
                 //Address
                 AddressDao addressDao = new AddressDao();
                 Address address = addressDao.getAddress(pharmacy.getAddressId());
+
+                // Compute and set the average rating
+                ReviewDao reviewDao = new ReviewDao();
+                pharmacy.setRating(reviewDao.getAverageRating(userId));
 
                 pharmacy.setAddress(address);
 
