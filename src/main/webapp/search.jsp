@@ -23,6 +23,16 @@
 
     <title id="title"></title>
 <style>
+  #flex {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .pharmCard {
+      width: 26rem;
+      cursor: pointer;
+      margin: 1.2rem;
+  }
   .distDisplay{
       color:green;
       font-size: 20px;
@@ -122,6 +132,7 @@
                 //If at least one pharmacy was returned by the query
                 else {
                     out.println(String.format("<h3 style=\"margin: 0.6rem;\">Pharmacies for %s</h3>", searchQuery));
+                    out.println("<div id=\"flex\">");
 
                     while (rs.next()) {
                         int pharmId = rs.getInt(1);
@@ -131,8 +142,8 @@
                         double price = rs.getDouble(5);
 
                         //Create a hyperlinked box for each pharmacy
-                        out.println(String.format("<div class=\"card\" onclick=\"location.href='/PharmaFinder/pharmacy.jsp?p=%d';\" " +
-                                "style=\"width: 26rem; cursor: pointer; margin: 1.2rem;\">\n" +
+                        out.println(String.format("<div class=\"card pharmCard\" onclick=\"location.href='/PharmaFinder/pharmacy.jsp?p=%d';\" " +
+                                "style=\"order: 0;\" data-dist=\"0\">\n" +
                                 "<div class=\"card-body\">\n" +
                                 "<h4 class=\"card-title\">%s</h4>\n" +
                                 "<h6 class=\"card-title pharmDist\">%s</h6>\n" +
@@ -143,6 +154,8 @@
 
                     }
                 }
+
+                out.println("</div>");
 
                 con.close();
             } catch (ClassNotFoundException | SQLException e) {

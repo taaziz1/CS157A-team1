@@ -129,7 +129,7 @@
   setTimeout(function () {
     const alertBox = document.querySelector("div[style*='f8d7da']");
     if (alertBox) alertBox.style.display = 'none';
-  }, 2000);
+  }, 2500);
 </script>
 
 </body>

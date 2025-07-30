@@ -448,14 +448,13 @@
 
 <div id="editModal" class="modal-overlay" style="display:none;">
     <form class="comment-box" id="editForm" method="POST" action="editReview">
-            <% Customer currentCustomer = customerDao.getCustomerDashboard((Integer) session.getAttribute("user_id")); %>
+        <% Customer currentCustomer = customerDao.getCustomerDashboard((Integer) session.getAttribute("user_id")); %>
         <img class="avatar" src="<%= currentCustomer.getAvatarDirectory() %>" alt="User Avatar">
 
         <div class="comment-content">
             <div class="comment-meta">
                 <div class="comment-header">
-                    <div class="user-name"><%= currentCustomer.getUsername() %>
-                    </div>
+                    <div class="user-name"><%= currentCustomer.getUsername() %></div>
 
                     <div class="star-rating" id="modal-star-rating">
                         <span class="fa fa-star" data-value="1"></span>
@@ -468,21 +467,21 @@
                     <input type="hidden" name="rating" id="modal-rating-value">
                     <input type="hidden" name="pharmacyId" value="<%= pharmacy.getUserId() %>">
                     <input type="hidden" name="customerId" value="<%= currentCustomer.getUserId() %>">
-                </div>
 
-                <textarea class="comment-textarea" name="content" id="modal-review-content"
-                          placeholder="Edit your comment..." required></textarea>
+                    <textarea class="comment-textarea" name="content" id="modal-review-content"
+                              placeholder="Edit your comment..." required></textarea>
 
-                <div class="comment-footer">
-                    <button type="submit" class="comment-submit">Save</button>
-                    <button type="button" class="comment-submit" onclick="closeModal()">Cancel</button>
+                    <div class="comment-footer">
+                        <button type="submit" class="comment-submit">Save</button>
+                        <button type="button" class="comment-submit" onclick="closeModal()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
-</div>
-</form>
+    </form>
 </div>
 <% } %>
+
 
 <%-- Dynamic Tab Title --%>
 <script>
