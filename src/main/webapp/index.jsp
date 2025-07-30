@@ -131,15 +131,16 @@
 
 	<% if (session.getAttribute("user_id") == null) { %>
 		 <%--PHARMACY CARD--%>
-			 <div class="navend">
+			 <div class="navend" style="margin-top:-10px;">
 	  <div class="pharm-card">
-			<p class="formPath">Customers</p>
+			<p class="formPath" >Customers</p>
 			<div class="pharm">
 			<div class="card">
 
 					<p>Make an account or log in.</p>
-					<a href="custLogIn.jsp" class="btn btn-primary">Log in</a>
-					<a href="registerCust.jsp" class="btn btn-primary">Register</a>
+					<a href="custLogIn.jsp" class="btn btn-primary" style="margin:1px 0 ;">Log in</a>
+
+					<a href="registerCust.jsp" class="btn btn-primary" >Register</a>
 				</div>
 
 		</div>
@@ -151,7 +152,7 @@
 			<div class="card">
 
 					<p>Register your pharmacy or log in.</p>
-					<a href="pharmLogIn.jsp" class="btn btn-primary">Log in</a>
+					<a href="pharmLogIn.jsp" class="btn btn-primary" style="margin:1px 0 ;">Log in</a>
 					<a href="registerPharm.jsp" class="btn btn-primary">Register</a>
 				</div>
 
