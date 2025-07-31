@@ -49,7 +49,7 @@ public class MedicationUpdateServlet extends HttpServlet {
         }
 if(status){
     //success
-    response.sendRedirect("loginPharmacySuccess.jsp");
+    response.sendRedirect("pharmDashboard.jsp");
 }
 else{
     //failed

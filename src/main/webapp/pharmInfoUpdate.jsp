@@ -217,7 +217,7 @@
         <%-- BUTTONS: Update and Cancel --%>
         <div class="d-flex justify-content-start gap-2 mt-3">
           <button class="btn btn-primary btn-lg" type="submit">Update</button>
-          <a href="loginPharmacySuccess.jsp" class="btn btn-secondary btn-lg">Cancel</a>
+          <a href="pharmDashboard.jsp" class="btn btn-secondary btn-lg">Cancel</a>
         </div>
   </form>
 </div>

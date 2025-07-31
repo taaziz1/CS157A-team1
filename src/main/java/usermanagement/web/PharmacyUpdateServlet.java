@@ -84,7 +84,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         }
 
         if (status > 0) {
-            response.sendRedirect("loginPharmacySuccess.jsp");
+            response.sendRedirect("pharmDashboard.jsp");
         } else {
             // Set error message
             request.setAttribute("errorMessage", "Please choose a different username.");

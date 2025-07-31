@@ -171,7 +171,7 @@
                 } else if (customerName == null && pharmName != null) {
                 %>
                 <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath"
-                                                                              href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
+                                                                              href="pharmDashboard.jsp"> <%= pharmName %></a></span>
                 <a href="logout" class="btn btn-outline-danger">Logout</a>
                 <%
                         }

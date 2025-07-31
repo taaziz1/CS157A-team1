@@ -25,7 +25,7 @@ public class MedicationDeleteServlet extends HttpServlet {
         try {
            boolean deleted = medicationdao.deleteMedication(userId,medId);
             if(deleted){
-                response.sendRedirect("loginPharmacySuccess.jsp");
+                response.sendRedirect("pharmDashboard.jsp");
             }else{
                 request.setAttribute("errorMessage", "Deletion failed, Please try again");
             }

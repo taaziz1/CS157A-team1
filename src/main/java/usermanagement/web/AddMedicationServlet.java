@@ -55,7 +55,7 @@ public class AddMedicationServlet  extends HttpServlet {
         }
 
         if (status){
-            response.sendRedirect("loginPharmacySuccess.jsp");
+            response.sendRedirect("pharmDashboard.jsp");
         }else{
             System.out.println("Forwarding to edit page with: " + medId + ", " + userId);
             request.getRequestDispatcher("addMeds.jsp").forward(request, response);
