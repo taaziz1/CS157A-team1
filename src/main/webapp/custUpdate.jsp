@@ -85,13 +85,13 @@
     <% } %>
     <input type="submit" class="w-100 btn btn-primary btn-lg" value="Update Customer">
 
+    <a href="custDashboard.jsp">
+        Back to Dashboard
+    </a>
 </form>
     </main>
 
-<br>
-<a href="customerDashboard.jsp">
-    Back to Dashboard
-</a>
+
 
 </body>
 </html>

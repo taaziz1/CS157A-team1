@@ -66,13 +66,14 @@
             <a class="navstart homePage" style="font-weight:bold;" href="index.jsp">PharmaFinder</a>
         </div>
 
-        <div class="navend" >
+
 
             <%--TAKE ADDRESS--%>
-
-            <input type="text" id="location"  placeholder="Enter your location">
-            <button id="submitBtnLocation">Submit</button>
-
+                <div class="navend">
+                    <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
+                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
+                </div>
+        <div class="navend" >
             <%
                 String customerName = (String) session.getAttribute("username1");
                 String pharmName = (String) session.getAttribute("username2");

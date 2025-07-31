@@ -37,6 +37,8 @@
 			<div class="form-floating">
 				<input type="password" class="form-control" id="floatingPassword" name="password"
 					placeholder="Password"> <label for="floatingPassword">Password</label>
+				<input type="checkbox" onclick="passwordFunction()">Show Password
+
 			</div>
 			<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
 			<% if (errorMessage != null) { %>
@@ -49,6 +51,7 @@
 		</form>
 	</div>
 </main>
-	
+	<script src="index.js">
+	</script>
 </body>
 </html>

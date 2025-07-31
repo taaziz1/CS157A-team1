@@ -50,7 +50,7 @@
     <label for="qty">Quantity:</label>
     <input type="number" name="qty" id="qty" required /><br><br>
 
-    <input class="btn btn-primary" type="submit" style="" value="Update Medication" />
+    <input class="btn btn-primary" type="submit"  value="Update Medication" />
 
 </form>
 

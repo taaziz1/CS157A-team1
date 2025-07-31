@@ -51,6 +51,6 @@
 		</form>
 	</div>
 </main>
-	
+<script src="index.js"></script>
 </body>
 </html>

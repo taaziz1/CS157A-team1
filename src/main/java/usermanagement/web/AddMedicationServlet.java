@@ -46,18 +46,15 @@ public class AddMedicationServlet  extends HttpServlet {
         boolean status = false;
         try{
             status = medDao.insertMedication(med,userId);
-        }catch(SQLException e){
-            if (e.getErrorCode() == 1062) {
-                request.getRequestDispatcher("addMeds.jsp").forward(request, response);
-                return;
-            }
-            throw new RuntimeException(e);
+
+        } catch(SQLException e){
+           throw new RuntimeException(e);
         }
 
         if (status){
             response.sendRedirect("loginPharmacySuccess.jsp");
         }else{
-            System.out.println("Forwarding to edit page with: " + medId + ", " + userId);
+            request.setAttribute("errorMessage", "Medication already present");
             request.getRequestDispatcher("addMeds.jsp").forward(request, response);
 
         }
