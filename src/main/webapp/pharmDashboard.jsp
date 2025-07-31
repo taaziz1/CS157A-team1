@@ -61,6 +61,11 @@
             justify-content: space-around;
             width: 70px;
         }
+
+        /* for stars */
+        .checked {
+            color: #f7d792;
+        }
     </style>
 </head>
 
@@ -230,11 +235,11 @@
                     <!-- Library for star-->
                     <link rel="stylesheet"
                           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                    <span class="fa fa-star star1"></span>
-                    <span class="fa fa-star star2"></span>
-                    <span class="fa fa-star star3"></span>
-                    <span class="fa fa-star star4"></span>
-                    <span class="fa fa-star star5"></span>
+                    <span class="fa fa-star-o star1 checked"></span>
+                    <span class="fa fa-star-o star2 checked"></span>
+                    <span class="fa fa-star-o star3 checked"></span>
+                    <span class="fa fa-star-o star4 checked"></span>
+                    <span class="fa fa-star-o star5 checked"></span>
                 </td>
             </tr>
         </table>
@@ -331,13 +336,18 @@
 
 
 <script>
-    //star rating color
+    //Display stars for rating
     let starRating = "<%=pharmacy.getRating()%>";
 
+    let i;
+    for (i = 1; i < starRating; i++) {
+        let star = document.querySelector(".star" + i);
+        star.setAttribute("class", "fa fa-star checked");
+    }
 
-    for (let i = 0; i < starRating; i++) {
-        let star = document.querySelector(".star" + (i + 1));
-        star.style.color = "#f7d792";
+    if(starRating - Math.floor(starRating) >= 0.5) {
+        let star = document.querySelector(".star" + i);
+        star.setAttribute("class", "fa fa-star-half-full checked");
     }
 
     //deletion Confirmation

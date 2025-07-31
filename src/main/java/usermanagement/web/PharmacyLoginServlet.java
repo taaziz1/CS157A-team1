@@ -36,7 +36,7 @@ public class PharmacyLoginServlet extends HttpServlet {
             	HttpSession session = request.getSession();
             	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
                 session.setAttribute("username2", user.getUsername());
-                response.sendRedirect("loginPharmacySuccess.jsp");
+                response.sendRedirect("pharmDashboard.jsp");
 
 
             } else {
