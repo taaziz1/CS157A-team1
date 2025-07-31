@@ -47,7 +47,7 @@ String userId =request.getParameter("user_id");
         <form action="addMed" method="post">
             <input type="hidden" name="user_id" value="<%= userId %>" />
             <h1 class="h3 mb-3 fw-normal">Add medication</h1>
-            <div> <label for="state" class="form-label">Medication Name </label> <select class="form-select" id="state" name="med_id" required/> <option value="">Choose...</option>
+            <div> <label for="med" class="form-label">Medication Name </label> <select class="form-select" id="med" name="med_id" required/> <option value="">Choose...</option>
                 <%
                     MedicationDao medicationDao = new MedicationDao();
                     List<Medication> medications = medicationDao.listMeds();
@@ -71,5 +71,9 @@ String userId =request.getParameter("user_id");
         </form>
     </div>
 </main>
+<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+<% if (errorMessage != null) { %>
+<div style="color: red; font-weight: bold;"><%= errorMessage %></div>
+<% } %>
 </body>
 </html>

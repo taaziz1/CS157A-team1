@@ -1,13 +1,12 @@
 package usermanagement.dao;
 
-import usermanagement.model.Address;
-import usermanagement.model.Customer;
-import usermanagement.model.Pharmacy;
-import usermanagement.model.User;
+import usermanagement.model.*;
 
 import util.Utilities;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDao {
     public int registerCustomer(Customer customer) {
@@ -85,6 +84,53 @@ public class CustomerDao {
         }
 
         return customer;
+    }
+    //Avatars
+    public List<String> avatarList() {
+        List<String> avList = new ArrayList<>();
+
+        String query = "SELECT * FROM avatar";
+
+        try {Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"),
+                    Utilities.getdbvar("pass"));
+                 PreparedStatement ps = con.prepareStatement(query);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    int id = rs.getInt("avatar_id");
+                    String path = rs.getString("directory_path");
+                    avList.add(id + "|" + path);
+                }
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return avList;
+    }
+
+    //update customer
+private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c ON u.user_id = c.user_id " +
+        "SET c.avatar_id = ?, c.email_address = ?, u.username = ? " +
+        "WHERE c.user_id = ?";
+
+
+    public boolean updateCustomer(Customer customer) throws SQLException {
+        boolean rowUpdated = false;
+        try ( Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+              PreparedStatement ps = con.prepareStatement(UPDATE_CUSTOMER_SQL)) {
+            ps.setInt(1,customer.getAvatarId());
+            ps.setString(2, customer.getEmailAddress());
+            ps.setString(3,customer.getUsername() );
+            ps.setInt(4, customer.getUserId());
+            rowUpdated = ps.executeUpdate() > 0;
+        }
+        return rowUpdated;
     }
 
     private void printSQLException(SQLException ex) {

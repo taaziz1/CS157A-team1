@@ -84,6 +84,16 @@
     Delete Account
   </button>
 </div>
+<!-- Update Account Button -->
+<div class="custDashBorder" style="margin-top: 20px;">
+  <form action="custUpdate.jsp" method="get">
+    <input type="hidden" name="userId" value="<%= userId %>">
+    <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
+    <button type="submit" class="comment-submit" style="background-color: #28a745;">
+      Update Account
+    </button>
+  </form>
+</div>
 
 <!-- Modal -->
 <div id="deleteModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -92,7 +102,7 @@
         style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333;"
         onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
     <h4>Please enter your password to confirm:</h4>
-    <input type="hidden" name="user_id" value="<%= customer.getUserId() %>">
+    <input type="hidden" name="user_id" value="<%= userId %>">
     <input type="password" name="password" required placeholder="Enter password"
            style="padding: 8px; width: 100%; margin-top: 10px; margin-bottom: 20px;">
 

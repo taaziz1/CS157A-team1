@@ -58,12 +58,12 @@
 <div class=" container">
   <h1>Reset your Password</h1>
 
-  <form action="pharmResetPassword"" method="post" class="needs-validation" novalidate="">
+  <form action="pharmResetPassword" method="post" class="needs-validation" novalidate="">
     <input type="hidden" name="user_id" value="<%= session.getAttribute("user_id") %>">
 
     <div class="row">
       <%-- TAX NUMBER --%>
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <label for="tax_Number" class="form-label">Tax Number</label> <input
               type="text" class="form-control" id="tax_Number" name="tax_Number" placeholder=""
               value="" required="">

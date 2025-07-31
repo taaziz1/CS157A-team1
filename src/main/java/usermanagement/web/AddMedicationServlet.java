@@ -10,6 +10,7 @@ import usermanagement.model.Medication;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @WebServlet("/addMed")
 public class AddMedicationServlet  extends HttpServlet {
@@ -46,6 +47,10 @@ public class AddMedicationServlet  extends HttpServlet {
         try{
             status = medDao.insertMedication(med,userId);
         }catch(SQLException e){
+            if (e.getErrorCode() == 1062) {
+                request.getRequestDispatcher("addMeds.jsp").forward(request, response);
+                return;
+            }
             throw new RuntimeException(e);
         }
 

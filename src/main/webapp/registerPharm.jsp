@@ -20,6 +20,7 @@
 
 .btn {
 	margin: 20px;
+
 }
 </style>
 </head>
@@ -214,7 +215,7 @@
 
 
 					</div>
-					<a href="index.jsp" style="text-decoration: none; color: gray;">Cancel</a>
+					<a href="index.jsp" style="text-decoration: none; color: grey;">Cancel</a>
 			</form>
 		</div>
 	

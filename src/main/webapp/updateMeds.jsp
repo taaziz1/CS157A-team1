@@ -38,9 +38,11 @@
 
 <h1>Edit Medication </h1>
 
+
 <form method="post" action="updateMedication">
     <input type="hidden" name="med_id" value="<%= medIdParam %>" />
     <input type="hidden" name="user_id" value="<%= userIdParam %>" />
+
 
     <label for="price">Price:</label>
     <input type="text" name="price" id="price" required /><br><br>
