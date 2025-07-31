@@ -314,15 +314,25 @@
             <%
                 ReviewDao reviewDao = new ReviewDao();
                 double rating = reviewDao.getAverageRating(userId);
-                int roundedRating = (int) Math.round(rating);
+                double decimal = rating - Math.floor(rating);
+                double ratingCopy = rating;
 
-                for (int rate = 1; rate <= 5; rate++) {
-                    if (rate <= roundedRating) {
-                        out.println("<span class=\"fa fa-star checked\"></span>");
-                    } else {
-                        out.println("<span class=\"fa fa-star\"></span>");
-                    }
+                //Full stars
+                for(int i = 1; i <= rating; i++) {
+                    out.println("<span class=\"fa fa-star checked\"></span>");
                 }
+
+                //Half star
+                if(decimal >= 0.5) {
+                    out.println("<span class=\"fa fa-star-half-full checked\"></span>");
+                    ratingCopy++;
+                }
+
+                //Empty stars
+                for(double x = ratingCopy; x < 5; x++) {
+                    out.println("<span class=\"fa fa-star-o checked\"></span>");
+                }
+
                 out.println(String.format(
                         "<p style=\"font-size: x-large; margin-top: 0.5rem;\">Average Rating: %.2f</p>", rating));
             %>
