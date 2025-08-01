@@ -61,11 +61,21 @@
 					</div>
 					
                     <%-- PASSWORD --%>
-					<div class="col-sm-12">
-						<label for="password" class="form-label">Password</label> <input
-							type="password" class="form-control" id="password" name="password" placeholder=""
-							value="" required="">
-					</div>
+					   <div class="col-sm-12">
+						   <label for="password" class="form-label">Password</label>
+						   <input
+								   type="password"
+								   class="form-control"
+								   id="password"
+								   name="password"
+								   required
+								   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+								   title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.">
+						   <div class="invalid-feedback">
+							   Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
+						   </div>
+					   </div>
+
 					
 					<%-- EMAIL --%>
 					<div class="col-md-12">
@@ -90,6 +100,22 @@
 			 <a href="index.jsp"style="text-decoration:none; color:gray;">Cancel</a></form>
 		</div>
 	</div>
+	<script>
+		// Bootstrap form validation
+		(function () {
+			'use strict'
+			const forms = document.querySelectorAll('.needs-validation')
+			Array.from(forms).forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
 
 </body>
 </html>
