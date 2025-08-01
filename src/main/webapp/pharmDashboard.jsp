@@ -115,15 +115,67 @@
     </a>
 
     <!-- Reset Password Button -->
-    <a href="pharmResetPassword.jsp" class="btn btn-warning">
+    <button type="button" onclick="openResetModal()" class="btn btn-warning">
         🔒 Reset Password
-    </a>
+    </button>
 
     <!-- Delete Account Button with Confirmation -->
     <button type="button" class="btn btn-danger" onclick="openDeleteModal()">
         🗑 Delete Account
     </button>
 
+</div>
+
+<!-- Reset Password Modal -->
+<div id="resetPasswordModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 9999;">
+
+    <form action="pharmResetPassword" method="post" class="needs-validation" novalidate=""
+          style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333; width: 400px;"
+          class="needs-validation" novalidate>
+
+        <h3 style="margin-bottom: 20px;">🔒 Reset Your Password</h3>
+
+        <input type="hidden" name="user_id" value="<%= session.getAttribute("user_id") %>">
+
+        <!-- Tax Number -->
+        <label for="tax_Number" style="font-weight: bold;">Tax Number</label>
+        <input type="text" id="tax_Number" name="tax_Number" required
+               placeholder="Enter Tax Number"
+               style="padding: 8px; width: 100%; margin: 8px 0 16px 0;">
+
+        <!-- Current Password -->
+        <label for="current_password" style="font-weight: bold;">Current Password</label>
+        <input type="password" id="current_password" name="current_password" required
+               placeholder="Enter Current Password"
+               style="padding: 8px; width: 100%; margin: 8px 0 16px 0;">
+
+        <!-- New Password -->
+        <label for="new_password" style="font-weight: bold;">New Password</label>
+        <input
+                type="password"
+                id="new_password"
+                name="new_password"
+                required
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long."
+                placeholder="Enter New Password"
+                style="padding: 8px; width: 100%; margin: 8px 0 20px 0;">
+        <div class="invalid-feedback">
+            Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
+        </div>
+
+        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+        <% if (errorMessage != null) { %>
+        <div style="color: red; font-weight: bold; margin-bottom: 16px;"><%= errorMessage %></div>
+        <% } %>
+
+        <!-- Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="submit" class="comment-submit" style="background-color: #0d6efd; color: white;">Change Password</button>
+            <button type="button" class="comment-submit" onclick="closeResetModal()">Cancel</button>
+        </div>
+    </form>
 </div>
 
 <!-- Modal -->
@@ -249,13 +301,28 @@
     String error = request.getParameter("error");
     if ("invalid_credentials".equals(error)) {
 %>
-<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
-                padding: 10px; margin: 20px auto; width: fit-content; border-radius: 6px;">
+<div id="errorPopup" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 1rem;
+    text-align: center;
+">
     ❌ Incorrect credentials. Please try again.
 </div>
 <%
     }
 %>
+
+
 
 <div style="display: block;">
     <hr style="width: 90%;  margin:30px ;">
@@ -368,10 +435,48 @@
 </script>
 
 <script>
-    setTimeout(function () {
-        const alertBox = document.querySelector("div[style*='f8d7da']");
-        if (alertBox) alertBox.style.display = 'none';
-    }, 2500);
+    function openResetModal() {
+        document.getElementById("resetPasswordModal").style.display = "flex";
+    }
+    function closeResetModal() {
+        document.getElementById("resetPasswordModal").style.display = "none";
+    }
+</script>
+
+<script>
+    setTimeout(() => {
+        const popup = document.getElementById('errorPopup');
+        if (popup) popup.style.display = 'none';
+    }, 3000); // 3 seconds
+</script>
+
+<%
+    Boolean openResetModal = (Boolean) request.getAttribute("openResetModal");
+%>
+
+<script>
+    window.onload = function () {
+        <% if (openResetModal != null && openResetModal) { %>
+        openResetModal(); // Call your JS function to show the modal
+        <% } %>
+    }
+</script>
+
+<script>
+    // Bootstrap form validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 
 </body>
