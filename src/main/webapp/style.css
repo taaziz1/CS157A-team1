@@ -67,7 +67,7 @@ h1 {
 /* === Gradient Text === */
 .formPath {
 	margin: 0 1.5em;
-	background-image: linear-gradient(#4a484a 50%, #2B06FF 50%);
+	background-image: linear-gradient(white 50%, #2500ff 50%);
 	color: transparent;
 	background-clip: text;
 	-webkit-background-clip: text;
@@ -79,7 +79,9 @@ h1 {
 	.formPath:hover {
 		background-position: 0 100%;
 	}
+
 }
+
 
 /* === Comment / Review Styling === */
 .comment-container,

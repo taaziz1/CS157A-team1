@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpSession;
+import usermanagement.model.Customer;
 import usermanagement.model.User;
 import usermanagement.dao.LoginDao;
 
@@ -27,12 +28,14 @@ public class CustomerLoginServlet extends HttpServlet {
         user.setUsername(username);
         user.setPassword(password);
 
+
         try {
             if (loginDao.validate(user, "customer")) {
                 response.sendRedirect("index.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
                 session.setAttribute("username1", username);
+
             } else {
                 // Set error message
                 request.setAttribute("errorMessage", "Invalid username or password. Please try again.");

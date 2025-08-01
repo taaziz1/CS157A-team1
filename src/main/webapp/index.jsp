@@ -8,7 +8,7 @@
 <%@ page import="util.Utilities" %>
 
 <!DOCTYPE html>
-<html>
+<html >
 <head>
 
 	<style>
@@ -45,6 +45,10 @@
 		padding: .2em .4em;
 		margin: .1em 0 .2em;
 		line-height: 1.5;
+	}
+	/*custmerr and pharmacy colors*/
+	.formPath{
+		background-image: linear-gradient(white 50%, #00baf5 50%) !important;
 	}
 
 	/*CARDS DROPDOWN*/
@@ -89,13 +93,32 @@
 		rel="stylesheet"
 		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
 		crossorigin="anonymous">
+	<style>
+
+		.logoutcolor {
+			margin: 0 20px;
+			background-image: linear-gradient(#4a484a 50%, #ff0606 50%);
+			color: transparent;
+			background-clip: text;
+			-webkit-background-clip: text;
+			background-size: 100% 200%;
+			transition: all 200ms ease-out;
+		}
+
+		@media (hover: hover) {
+			.logoutcolor:hover {
+				background-position: 0 100%;
+			}
+
+		}
+	</style>
 
 </head>
 
-<body>
+<body style="background-image:url('BackgroundImages/background-image.png') ; background-repeat: no-repeat; background-size: 100% 100%;">
 	<%--NAVIGATION BAR --%>
 	 <div class="fullscreen">
-		 <nav class=" bg-body-tertiary navbar">
+		 <nav class=" navbar">
 			<div class="navstart">
 			   <%--ICON--%>
 				<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25">
@@ -115,12 +138,12 @@
 				 %>
 
 				 <span class="navend " style="margin:0;padding-right: 20px;"> <a  class="formPath" href="custDashboard.jsp"><%= customerName %></a></span>
-				 <a href="logout" class="btn btn-outline-danger">Logout</a>
+				 <a class="logoutcolor" href="logout" >Logout</a>
 				 <%
 					 }else if(customerName==null && pharmName!=null){
 				 %>
 				 <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath" href="pharmDashboard.jsp"> <%= pharmName %></a></span>
-				 <a href="logout" class="btn btn-outline-danger">Logout</a>
+				 <a class="logoutcolor" href="logout" >Logout</a>
 				 <%
 					 }
 					 }
@@ -162,12 +185,13 @@
 	<% } %>
 	</nav>
 		<%--HEADING--%>
-		<h1>Welcome to PharmaFinder</h1>
+		<h1 style="color:white;">PharmaFinder</h1>
 
 		<%--SEARCH BAR--%>
-		<div class="searchdiv">
+		<div class="searchdiv" >
 		 <form class="w-100 me-3" role="search">
 		  <input id="mainSearch" type="search" class="form-control" placeholder="Search..." aria-label="Search">
+
 		 </form>
 		</div>
 
