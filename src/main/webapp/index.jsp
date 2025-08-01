@@ -111,6 +111,19 @@
 			}
 
 		}
+		.centerHomepage{
+			margin-top:4rem;
+		}
+		h1{
+			font-size: 5rem;
+			margin-top:10rem;
+			text-shadow: 2px 2px 3px black;
+		}
+		.ui-autocomplete{
+			height:300px;
+			overflow-y: auto;
+		}
+
 	</style>
 
 </head>
@@ -153,7 +166,8 @@
 
 
 	<% if (session.getAttribute("user_id") == null) { %>
-		 <%--PHARMACY CARD--%>
+			 <%--USER CARD--%>
+
 			 <div class="navend" style="margin-top:-10px;">
 	  <div class="pharm-card">
 			<p class="formPath" >Customers</p>
@@ -161,21 +175,21 @@
 			<div class="card">
 
 					<p>Make an account or log in.</p>
-					<a href="custLogIn.jsp" class="btn btn-primary" style="margin:1px 0 ;">Log in</a>
+					<a href="custLogIn.jsp" class="btn btn-primary" style="margin:2px 0 ;">Log in</a>
 
 					<a href="registerCust.jsp" class="btn btn-primary" >Register</a>
 				</div>
 
 		</div>
 	</div>
-	<%--USER CARD--%>
+				 <%--PHARMACY CARD--%>
 		<div class="customer-card">
 			<p class="formPath">Pharmacies</p>
 			<div class="customer">
 			<div class="card">
 
 					<p>Register your pharmacy or log in.</p>
-					<a href="pharmLogIn.jsp" class="btn btn-primary" style="margin:1px 0 ;">Log in</a>
+					<a href="pharmLogIn.jsp" class="btn btn-primary" style="margin:2px 0 ;">Log in</a>
 					<a href="registerPharm.jsp" class="btn btn-primary">Register</a>
 				</div>
 
@@ -185,8 +199,9 @@
 	<% } %>
 	</nav>
 		<%--HEADING--%>
-		<h1 style="color:white;">PharmaFinder</h1>
 
+		<h1 style="color:white;">PharmaFinder</h1>
+		 <div class="centerHomepage">
 		<%--SEARCH BAR--%>
 		<div class="searchdiv" >
 		 <form class="w-100 me-3" role="search">
@@ -194,7 +209,7 @@
 
 		 </form>
 		</div>
-
+		 </div>
 	</div>
 
 	<%--Functionality for Search--%>
