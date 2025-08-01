@@ -70,12 +70,21 @@
 							<div class="invalid-feedback">Your username is required.</div>
 						</div>
 					</div>
-					<%-- PASSWORD --%>
-					<div class="col-sm-12">
-						<label for="password" class="form-label">Password</label> <input
-							type="password" class="form-control" id="password" name="password" placeholder=""
-							value="" required="">
-					</div>
+						<%-- PASSWORD --%>
+						<div class="col-sm-12">
+							<label for="password" class="form-label">Password</label>
+							<input
+									type="password"
+									class="form-control"
+									id="password"
+									name="password"
+									required
+									pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+									title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.">
+							<div class="invalid-feedback">
+								Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
+							</div>
+						</div>
 
 					<%-- ADDRESS --%>
 					<div class="col-12">
@@ -154,12 +163,21 @@
 					</div>
 
 					<%-- ZIPCODE --%>
-					<div class="col-md-6">
-						<label for="zip" class="form-label">Zip Code</label> <input
-							type="number" class="form-control" id="zip" name="zip" placeholder=""
-							required="">
-						<div class="invalid-feedback">Zip code required.</div>
-					</div>
+						<div class="col-md-6">
+							<label for="zip" class="form-label">Zip Code</label>
+							<input
+									type="text"
+									class="form-control"
+									id="zip"
+									name="zip"
+									placeholder=""
+									required
+									pattern="\d{5}"
+									maxlength="5"
+									title="Zip code must be exactly 5 digits">
+							<div class="invalid-feedback">Zip code must be exactly 5 digits.</div>
+						</div>
+
 
 
 					<%-- PHONE NUMBER --%>
@@ -218,7 +236,22 @@
 					<a href="index.jsp" style="text-decoration: none; color: grey;">Cancel</a>
 			</form>
 		</div>
-	
-		
+
+	<script>
+		// Bootstrap form validation
+		(function () {
+			'use strict'
+			const forms = document.querySelectorAll('.needs-validation')
+			Array.from(forms).forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
 </body>
 </html>

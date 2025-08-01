@@ -72,7 +72,7 @@ String userId =request.getParameter("user_id");
             <% } %>
 
             <input class="btn btn-primary w-100 py-2 " type="submit" value="Add Medication ">
-            <a href="loginPharmacySuccess.jsp"class="btn  w-100 py-2 ">Cancel<a>
+            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel<a>
 
         </form>
     </div>
