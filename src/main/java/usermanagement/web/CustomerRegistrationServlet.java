@@ -47,7 +47,7 @@ public class CustomerRegistrationServlet extends HttpServlet {
             response.sendRedirect("index.jsp");
         } else {
             // Set error message
-            request.setAttribute("errorMessage", "Please choose a different username.");
+            request.setAttribute("errorMessage", "Invalid credentials. Please try again.");
 
             // Forward to login page with error message
             request.getRequestDispatcher("registerCust.jsp").forward(request, response);

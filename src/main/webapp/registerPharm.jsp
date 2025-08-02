@@ -210,20 +210,22 @@
 						<span class="text-body-secondary"> In military time-format</span></div>
 						<br>
 						<label>Sunday</label><input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00">
+							placeholder="e.g., 09:00-17:00" required="">
 						 <label>Monday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00"> 
-							<label>Tuesday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00"> 
-							<label>Wednesday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00"> 
-							<label>Thursday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00"> 
-							<label>Friday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00">
-							 <label>Saturday</label><input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00">
-					</div>
+							placeholder="e.g., 09:00-17:00" required="">
+						<label>Tuesday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00" required="">
+						<label>Wednesday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00" required="">
+						<label>Thursday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00" required="">
+						<label>Friday</label> <input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00" required="">
+						<label>Saturday</label><input type="text" class="form-control" name="operating_hours"
+							placeholder="e.g., 09:00-17:00" required="">
+						<div class="invalid-feedback">Please fill in every day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.
+						</div>
+				</div>
 
 				<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
 				<% if (errorMessage != null) { %>

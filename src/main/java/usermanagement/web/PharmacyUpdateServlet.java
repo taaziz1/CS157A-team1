@@ -86,7 +86,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
             response.sendRedirect("pharmDashboard.jsp");
         } else {
             // Set error message
-            request.setAttribute("errorMessage", "Please choose a different username.");
+            request.setAttribute("errorMessage", "Invalid credentials. Please try again");
 
             // Forward to login page with error message
             request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);

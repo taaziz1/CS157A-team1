@@ -213,11 +213,13 @@
             for (int i = 0; i < timings.length && i < daysOfWeek.length; i++) {
           %>
         <label><%= daysOfWeek[i] %></label>
-        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>">
+        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>" required="">
           <% } %>
+        <div class="invalid-feedback">Please fill in every day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.</div>
 
 
-      <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+
+        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
     <% if (errorMessage != null) { %>
     <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
     <% } %>
@@ -229,6 +231,21 @@
         </div>
   </form>
 </div>
-
+<script>
+  // Bootstrap form validation
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
 </body>
 </html>
