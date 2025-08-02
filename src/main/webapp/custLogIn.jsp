@@ -35,7 +35,7 @@
 <%--LOG IN--%>
 <main class="form-signin w-100 m-auto" >
 	<div class="bubble">
-		<form action="<%=request.getContextPath()%>/loginPharmacy" method="post" style="background-color: white;  padding:20px; border-radius:20px;">
+		<form action="<%=request.getContextPath()%>/loginCustomer" method="post" style="background-color: white;  padding:20px; border-radius:20px;">
 			<h1 class="h3 mb-3 fw-normal" >Please sign in</h1>
 			<div class="form-floating">
 				<input type="text" class="form-control" id="floatingInput"
