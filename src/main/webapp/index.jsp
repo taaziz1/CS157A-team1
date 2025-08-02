@@ -193,7 +193,7 @@
 		<% } %>
 	</nav>
 	<%--HEADING--%>
-	<h1 style="color:white; padding-top:8%; font-size: xxx-large;">PharmaFinder</h1>
+	<h1 style="color:white; opacity: 90%; text-shadow: 1px 1px 12px darkblue; padding-top:8%; font-size: 4.0em;">PharmaFinder</h1>
 
 	<%--SEARCH BAR--%>
 	<div class="searchdiv">
