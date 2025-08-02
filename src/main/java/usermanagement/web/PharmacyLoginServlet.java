@@ -40,11 +40,7 @@ public class PharmacyLoginServlet extends HttpServlet {
 
 
             } else {
-                // Set error message
-                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
-
-                // Forward to login page with error message
-                request.getRequestDispatcher("pharmLogIn.jsp").forward(request, response);
+                response.sendRedirect("pharmLogIn.jsp?error=invalid_credentials");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

@@ -37,11 +37,7 @@ public class CustomerLoginServlet extends HttpServlet {
                 session.setAttribute("username1", username);
 
             } else {
-                // Set error message
-                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
-
-                // Forward to login page with error message
-                request.getRequestDispatcher("custLogIn.jsp").forward(request, response);
+                response.sendRedirect("custLogIn.jsp?error=invalid_credentials");
             }
             
         } catch (ClassNotFoundException e) {

@@ -66,7 +66,7 @@
 		/*SEARCH CATEGORIES*/
 		.ui-autocomplete-category {
 			font-weight: bold;
-			padding: .2em .4em;
+			padding: .2em .4em 0.05em;
 			margin: .1em 0 .2em;
 			line-height: 1.5;
 		}
@@ -127,10 +127,10 @@
 				<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
 			</svg>
 
-			<span style="font-weight:bold; color: white" class="navstart">PharmaFinder</span>
+			<span style="font-weight:bold; color: white;" class="navstart">PharmaFinder</span>
 		</div>
 
-		<div class="navend" >
+		<div class="navend">
 			<%
 				String customerName = (String) session.getAttribute("username1");
 				String pharmName = (String) session.getAttribute("username2");
@@ -159,7 +159,7 @@
 
 		<% if (session.getAttribute("user_id") == null) { %>
 
-		<div class="navend" style="margin-top:-10px;">
+		<div class="navend" style="margin-top:-14px;">
 
 			<%--Customer Card--%>
 			<div class="pharm-card">
@@ -178,7 +178,7 @@
 
 			<%--Pharmacy Card--%>
 			<div class="customer-card">
-				<p class="formPath" style="color:white">Pharmacies</p>
+				<p class="formPath" style="color:white;">Pharmacies</p>
 				<div class="customer">
 					<div class="card" style="margin-top:5px">
 
