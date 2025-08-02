@@ -47,11 +47,7 @@
     </svg>
 
     <a class="navstart homePage">PharmaFinder</a>
-    <%-- NEED TO CHANGE THIS LATER ON FOR IT TO LOG OUT --%>
 
-  </div>
-  <div class="navend ">
-    <a   class="test" href="logout" style="color:grey;" >Log Out</a>
   </div>
 </nav>
 
@@ -66,8 +62,8 @@
 
 %>
 
-<div class=" container">
-  <h1>Register your Pharmacy</h1>
+<div class="container">
+  <h1>Update Pharmacy Information</h1>
 
   <form action="updatePharmacy" method="post" class="needs-validation" novalidate="">
     <input type="hidden" name="user_id" value="<%= pharmacy.getUserId() %>">

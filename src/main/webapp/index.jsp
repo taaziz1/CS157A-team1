@@ -138,12 +138,16 @@
 					if(customerName!=null && pharmName==null){
 			%>
 
-			<span class="navend" style="margin:0; padding-right:6px; padding-top:4px;"> <a  class="formPath" style="color:white; text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a></span>
+			<span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+				<a class="formPath" style="color:white; text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+			</span>
 			<a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
 			<%
 			}else if(customerName==null && pharmName!=null){
 			%>
-			<span class="navend" style="margin:0; padding-right:6px; padding-top:4px;"><a class="formPath" style="color:white; text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a></span>
+			<span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+				<a class="formPath" style="color:white; text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+			</span>
 			<a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
 			<%
 					}
