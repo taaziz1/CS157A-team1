@@ -31,7 +31,7 @@
 
 /*Review boxes*/
 .reviewBox{
-background:white;
+background:white ;
 padding:20px;
 border-radius:20px;
 
