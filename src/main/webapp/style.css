@@ -52,6 +52,7 @@ h1 {
 .homePage {
 	text-decoration: none;
 	color: black;
+	font-weight: bold;
 }
 
 /* === Login Form === */

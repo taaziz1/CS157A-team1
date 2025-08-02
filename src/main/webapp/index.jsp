@@ -24,6 +24,13 @@
 			overflow-y: auto;
 		}
 
+		.ui-autocomplete .ui-menu-item {
+			margin-bottom: 5px !important;
+			padding-left: 6px !important;
+			border: 1px double black;
+			border-radius: 5px;
+		}
+
 		.navbar {
 			--bs-bg-opacity: 1;
 			background-color: rgb(0 0 0 / 50%) !important;
@@ -50,7 +57,7 @@
 
 		/*SEARCH BAR*/
 		.searchdiv {
-			margin:20px 100px;
+			margin:20px 175px;
 			display:flex;
 			justify-content: center;
 			align-items:center;
@@ -147,12 +154,14 @@
 
 
 		<% if (session.getAttribute("user_id") == null) { %>
-		<%--PHARMACY CARD--%>
+
 		<div class="navend" style="margin-top:-10px;">
+
+			<%--Customer Card--%>
 			<div class="pharm-card">
 				<p class="formPath" style="color:white;">Customers</p>
 				<div class="pharm">
-					<div class="card">
+					<div class="card" style="margin-top:5px">
 
 						<p>Create an account or log in.</p>
 						<a href="custLogIn.jsp" class="btn btn-primary">Log in</a>
@@ -162,11 +171,12 @@
 
 				</div>
 			</div>
-			<%--USER CARD--%>
+
+			<%--Pharmacy Card--%>
 			<div class="customer-card">
 				<p class="formPath" style="color:white">Pharmacies</p>
 				<div class="customer">
-					<div class="card">
+					<div class="card" style="margin-top:5px">
 
 						<p>Register your pharmacy or log in.</p>
 						<a href="pharmLogIn.jsp" class="btn btn-primary">Log in</a>

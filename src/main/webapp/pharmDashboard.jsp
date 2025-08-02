@@ -188,7 +188,7 @@
 
     </div>
     <div class="navend">
-        <a class="formPath logoutButton" href="logout">Log Out</a>
+        <a class="btn btn-outline-danger" style="margin-right:8px;" href="logout">Logout</a>
     </div>
 </nav>
 
