@@ -12,6 +12,10 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css" type="text/css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    >
     <title>Pharmacy Dashboard</title>
 
 
@@ -21,21 +25,7 @@
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
     <style>
-        /*table containers*/
-        .pharmDashBorder {
-
-
-            background-color: whitesmoke;
-            border-radius: 25px;
-            width: fit-content;
-            height: fit-content;
-            padding: 20px;
-            box-shadow: 10px 5px 5px grey;
-
-
-        }
-
-        /*centers main information*/
+        /* centers main information */
         .center1 {
             display: flex;
             align-items: flex-start;
@@ -43,8 +33,133 @@
             width: 100vw;
         }
 
+        /* nested hours table */
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* for stars */
+        .checked {
+            color: #f7d792;
+        }
+
+        /* give your main table some basic styling */
+        .info-table {
+            border-collapse: collapse;
+        }
+        .info-table th,
+        .info-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .info-table thead th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* fix column widths & ensure text wraps */
+        .info-table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        /* tighten up the hours list */
+        .hours-list li {
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .hours-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* vertically center rating icons */
+        .info-table .align-middle {
+            vertical-align: middle !important;
+        }
+        /* soften the header */
+        .info-table thead th {
+            background-color: #f1f3f5;
+            color: #333;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+
+        /* remove the default bottom border on rows */
+        .info-table th,
+        .info-table td {
+            border-top: none;
+            padding: 0.75rem 1.25rem;
+        }
+
+        /* hours list spacing */
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .hours-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* card container tweak */
+        .pharmDashBorder {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            max-width: 1900px;
+            width: 95%;
+            margin: 2rem auto;
+        }
+
+        .table-responsive {
+            /* ensure the table wrapper also stays centered */
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        /* 1) Make every row the same solid background */
+        .info-table,
+        .info-table th,
+        .info-table td {
+            background-color: #ffffff;     /* pure white rows */
+        }
+
+        /* 2) Enforce a single, light border under each row */
+        .info-table th,
+        .info-table td {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* 3) Thicken the header divider */
+        .info-table thead th {
+            border-bottom: 2px solid #dee2e6;
+            background-color: #ffffff;     /* keep header white too */
+        }
+
+        /* 4) Remove the extra bottom border on the very last row */
+        .info-table tbody tr:last-child th,
+        .info-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 5) Vertically center your rating icons */
+        .info-table .align-middle {
+            vertical-align: middle !important;
+            padding-top: 1rem;           /* ensure same padding as other cells */
+        }
+
+
         /*medication table style*/
 
+        .medDashBorder {
+            background-color: whitesmoke;
+            border-radius: 25px;
+            width: fit-content;
+            padding: 20px;
+            box-shadow: 10px 5px 5px grey;
+        }
 
         .medStyle {
             list-style-type: none;
@@ -202,91 +317,69 @@
 
 
 <div class="center1">
-
-    <div class=" pharmDashBorder">
-        <%--information display--%>
-
-        <table>
+    <div class="pharmDashBorder">
+        <table class="table table-hover table-borderless mb-0 info-table align-middle">
+            <thead class="table-light">
             <tr>
-                <th>User ID</th>
-                <td><%=pharmacy.getUserId()%>
-                </td>
-
+                <th colspan="2" class="text-center">
+                    <h2 class="mb-0">Pharmacy Details</h2>
+                </th>
             </tr>
-            <tr>
-                <th>Tax Number</th>
-                <td><%=pharmacy.getTaxNum()%>
-                </td>
-            </tr>
-
+            </thead>
+            <tbody>
             <%
                 String phoneNumber = pharmacy.getPhoneNumber();
+                if (phoneNumber == null || phoneNumber.isEmpty()) phoneNumber = "N/A";
                 String faxNumber = pharmacy.getFaxNumber();
+                if (faxNumber == null || faxNumber.isEmpty()) faxNumber = "N/A";
                 String webUrl = pharmacy.getWebURL();
-
+                String hours = pharmacy.getOperatingHours();
+                String[] timings = (hours != null) ? hours.split(",") : new String[0];
+                String[] daysOfWeek = {
+                        "Sunday","Monday","Tuesday",
+                        "Wednesday","Thursday","Friday","Saturday"
+                };
             %>
             <tr>
+                <th>Tax Number</th>
+                <td><%= pharmacy.getTaxNum() %></td>
+            </tr>
+            <tr>
                 <th>Phone Number</th>
-                <td><%
-                    if (phoneNumber == null || phoneNumber.isEmpty())
-                        phoneNumber = "N/A";
-                %><%=phoneNumber%>
-                </td>
+                <td><%= phoneNumber %></td>
             </tr>
             <tr>
                 <th>Fax Number</th>
-                <td><%
-                    if (faxNumber == null || faxNumber.isEmpty())
-                        faxNumber = "N/A";
-                %><%=faxNumber%>
-                </td>
+                <td><%= faxNumber %></td>
             </tr>
             <tr>
                 <th>Website</th>
-                <td><%
-                    if (webUrl == null || webUrl.isEmpty()) {
-                        webUrl = "N/A";
-                %>
-                    <%=webUrl%>
-                    <% } else {%>
-                    <a href="<%=pharmacy.getWebURL()%>"><%=pharmacy.getWebURL()%>
-                    </a>
-                    <%}%>
+                <td>
+                    <% if (webUrl == null || webUrl.isEmpty()) { %>
+                    N/A
+                    <% } else { %>
+                    <a href="<%= webUrl %>" target="_blank" rel="noopener"><%= webUrl %></a>
+                    <% } %>
                 </td>
             </tr>
             <tr>
                 <th>Operating Hours</th>
                 <td>
-                    <table>
-                        <%
-                            String hours = pharmacy.getOperatingHours();
-                            String timings[] = hours.split(",");
-                            String daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-                            for (int i = 0, j = 0; i < timings.length && j < daysOfWeek.length; i++, j++) {
-                        %>
-                        <tr>
-                            <td><%=daysOfWeek[j]%>
-                            </td>
-                            <td><%=timings[i]%>
-                            </td>
-
-
-                        </tr>
-                        <%}%>
-                    </table>
+                    <dl class="row mb-0">
+                        <% for (int i = 0; i < timings.length && i < daysOfWeek.length; i++) { %>
+                        <dt class="col-sm-4"><%= daysOfWeek[i] %></dt>
+                        <dd class="col-sm-8"><%= timings[i] %></dd>
+                        <% } %>
+                    </dl>
                 </td>
             </tr>
             <tr>
                 <th>Address</th>
-                <td><%=pharmacy.getAddress()%>
-                </td>
+                <td><%= pharmacy.getAddress() %></td>
             </tr>
             <tr>
                 <th>Rating</th>
-                <td>
-                    <!-- Library for star-->
-                    <link rel="stylesheet"
-                          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <td class="rating">
                     <span class="fa fa-star-o star1 checked"></span>
                     <span class="fa fa-star-o star2 checked"></span>
                     <span class="fa fa-star-o star3 checked"></span>
@@ -294,9 +387,11 @@
                     <span class="fa fa-star-o star5 checked"></span>
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 </div>
+
 <%
     String error = request.getParameter("error");
     if ("invalid_credentials".equals(error)) {
@@ -350,10 +445,8 @@
                     Medication meds = medication.get(i);
             %>
 
-            <ul class="pharmDashBorder medStyle">
+            <ul class="medDashBorder medStyle">
                 <li>Manufacturer: <%=meds.getManufName()%>
-                </li>
-                <li>Medication Id: <%=meds.getMedId()%>
                 </li>
                 <li>Medicine: <%=meds.getMedName()%>
                 </li>
