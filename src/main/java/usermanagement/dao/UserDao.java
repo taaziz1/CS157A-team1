@@ -84,6 +84,30 @@ public class UserDao {
         return isMatch;
     }
 
+    public boolean checkUsernameUnique(String username) {
+        boolean isUnique = false;
+        String SELECT_TAX_NUM_SQL = "SELECT COUNT(username) FROM user WHERE username = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int duplicates = rs.getInt(1);
+                isUnique = (duplicates == 0);
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return isUnique;
+    }
+
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

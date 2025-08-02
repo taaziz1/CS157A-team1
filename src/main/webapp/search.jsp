@@ -73,21 +73,25 @@
                     <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
                     <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
                 </div>
-        <div class="navend" >
+        <div class="navend">
             <%
                 String customerName = (String) session.getAttribute("username1");
                 String pharmName = (String) session.getAttribute("username2");
                 if (session != null && session.getAttribute("user_id") != null) {
-                    if(customerName!=null && pharmName==null){
+                    if(customerName != null && pharmName == null){
             %>
 
-            <span class="navend " style="margin:0;padding-right: 20px;"> <a  class="formPath" href="custDashboard.jsp"><%= customerName %></a></span>
-            <a href="logout" class="btn btn-outline-danger">Logout</a>
+            <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+                <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+            </span>
+            <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
             <%
-            }else if(customerName==null && pharmName!=null){
+            } else if (customerName == null && pharmName != null){
             %>
-            <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath" href="pharmDashboard.jsp"> <%= pharmName %></a></span>
-            <a href="logout" class="btn btn-outline-danger">Logout</a>
+            <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+                <a class="formPath" style="text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+            </span>
+            <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
             <%
                     }
                 }

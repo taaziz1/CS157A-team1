@@ -133,6 +133,30 @@ private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c
         return rowUpdated;
     }
 
+    public boolean checkEmailAddressUnique(String email) {
+        boolean isUnique = false;
+        String SELECT_TAX_NUM_SQL = "SELECT COUNT(email_address) FROM customer WHERE email_address = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int duplicates = rs.getInt(1);
+                isUnique = (duplicates == 0);
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return isUnique;
+    }
+
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {

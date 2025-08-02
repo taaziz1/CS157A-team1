@@ -47,11 +47,7 @@
     </svg>
 
     <a class="navstart homePage">PharmaFinder</a>
-    <%-- NEED TO CHANGE THIS LATER ON FOR IT TO LOG OUT --%>
 
-  </div>
-  <div class="navend ">
-    <a   class="test" href="logout" style="color:grey;" >Log Out</a>
   </div>
 </nav>
 
@@ -66,8 +62,8 @@
 
 %>
 
-<div class=" container">
-  <h1>Register your Pharmacy</h1>
+<div class="container">
+  <h1>Update Pharmacy Information</h1>
 
   <form action="updatePharmacy" method="post" class="needs-validation" novalidate="">
     <input type="hidden" name="user_id" value="<%= pharmacy.getUserId() %>">
@@ -78,7 +74,7 @@
       <div class="col-sm-6">
         <label for="tax_Number" class="form-label">Tax Number</label> <input
               type="text" class="form-control" id="tax_Number" name="tax_Number"
-              value="<%=pharmacy.getTaxNum()%>" required="">
+              value="<%=pharmacy.getTaxNum()%>" required="" pattern="\d{2}-\d{7}">
         <div class="invalid-feedback">Your tax number is required.</div>
       </div>
       <%-- PHARMACY NAME --%>
@@ -202,7 +198,7 @@
             timings = new String[7];
             Arrays.fill(timings, "N/A");
           }
-          String daysOfWeek[] ={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+          String[] daysOfWeek ={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
         %>
         <div class="col-sm-12">
           <label class="form-label">Operating Hours</label>
@@ -213,11 +209,13 @@
             for (int i = 0; i < timings.length && i < daysOfWeek.length; i++) {
           %>
         <label><%= daysOfWeek[i] %></label>
-        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>">
+        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>" required="">
           <% } %>
+        <div class="invalid-feedback">Please fill in every day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.</div>
 
 
-      <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+
+        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
     <% if (errorMessage != null) { %>
     <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
     <% } %>
@@ -229,6 +227,21 @@
         </div>
   </form>
 </div>
-
+<script>
+  // Bootstrap form validation
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
 </body>
 </html>
