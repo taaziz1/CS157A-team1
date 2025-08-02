@@ -53,12 +53,16 @@
 						<label for="tax_Number" class="form-label">Tax Number</label> <input
 							type="text" class="form-control" id="tax_Number" name="tax_Number" placeholder=""
 							value="" required="">
+						<div class="invalid-feedback">Your tax number is required.</div>
+
 					</div>
 					<%-- PHARMACY NAME --%>
 					<div class="col-sm-6">
 						<label for="pharmacy_name" class="form-label">Pharmacy
 							Name</label> <input type="text" class="form-control" id="pharmacy_name" name="pharmacy_name"
 							placeholder="" value="" required="">
+						<div class="invalid-feedback">Your pharmacy name is required.</div>
+
 					</div>
 					<%-- USERNAME--%>
 					<div class="col-sm-12">
