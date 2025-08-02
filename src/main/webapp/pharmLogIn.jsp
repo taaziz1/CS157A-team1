@@ -5,10 +5,15 @@
 <head>
 <meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css" type="text/css">
-    <title>Pharmacy Sign In - PharmaFinder</title>
+    <title>Pharmacy Sign In</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
 <style>
+	/* Prevent scrolling */
+	body {
+		overflow: hidden;
+	}
+
 	.formPath{
 		background-image: linear-gradient(#575555 50%, #2500ff 50%) !important
 	}

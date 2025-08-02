@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css" type="text/css">
-    <title>Customer Sign In - PharmaFinder</title>
+    <title>Customer Sign In</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 	<style>
 		/* Prevent scrolling */
@@ -27,7 +27,7 @@
 %>
 <div id="errorPopup" style="
     position: fixed;
-    top: 5%;
+    top: 7%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #f8d7da;

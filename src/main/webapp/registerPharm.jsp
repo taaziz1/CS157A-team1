@@ -5,29 +5,91 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css" type="text/css">
-<title>Pharmacy Register Page</title>
+<title>Pharmacy Registration</title>
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
-	crossorigin="anonymous">
-<style>
-.button {
-	display: flex;
-	padding: 30px;
-}
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+		crossorigin="anonymous">
+	<style>
+		/* Prevent scrolling */
+		body {
+			overflow: hidden;
+		}
 
-.btn {
-	margin: 20px;
+		.button {
+			display: flex;
+			padding: 20px 30px 10px;
+		}
 
-}
-</style>
+		.entry-field {
+			margin: 8px 0;
+		}
+
+		.day-div {
+			width: 14.2857%;
+		}
+
+		.day {
+			margin: 0 0 4px;
+			text-align: center;
+		}
+
+	</style>
 </head>
 
 <body>
+
+<%--Pop ups--%>
+<%
+	String error = request.getParameter("error");
+	if (error != null) {
+%>
+<div id="errorPopup" style="
+    position: fixed;
+    top: 7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 1rem;
+    text-align: center;
+">
+	❌ An unknown error has occurred. Please try again.
+</div>
+<%
+	if("duplicate_account".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ Username or tax number already exists. Please try again." </script>
+<%
+} else if ("invalid_form".equals(error)) {
+
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ One or more fields are invalid. Please try again." </script>
+<%
+} else if ("creation_error".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while creating the account. Please try again." </script>
+<%
+		} else {}
+	}
+
+%>
+<script>
+	setTimeout(() => {
+		const popup = document.getElementById('errorPopup');
+		if (popup) popup.style.display = 'none';
+	}, 3000); // 3 seconds
+</script>
+
 	<%--NAVIGATION BAR --%>
-	<nav class=" bg-body-tertiary navbar">
+	<nav class="bg-body-tertiary navbar">
 		<div class="navstart">
 			<%--ICON--%>
 			<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
@@ -41,31 +103,33 @@
 		</div>
 	</nav>
 	
-	<%-- REGISTRATION --%>
+	<%-- REGISTRATION CARD --%>
 
-    <div class=" container">
-    	<h1>Register your Pharmacy</h1>
-	
-			<form action="registerPharmacy" method="post" class="needs-validation" novalidate="">
+    <div class="container">
+			<form action="registerPharmacy" method="post" class="needs-validation" novalidate=""
+				  style="background-color: white; margin:25px 20px; padding:12px 30px; border-radius:20px;">
+				<h1>Register Your Pharmacy</h1>
 				<div class="row">
-					<%-- TAX NUMBER --%>
-					<div class="col-sm-6">
-						<label for="tax_Number" class="form-label">Tax Number</label> <input
-							type="text" class="form-control" id="tax_Number" name="tax_Number" placeholder=""
-							value="" required="">
-						<div class="invalid-feedback">Your tax number is required.</div>
 
-					</div>
 					<%-- PHARMACY NAME --%>
-					<div class="col-sm-6">
+					<div class="col-sm-4 entry-field">
 						<label for="pharmacy_name" class="form-label">Pharmacy
 							Name</label> <input type="text" class="form-control" id="pharmacy_name" name="pharmacy_name"
-							placeholder="" value="" required="">
+												placeholder="Joe's Pharmacy" value="" required="">
 						<div class="invalid-feedback">Your pharmacy name is required.</div>
+					</div>
+
+					<%-- TAX NUMBER --%>
+					<div class="col-sm-2 entry-field">
+						<label for="tax_Number" class="form-label">Tax Number</label> <input
+							type="text" class="form-control" id="tax_Number" name="tax_Number" placeholder="XX-XXXXXXX"
+							value="" required="" pattern="\d{2}-\d{7}">
+						<div class="invalid-feedback">A valid tax number is required.</div>
 
 					</div>
+
 					<%-- USERNAME--%>
-					<div class="col-sm-12">
+					<div class="col-sm-3 entry-field">
 						<label for="username" class="form-label">Username</label>
 						<div class="input-group has-validation">
 							<span class="input-group-text">@</span> <input type="text"
@@ -74,39 +138,42 @@
 							<div class="invalid-feedback">Your username is required.</div>
 						</div>
 					</div>
-						<%-- PASSWORD --%>
-						<div class="col-sm-12">
-							<label for="password" class="form-label">Password</label>
-							<input
-									type="password"
-									class="form-control"
-									id="password"
-									name="password"
-									required
-									pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
-									title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.">
-							<div class="invalid-feedback">
-								Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
-							</div>
+
+					<%-- PASSWORD --%>
+					<div class="col-sm-3 entry-field">
+						<label for="password" class="form-label">Password</label>
+						<input
+								type="password"
+								class="form-control"
+								id="password"
+								name="password"
+								placeholder="Password"
+								required
+								pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+								title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.">
+						<div class="invalid-feedback">
+							Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
 						</div>
+					</div>
 
 					<%-- ADDRESS --%>
-					<div class="col-12">
-						<label for="address" class="form-label">Address</label> <input
+					<div class="col-md-5 entry-field">
+						<label for="address" class="form-label">Street Address</label> <input
 							type="text" class="form-control" id="address" name="address"
 							placeholder="1234 Main St" required="">
 						<div class="invalid-feedback">Please enter your shipping
 							address.</div>
 					</div>
+
 					<%-- CITY --%>
-					<div class="col-12">
+					<div class="col-md-2 entry-field">
 						<label for="city" class="form-label">City</label> <input type="text"
-							class="form-control" id="city" name="city" placeholder="" required="">
+							class="form-control" id="city" name="city" placeholder="San Jose" required="">
 						<div class="invalid-feedback">Please provide a valid city.</div>
 					</div>
 
 					<%-- STATE --%>
-					<div class="col-md-6">
+					<div class="col-md-3 entry-field">
 						<label for="state" class="form-label">State</label> <select
 							class="form-select" id="state" name="state" required="">
 							<option value="">Choose...</option>
@@ -163,11 +230,11 @@
 							<option>Wyoming</option>
 
 						</select>
-						<div class="invalid-feedback">Please provide a valid state.</div>
+						<div class="invalid-feedback">Please choose a valid state.</div>
 					</div>
 
 					<%-- ZIPCODE --%>
-						<div class="col-md-6">
+						<div class="col-md-2 entry-field">
 							<label for="zip" class="form-label">Zip Code</label>
 							<input
 									type="text"
@@ -185,61 +252,81 @@
 
 
 					<%-- PHONE NUMBER --%>
-					<div class="col-sm-12">
+					<div class="col-sm-3 entry-field">
 						<label for="phone" class="form-label">Phone Number</label> <span
 							class="text-body-secondary">(Optional)</span><input type="text"
 							class="form-control" id="phone" name="phone" placeholder="" value="">
 					</div>
+
 					<%-- FAX NUMBER --%>
-					<div class="col-sm-12">
+					<div class="col-sm-3 entry-field">
 						<label for="fax" class="form-label">Fax Number</label><span
-							class="text-body-secondary">(Optional)</span> <input type="text"
+							class="text-body-secondary"> (Optional)</span> <input type="text"
 							class="form-control" id="fax" name="fax" placeholder="" value="">
 					</div>
+
 					<%-- URL --%>
-					<div class="col-12">
+					<div class="col-sm-6 entry-field">
 						<label for="url" class="form-label"> URL <span
 							class="text-body-secondary">(Optional)</span></label> <input type="url"
-							class="form-control" id="url" name="url" placeholder="https://example.com">
+							class="form-control" id="url" name="url" placeholder="https://www.example.com">
 						<div class="invalid-feedback">Please enter a valid URL
-							(e.g., https://example.com)</div>
+							(e.g., https://www.example.com)</div>
 					</div>
+
 					<%--OPERATING HOURS --%>
-					<div class="col-sm-12">
-						<label class="form-label">Operating Hours</label> 
-						<span class="text-body-secondary"> In military time-format</span></div>
-						<br>
-						<label>Sunday</label><input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						 <label>Monday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						<label>Tuesday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						<label>Wednesday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						<label>Thursday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						<label>Friday</label> <input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						<label>Saturday</label><input type="text" class="form-control" name="operating_hours"
-							placeholder="e.g., 09:00-17:00" required="">
-						<div class="invalid-feedback">Please fill in every day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.
+					<div class="col-sm-12" style="margin: 8px 0 2px">
+						<label class="form-label">Operating Hours</label>
+						<span class="text-body-secondary"> (e.g., 09:00-17:00)</span></div>
+
+						 <div class="col-sm-1 day-div">
+							 <label class="day">Monday</label>
+							 <input type="text" class="form-control col-sm-3" name="operating_hours"
+									placeholder="xx:xx-xx:xx" required="">
+						 </div>
+						<div class="col-sm-1 day-div">
+							<label class="day">Tuesday</label>
+							<input type="text" class="form-control" name="operating_hours"
+								   placeholder="xx:xx-xx:xx" required="">
+						</div>
+						<div class="col-sm-2 day-div">
+							<label class="day">Wednesday</label>
+							<input type="text" class="form-control" name="operating_hours"
+								   placeholder="xx:xx-xx:xx" required="">
+						</div>
+						<div class="col-sm-2 day-div">
+							<label class="day">Thursday</label>
+							<input type="text" class="form-control" name="operating_hours"
+								   placeholder="xx:xx-xx:xx" required="">
+						</div>
+						<div class="col-sm-2 day-div">
+							<label class="day">Friday</label>
+							<input type="text" class="form-control" name="operating_hours"
+								   placeholder="xx:xx-xx:xx" required="">
+						</div>
+						<div class="col-sm-2 day-div">
+							<label class="day">Saturday</label>
+							<input type="text" class="form-control" name="operating_hours"
+								   placeholder="xx:xx-xx:xx" required="">
+						</div>
+						<div class="col-sm-2 day-div">
+							<label class="day">Sunday</label>
+							<input type="text" class="form-control" name="operating_hours"
+								   placeholder="xx:xx-xx:xx" required="">
+						</div>
+						<div class="invalid-feedback">Please fill in each day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.
 						</div>
 				</div>
 
-				<% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-				<% if (errorMessage != null) { %>
-				<div style="color: red; font-weight: bold;"><%= errorMessage %></div>
-				<% } %>
-
 					<%-- BUTTON --%>
-					<div class="button">
-
+					<div class="button" style="width:100%; margin:auto">
 						<button class="w-100 btn btn-primary btn-lg" type="submit">Register</button>
-
-
 					</div>
-					<a href="index.jsp" style="text-decoration: none; color: grey;">Cancel</a>
+
+				<%-- CANCEL --%>
+				<div style="margin:auto; width: 50%; text-align: center;">
+					<a class="formPath" href="index.jsp">Cancel</a>
+				</div>
 			</form>
 		</div>
 

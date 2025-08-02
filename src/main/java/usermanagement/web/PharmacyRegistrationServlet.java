@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 
 
+import usermanagement.dao.UserDao;
 import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
 import usermanagement.dao.PharmacyDao;
@@ -15,9 +16,11 @@ import usermanagement.dao.PharmacyDao;
 @WebServlet("/registerPharmacy")
 public class PharmacyRegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private UserDao userDao;
     private PharmacyDao pharmacyDao;
 
     public void init() {
+        userDao = new UserDao();
         pharmacyDao = new PharmacyDao();
     }
 
@@ -43,12 +46,17 @@ public class PharmacyRegistrationServlet extends HttpServlet {
 
         // Basic validation
         if (username == null || username.isEmpty() || password == null || password.isEmpty() ||
-            pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
-            streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
-            state == null || state.isEmpty() || zipString == null || zipString.isEmpty() ||
-            operatingHoursArray == null || operatingHoursArray.length != 7) {
-            request.setAttribute("errorMessage", "All fields are required.");
-            request.getRequestDispatcher("registerPharm.jsp").forward(request, response);
+                pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
+                streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
+                state == null || state.isEmpty() || zipString == null || zipString.isEmpty() ||
+                operatingHoursArray == null || operatingHoursArray.length != 7) {
+            response.sendRedirect("registerPharm.jsp?error=invalid_form");
+            return;
+        }
+
+        //Check for duplicate username or email address
+        if(!userDao.checkUsernameUnique(username) || !pharmacyDao.checkTaxNumberUnique(taxNum)) {
+            response.sendRedirect("registerPharm.jsp?error=duplicate_account");
             return;
         }
 
@@ -61,7 +69,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
            operatingHours = String.join(",", operatingHoursArray);
         } else {
             // Handle missing or malformed input
-            operatingHours = "Unavailable";
+            operatingHours = "N/A,N/A,N/A,N/A,N/A,N/A,N/A";
         }
 
         Pharmacy pharmacy = new Pharmacy();
@@ -85,11 +93,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         if (status > 0) {
             response.sendRedirect("index.jsp");
         } else {
-            // Set error message
-            request.setAttribute("errorMessage", "Invalid credentials. Please try again.");
-
-            // Forward to login page with error message
-            request.getRequestDispatcher("registerPharm.jsp").forward(request, response);
+            response.sendRedirect("registerPharm.jsp?error=creation_error");
         }
     }
 }

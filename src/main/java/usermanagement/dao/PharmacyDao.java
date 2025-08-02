@@ -198,6 +198,30 @@ public class PharmacyDao {
         return status;
     }
 
+    public boolean checkTaxNumberUnique(String taxNumber) {
+        boolean isUnique = false;
+        String SELECT_TAX_NUM_SQL = "SELECT COUNT(tax_num) FROM pharmacy WHERE tax_num = ?";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
+            ps.setString(1, taxNumber);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int duplicates = rs.getInt(1);
+                isUnique = (duplicates == 0);
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return isUnique;
+    }
+
     public boolean checkTaxNumMatch(int userId, String taxNum) {
         boolean isMatch = false;
         String SELECT_TAX_NUM_SQL = "SELECT tax_num FROM pharmacy WHERE user_id = ?";

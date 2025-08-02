@@ -74,7 +74,7 @@
       <div class="col-sm-6">
         <label for="tax_Number" class="form-label">Tax Number</label> <input
               type="text" class="form-control" id="tax_Number" name="tax_Number"
-              value="<%=pharmacy.getTaxNum()%>" required="">
+              value="<%=pharmacy.getTaxNum()%>" required="" pattern="\d{2}-\d{7}">
         <div class="invalid-feedback">Your tax number is required.</div>
       </div>
       <%-- PHARMACY NAME --%>
@@ -198,7 +198,7 @@
             timings = new String[7];
             Arrays.fill(timings, "N/A");
           }
-          String daysOfWeek[] ={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+          String[] daysOfWeek ={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
         %>
         <div class="col-sm-12">
           <label class="form-label">Operating Hours</label>

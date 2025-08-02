@@ -7,15 +7,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 
+import usermanagement.dao.UserDao;
 import usermanagement.model.Customer;
 import usermanagement.dao.CustomerDao;
 
 @WebServlet("/registerCustomer")
 public class CustomerRegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private UserDao userDao;
     private CustomerDao customerDao;
 
     public void init() {
+        userDao = new UserDao();
         customerDao = new CustomerDao();
     }
 
@@ -31,8 +34,13 @@ public class CustomerRegistrationServlet extends HttpServlet {
 
         // Basic validation
         if (username == null || username.isEmpty() || password == null || password.isEmpty() || emailAddress == null || emailAddress.isEmpty()) {
-            request.setAttribute("errorMessage", "All fields are required.");
-            request.getRequestDispatcher("registerCust.jsp").forward(request, response);
+            response.sendRedirect("registerCust.jsp?error=invalid_form");
+            return;
+        }
+
+        //Check for duplicate username or email address
+        if(!userDao.checkUsernameUnique(username) || !customerDao.checkEmailAddressUnique(emailAddress)) {
+            response.sendRedirect("registerCust.jsp?error=duplicate_account");
             return;
         }
 
@@ -46,11 +54,7 @@ public class CustomerRegistrationServlet extends HttpServlet {
         if (status > 0) {
             response.sendRedirect("index.jsp");
         } else {
-            // Set error message
-            request.setAttribute("errorMessage", "Invalid credentials. Please try again.");
-
-            // Forward to login page with error message
-            request.getRequestDispatcher("registerCust.jsp").forward(request, response);
+            response.sendRedirect("registerCust.jsp?error=creation_error");
         }
     }
 }

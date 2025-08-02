@@ -311,8 +311,8 @@
                     String hours = pharmacy.getOperatingHours();
                     String[] timings = (hours != null) ? hours.split(",") : new String[0];
                     String[] daysOfWeek = {
-                            "Sunday","Monday","Tuesday",
-                            "Wednesday","Thursday","Friday","Saturday"
+                            "Monday","Tuesday","Wednesday",
+                            "Thursday","Friday","Saturday","Sunday"
                     };
                 %>
                 <tr>

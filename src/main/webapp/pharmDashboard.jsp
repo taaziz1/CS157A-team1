@@ -321,14 +321,10 @@
                 String hours = pharmacy.getOperatingHours();
                 String[] timings = (hours != null) ? hours.split(",") : new String[0];
                 String[] daysOfWeek = {
-                        "Sunday","Monday","Tuesday",
-                        "Wednesday","Thursday","Friday","Saturday"
+                        "Monday","Tuesday","Wednesday",
+                        "Thursday","Friday","Saturday", "Sunday"
                 };
             %>
-            <tr>
-                <th>Tax Number</th>
-                <td><%= pharmacy.getTaxNum() %></td>
-            </tr>
             <tr>
                 <th>Phone Number</th>
                 <td><%= phoneNumber %></td>
@@ -383,7 +379,7 @@
 %>
 <div id="errorPopup" style="
     position: fixed;
-    top: 50%;
+    top: 7%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #f8d7da;
@@ -485,7 +481,7 @@
     let starRating = "<%=pharmacy.getRating()%>";
 
     let i;
-    for (i = 1; i < starRating; i++) {
+    for (i = 1; i <= starRating; i++) {
         let star = document.querySelector(".star" + i);
         star.setAttribute("class", "fa fa-star checked");
     }
