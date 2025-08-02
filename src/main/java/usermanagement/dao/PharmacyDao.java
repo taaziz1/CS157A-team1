@@ -67,7 +67,7 @@ public class PharmacyDao {
         }
         return status;
     }
-    
+
     //pharmacy dashboard to get according to userId
     public Pharmacy getPharmacyDashboard(int userId)  {
     Pharmacy pharmacy = null;
@@ -99,7 +99,6 @@ public class PharmacyDao {
                 pharmacy.setRating(reviewDao.getAverageRating(userId));
 
                 pharmacy.setAddress(address);
-
             }
 
             con.close();
@@ -221,6 +220,7 @@ public class PharmacyDao {
         }
         return isMatch;
     }
+
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

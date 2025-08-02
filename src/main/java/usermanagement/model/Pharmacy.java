@@ -93,4 +93,8 @@ public class Pharmacy extends User implements Serializable{
         ReviewDao reviewDao = new ReviewDao();
         return reviewDao.getAverageRating(this.getUserId());
     }
+    @Override
+    public String toString(){
+        return pharmacyName;
+    }
 }

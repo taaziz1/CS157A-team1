@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 
+import usermanagement.model.Pharmacy;
 import usermanagement.model.Review;
 import util.Utilities;
 
@@ -155,5 +156,36 @@ public class ReviewDao {
             e.printStackTrace();
         }
         return status;
+    }
+
+    public ArrayList<Review> getReviewList(int userId){
+        String LIST_REVIEW_SQL = "SELECT r.content,r.review_id, r.last_updated, r.rating, p.name AS pharmacy_name,r.pharm_id FROM review r JOIN pharmacy p ON r.pharm_id = p.user_id WHERE r.customer_id = ? ORDER BY  r.last_updated DESC";
+        ArrayList<Review> reviews = new ArrayList<>();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+          Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                  Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+          PreparedStatement ps = con.prepareStatement(LIST_REVIEW_SQL);
+          ps.setInt(1,userId);
+          ResultSet rs = ps.executeQuery();
+          while(rs.next()){
+              Review review = new Review();
+              review.setContent(rs.getString("content"));
+              review.setLastDate(rs.getString("last_updated"));
+              review.setRating(rs.getInt("rating"));
+              review.setReviewId(rs.getInt("review_id"));
+              review.setPharmacyId(rs.getInt("pharm_id"));
+              Pharmacy pharmacy = new Pharmacy();
+              pharmacy.setPharmacyName(rs.getString("pharmacy_name"));
+
+
+              review.setPharmacy(pharmacy);
+               reviews.add(review);
+          }
+            con.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return reviews;
     }
 }

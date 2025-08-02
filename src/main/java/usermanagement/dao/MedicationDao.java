@@ -134,7 +134,7 @@ public boolean insertMedication(Medication medication, int userId) throws  SQLEx
         }
 return rowInserted;
 }  private void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
+        for (Throwable e: ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());

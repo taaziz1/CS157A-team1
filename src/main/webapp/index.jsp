@@ -14,7 +14,7 @@
 	<style>
 		/*PREVENTS SCROLLING OPTION*/
 		.html {
-			overflow:hidden;
+			overflow: hidden;
 		}
 
 
@@ -58,7 +58,7 @@
 		/*SEARCH BAR*/
 		.searchdiv {
 			margin:20px 175px;
-			display:flex;
+			display: flex;
 			justify-content: center;
 			align-items:center;
 		}

@@ -485,7 +485,7 @@
     let starRating = "<%=pharmacy.getRating()%>";
 
     let i;
-    for (i = 1; i < starRating; i++) {
+    for (i = 1; i <= starRating; i++) {
         let star = document.querySelector(".star" + i);
         star.setAttribute("class", "fa fa-star checked");
     }

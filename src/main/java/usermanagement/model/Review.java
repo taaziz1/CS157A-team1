@@ -12,6 +12,7 @@ public class Review   implements Serializable {
     private int rating;
     private String creationDate;
     private String lastDate;
+    private Pharmacy pharmacy;
 
     public int getReviewId() {
         return reviewId;
@@ -67,5 +68,14 @@ public class Review   implements Serializable {
 
     public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
+    }
+
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 }
