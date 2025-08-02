@@ -25,74 +25,92 @@
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
     <style>
-        /* centers main information */
+        /* ==================== Resets & Globals ==================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* guard against stray overflow */
+        }
+
+        /* ==================== Layout Wrappers ==================== */
+        /* Center the card wrapper */
         .center1 {
             display: flex;
-            align-items: flex-start;
             justify-content: center;
-            width: 100vw;
+            padding: 1rem;
+            width: auto; /* allow it to shrink */
         }
 
-        /* nested hours table */
-        .hours-table {
+        /* Card container */
+        .pharmDashBorder {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 1450px;  /* cap width */
+            margin: 1rem auto;  /* vertical spacing + center */
+        }
+
+        /* ==================== Table Styling ==================== */
+        .info-table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        /* for stars */
-        .checked {
-            color: #f7d792;
-        }
-
-        /* give your main table some basic styling */
-        .info-table {
-            border-collapse: collapse;
-        }
-        .info-table th,
-        .info-table td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        .info-table thead th {
-            background: #f0f0f0;
-            font-weight: bold;
-        }
-
-        /* fix column widths & ensure text wraps */
-        .info-table {
-            table-layout: fixed;
+            table-layout: fixed; /* equal-width columns */
             word-wrap: break-word;
+            background-color: #fff;
         }
 
-        /* tighten up the hours list */
-        .hours-list li {
-            padding: 0.25rem 0;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .hours-list li:last-child {
-            border-bottom: none;
-        }
-
-        /* vertically center rating icons */
-        .info-table .align-middle {
-            vertical-align: middle !important;
-        }
-        /* soften the header */
         .info-table thead th {
-            background-color: #f1f3f5;
+            background-color: #fff;
             color: #333;
+            font-weight: bold;
             border-bottom: 2px solid #dee2e6;
-        }
-
-
-        /* remove the default bottom border on rows */
-        .info-table th,
-        .info-table td {
-            border-top: none;
+            text-align: center;
             padding: 0.75rem 1.25rem;
         }
 
-        /* hours list spacing */
+        .info-table th,
+        .info-table td {
+            padding: 0.75rem 1.25rem;
+            border-top: none;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+        .info-table tbody tr:last-child th,
+        .info-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Remove Bootstrap row/col gutters inside <dl class="row"> */
+        .info-table dl.row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        .info-table dl.row .col-sm-4,
+        .info-table dl.row .col-sm-8 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .info-table dl.row dt,
+        .info-table dl.row dd {
+            margin: 0;
+            padding: 0.25rem 0;
+        }
+
+        /* ==================== Hours List ==================== */
+        .hours-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
         .hours-list li {
             display: flex;
             justify-content: space-between;
@@ -103,53 +121,24 @@
             border-bottom: none;
         }
 
-        /* card container tweak */
-        .pharmDashBorder {
-            background-color: #ffffff;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            max-width: 1900px;
-            width: 95%;
-            margin: 2rem auto;
+        /* ==================== Stars & Ratings ==================== */
+        .checked {
+            color: orange; /* orange stars */
         }
 
-        .table-responsive {
-            /* ensure the table wrapper also stays centered */
-            max-width: 650px;
-            margin: 0 auto;
-        }
-        /* 1) Make every row the same solid background */
-        .info-table,
-        .info-table th,
-        .info-table td {
-            background-color: #ffffff;     /* pure white rows */
-        }
-
-        /* 2) Enforce a single, light border under each row */
-        .info-table th,
-        .info-table td {
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        /* 3) Thicken the header divider */
-        .info-table thead th {
-            border-bottom: 2px solid #dee2e6;
-            background-color: #ffffff;     /* keep header white too */
-        }
-
-        /* 4) Remove the extra bottom border on the very last row */
-        .info-table tbody tr:last-child th,
-        .info-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* 5) Vertically center your rating icons */
-        .info-table .align-middle {
+        /* ==================== Utility Classes ==================== */
+        .align-middle {
             vertical-align: middle !important;
-            padding-top: 1rem;           /* ensure same padding as other cells */
         }
-
+        .table_header {
+            text-align: right;
+            font-size: large;
+            padding: 0.75rem 1rem;
+        }
+        .table_data {
+            text-align: left;
+            font-size: medium;
+        }
 
         /*medication table style*/
 
@@ -177,10 +166,6 @@
             width: 70px;
         }
 
-        /* for stars */
-        .checked {
-            color: #f7d792;
-        }
     </style>
 </head>
 
