@@ -3,6 +3,7 @@
 <%@ page import="usermanagement.dao.PharmacyDao"%>
 <%@ page import="usermanagement.model.Pharmacy"%>
 <%@ page import="usermanagement.model.Address" %>
+<%@ page import="java.util.Arrays" %>
 
 
 <!DOCTYPE html>
@@ -78,12 +79,14 @@
         <label for="tax_Number" class="form-label">Tax Number</label> <input
               type="text" class="form-control" id="tax_Number" name="tax_Number"
               value="<%=pharmacy.getTaxNum()%>" required="">
+        <div class="invalid-feedback">Your tax number is required.</div>
       </div>
       <%-- PHARMACY NAME --%>
       <div class="col-sm-6">
         <label for="pharmacy_name" class="form-label">Pharmacy
           Name</label> <input type="text" class="form-control" id="pharmacy_name" name="pharmacy_name"
                               value="<%=pharmacy.getPharmacyName()%>" required="">
+        <div class="invalid-feedback">Your pharmacy name is required.</div>
       </div>
       <%-- ADDRESS --%>
       <div class="col-12">
@@ -194,6 +197,11 @@
         <%
           String hours = pharmacy.getOperatingHours();
           String timings[] =hours.split(",");
+          if (timings.length == 0) {
+            // create a 7-element array and fill with "N/A"
+            timings = new String[7];
+            Arrays.fill(timings, "N/A");
+          }
           String daysOfWeek[] ={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
         %>
         <div class="col-sm-12">
