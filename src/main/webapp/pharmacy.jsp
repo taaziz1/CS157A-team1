@@ -304,9 +304,7 @@
                 <tbody>
                 <%
                     String phoneNumber = pharmacy.getPhoneNumber();
-                    if (phoneNumber == null || phoneNumber.isEmpty()) phoneNumber = "N/A";
                     String faxNumber = pharmacy.getFaxNumber();
-                    if (faxNumber == null || faxNumber.isEmpty()) faxNumber = "N/A";
                     String webUrl = pharmacy.getWebURL();
                     String hours = pharmacy.getOperatingHours();
                     String[] timings = (hours != null) ? hours.split(",") : new String[0];
@@ -319,24 +317,26 @@
                     <th>Address</th>
                     <td class="pharmDist"><%=pharmacy.getAddress()%>
                 </tr>
+                <% if (!(phoneNumber == null || phoneNumber.isEmpty())) { %>
                 <tr>
                     <th>Phone Number</th>
                     <td><%= phoneNumber %></td>
                 </tr>
+                <%} %>
+                <% if (!(faxNumber == null || faxNumber.isEmpty())) { %>
                 <tr>
                     <th>Fax Number</th>
                     <td><%= faxNumber %></td>
                 </tr>
+                <%} %>
+                <% if (!(webUrl == null || webUrl.isEmpty())) { %>
                 <tr>
                     <th>Website</th>
                     <td>
-                        <% if (webUrl == null || webUrl.isEmpty()) { %>
-                        N/A
-                        <% } else { %>
                         <a href="<%= webUrl %>" target="_blank" rel="noopener"><%= webUrl %></a>
-                        <% } %>
                     </td>
                 </tr>
+                <% } %>
                 <tr>
                     <th>Operating Hours</th>
                     <td>
