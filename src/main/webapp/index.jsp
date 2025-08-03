@@ -12,8 +12,13 @@
 <head>
 
 	<style>
+		html,
+		body {
+			background: #1e93bd !important;
+		}
+
 		/*PREVENTS SCROLLING OPTION*/
-		.html {
+		html {
 			overflow: hidden;
 		}
 

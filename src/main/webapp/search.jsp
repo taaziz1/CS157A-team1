@@ -135,12 +135,12 @@
 
                 //If the query returned nothing
                 if (!rs.isBeforeFirst()) {
-                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center;\">No pharmacies found for %s.</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center; color: white;\">No pharmacies found for %s.</h3>", searchQuery));
                 }
 
                 //If at least one pharmacy was returned by the query
                 else {
-                    out.println(String.format("<h3 style=\"margin: 0.6rem;\">Pharmacies for %s</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.6rem; color: white;\">Pharmacies for %s</h3>", searchQuery));
                     out.println("<div id=\"flex\">");
 
                     while (rs.next()) {
@@ -189,12 +189,12 @@
 
                 //If the query returned nothing
                 if (!rs.isBeforeFirst()) {
-                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center;\">No medications found for %s.</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center; color: white;\">No medications found for %s.</h3>", searchQuery));
                 }
 
                 //If at least one medication was returned by the query
                 else {
-                    out.println(String.format("<h3 style=\"margin: 0.6rem;\">%ss</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.6rem; color: white;\">%ss</h3>", searchQuery));
 
                     while (rs.next()) {
                         String medName = rs.getString(1);
