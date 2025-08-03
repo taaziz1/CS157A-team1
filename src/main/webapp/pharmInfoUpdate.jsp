@@ -4,6 +4,7 @@
 <%@ page import="usermanagement.model.Pharmacy"%>
 <%@ page import="usermanagement.model.Address" %>
 <%@ page import="java.util.Arrays" %>
+<%@ page import="util.Utilities" %>
 
 
 <!DOCTYPE html>
@@ -35,6 +36,50 @@
 </head>
 
 <body>
+
+<%--Pop ups--%>
+<%
+  String error = request.getParameter("error");
+  if (error != null) {
+%>
+<div id="errorPopup" style="
+    position: fixed;
+    top: 7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 1rem;
+    text-align: center;
+">
+  ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+  if("invalid_form".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ One or more fields are invalid. Please try again." </script>
+<%
+} else if ("update_error".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while updating the account. Please try again." </script>
+<%
+    }
+  }
+
+%>
+<script>
+  setTimeout(() => {
+    const popup = document.getElementById('errorPopup');
+    if (popup) popup.style.display = 'none';
+  }, 3000); // 3 seconds
+</script>
+
+
 <%--NAVIGATION BAR --%>
 <nav class=" bg-body-tertiary navbar">
   <div class="navstart">
@@ -60,6 +105,9 @@
   pharmacy = pharmacyDao.getPharmacyDashboard(userId);
   Address address = pharmacy.getAddress();
 
+  //Convert from abbreviation to full state
+  address.setState(Utilities.abbrevToState(address.getState()));
+
 %>
 
 <div class="container">
@@ -70,13 +118,6 @@
     <input type="hidden" name="address_id" value="<%= address.getAddressId() %>">
 
     <div class="row">
-      <%-- TAX NUMBER --%>
-      <div class="col-sm-6">
-        <label for="tax_Number" class="form-label">Tax Number</label> <input
-              type="text" class="form-control" id="tax_Number" name="tax_Number"
-              value="<%=pharmacy.getTaxNum()%>" required="" pattern="\d{2}-\d{7}">
-        <div class="invalid-feedback">Your tax number is required.</div>
-      </div>
       <%-- PHARMACY NAME --%>
       <div class="col-sm-6">
         <label for="pharmacy_name" class="form-label">Pharmacy
@@ -215,10 +256,6 @@
 
 
 
-        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-    <% if (errorMessage != null) { %>
-    <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
-    <% } %>
     <%-- BUTTON --%>
         <%-- BUTTONS: Update and Cancel --%>
         <div class="d-flex justify-content-start gap-2 mt-3">

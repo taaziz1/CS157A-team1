@@ -77,7 +77,7 @@
 %>
 <script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while creating the account. Please try again." </script>
 <%
-		} else {}
+		}
 	}
 
 %>

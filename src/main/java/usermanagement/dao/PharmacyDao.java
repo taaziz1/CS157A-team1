@@ -154,42 +154,24 @@ public class PharmacyDao {
         return status;
     }
 
-    public int  updatePharmacy(Pharmacy pharmacy) {
+    public int updatePharmacy(Pharmacy pharmacy) {
         int status = 0;
-        String UPDATE_PHARMACY_SQL = "UPDATE pharmacy SET tax_num = ?, name = ?, phone_number = ?, fax_number = ?, web_url = ?, operating_hours = ? WHERE user_id = ?";
+        String UPDATE_PHARMACY_SQL = "UPDATE pharmacy SET name = ?, phone_number = ?, fax_number = ?, web_url = ?, operating_hours = ? WHERE user_id = ?";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
                     Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
             PreparedStatement ps = con.prepareStatement(UPDATE_PHARMACY_SQL);
-            ps.setString(1, pharmacy.getTaxNum());
-            ps.setString(2, pharmacy.getPharmacyName());
-            ps.setString(3, pharmacy.getPhoneNumber());
-            ps.setString(4, pharmacy.getFaxNumber());
-            ps.setString(5, pharmacy.getWebURL());
-            ps.setString(6, pharmacy.getOperatingHours());
-            ps.setInt(7, pharmacy.getUserId());
+            ps.setString(1, pharmacy.getPharmacyName());
+            ps.setString(2, pharmacy.getPhoneNumber());
+            ps.setString(3, pharmacy.getFaxNumber());
+            ps.setString(4, pharmacy.getWebURL());
+            ps.setString(5, pharmacy.getOperatingHours());
+            ps.setInt(6, pharmacy.getUserId());
 
             status = ps.executeUpdate();
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            printSQLException((SQLException) e);
-        }
-        return status;
-    }
-
-    public int deleteAccount(int userId) {
-        int status = 0;
-        String DELETE_PHARMACY_SQL = "DELETE FROM user WHERE user_id = ?";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(DELETE_PHARMACY_SQL);
-            ps.setInt(1, userId);
-            status = ps.executeUpdate();
             con.close();
         } catch (ClassNotFoundException | SQLException e) {
             printSQLException((SQLException) e);
