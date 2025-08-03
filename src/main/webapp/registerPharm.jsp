@@ -46,21 +46,7 @@
 	String error = request.getParameter("error");
 	if (error != null) {
 %>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
+<div id="errorPopup">
 	❌ An unknown error has occurred. Please try again.
 </div>
 <%
@@ -77,7 +63,7 @@
 %>
 <script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while creating the account. Please try again." </script>
 <%
-		} else {}
+		}
 	}
 
 %>
@@ -172,7 +158,7 @@
 						<label for="address" class="form-label">Street Address</label> <input
 							type="text" class="form-control" id="address" name="address"
 							placeholder="1234 Main St" required="">
-						<div class="invalid-feedback">Please enter your shipping
+						<div class="invalid-feedback">Please enter your street
 							address.</div>
 					</div>
 

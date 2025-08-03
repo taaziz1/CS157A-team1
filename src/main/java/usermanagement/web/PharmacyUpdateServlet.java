@@ -14,6 +14,8 @@ import usermanagement.model.Pharmacy;
 import usermanagement.dao.PharmacyDao;
 import usermanagement.dao.AddressDao;
 
+import util.Utilities;
+
 @WebServlet("/updatePharmacy")
 public class PharmacyUpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -27,10 +29,9 @@ public class PharmacyUpdateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pharmacyName = request.getParameter("pharmacy_name");
-        String taxNum = request.getParameter("tax_Number");
         String streetAddress = request.getParameter("address");
         String city = request.getParameter("city");
-        String state = request.getParameter("state");
+        String state = Utilities.stateToAbbrev(request.getParameter("state"));
         String zipString = request.getParameter("zip");
         String phoneNumber = request.getParameter("phone");
         String faxNumber = request.getParameter("fax");
@@ -38,12 +39,11 @@ public class PharmacyUpdateServlet extends HttpServlet {
         String[] operatingHoursArray = request.getParameterValues("operating_hours");
 
         // Basic validation
-        if (pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
-                streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
-                state == null || state.isEmpty() || zipString == null || zipString.isEmpty() ||
-                operatingHoursArray == null || operatingHoursArray.length != 7) {
-            request.setAttribute("errorMessage", "All fields are required.");
-            request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);
+        if (pharmacyName == null || pharmacyName.isEmpty() || streetAddress == null
+                || streetAddress.isEmpty() || city == null || city.isEmpty() ||
+                state == null || state.isEmpty() || zipString == null || zipString.isEmpty()
+                || operatingHoursArray == null || operatingHoursArray.length != 7) {
+            response.sendRedirect("pharmInfoUpdate.jsp?error=invalid_form");
             return;
         }
 
@@ -56,13 +56,12 @@ public class PharmacyUpdateServlet extends HttpServlet {
             operatingHours = String.join(",", operatingHoursArray);
         } else {
             // Handle missing or malformed input
-            operatingHours = "Unavailable";
+            operatingHours = "N/A,N/A,N/A,N/A,N/A,N/A,N/A";
         }
 
         Pharmacy pharmacy = new Pharmacy();
         pharmacy.setUserId(Integer.parseInt(request.getParameter("user_id")));
         pharmacy.setPharmacyName(pharmacyName);
-        pharmacy.setTaxNum(taxNum);
         pharmacy.setPhoneNumber(phoneNumber);
         pharmacy.setFaxNumber(faxNumber);
         pharmacy.setWebURL(webURL);
@@ -85,11 +84,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         if (status > 0) {
             response.sendRedirect("pharmDashboard.jsp");
         } else {
-            // Set error message
-            request.setAttribute("errorMessage", "Invalid credentials. Please try again");
-
-            // Forward to login page with error message
-            request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);
+            response.sendRedirect("pharmInfoUpdate.jsp?error=update_error");
         }
     }
 }

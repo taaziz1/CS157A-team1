@@ -38,6 +38,18 @@
             overflow-x: hidden; /* guard against stray overflow */
         }
 
+        /* ===================== Navigation Bar ==================== */
+
+        /* middle slot for buttons */
+        .navcenter {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-right: 45px;
+        }
+
+
         /* ==================== Layout Wrappers ==================== */
         /* Center the card wrapper */
         .center1 {
@@ -60,7 +72,6 @@
 
         /* ==================== Table Styling ==================== */
         .info-table {
-            width: 100%;
             border-collapse: collapse;
             table-layout: fixed; /* equal-width columns */
             word-wrap: break-word;
@@ -172,25 +183,27 @@
 
 <body>
 <%--NAVIGATION BAR --%>
-<nav class=" bg-body-tertiary navbar">
+<nav class="bg-body-tertiary navbar">
     <div class="navstart">
         <%--ICON--%>
-        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-             fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25">
             <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"></path>
-            <path
-                    d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
+            <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
         </svg>
-
-
-        <a class="navstart homePage" href="index.jsp">PharmaFinder</a>
-
-
+        <a class="homePage" href="index.jsp">PharmaFinder</a>
     </div>
+
+    <div class="navcenter">
+        <a href="pharmInfoUpdate.jsp" class="btn btn-primary">✏️ Edit Info</a>
+        <button type="button" onclick="openResetModal()" class="btn btn-warning">🔒 Reset Password</button>
+        <button type="button" onclick="openDeleteModal()" class="btn btn-danger">🗑 Delete Account</button>
+    </div>
+
     <div class="navend">
         <a class="btn btn-outline-danger" style="margin-right:8px;" href="logout">Logout</a>
     </div>
 </nav>
+
 
 
 <%-- DASHBOARD CONTENT --%>
@@ -203,28 +216,6 @@
     MedicationDao medicationDao = new MedicationDao();
     List<Medication> medication = medicationDao.getMedication(userId);
 %>
-
-
-<h1>Welcome, <%=pharmacy.getPharmacyName()%>
-</h1>
-
-<div style="width: 100vw; display: flex; justify-content: flex-end; gap: 20px; padding-right: 80px; margin-top: 20px;">
-    <!-- Edit Info Button -->
-    <a href="pharmInfoUpdate.jsp" class="btn btn-primary">
-        ✏️ Edit Info
-    </a>
-
-    <!-- Reset Password Button -->
-    <button type="button" onclick="openResetModal()" class="btn btn-warning">
-        🔒 Reset Password
-    </button>
-
-    <!-- Delete Account Button with Confirmation -->
-    <button type="button" class="btn btn-danger" onclick="openDeleteModal()">
-        🗑 Delete Account
-    </button>
-
-</div>
 
 <!-- Reset Password Modal -->
 <div id="resetPasswordModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -299,7 +290,7 @@
     </form>
 </div>
 
-
+<h1 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px;">Welcome, <%=pharmacy.getPharmacyName()%></h1>
 
 <div class="center1">
     <div class="pharmDashBorder">
@@ -377,21 +368,7 @@
     String error = request.getParameter("error");
     if ("invalid_credentials".equals(error)) {
 %>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
+<div id="errorPopup">
     ❌ Incorrect credentials. Please try again.
 </div>
 <%

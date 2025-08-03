@@ -4,6 +4,7 @@
 <%@ page import="usermanagement.model.Pharmacy"%>
 <%@ page import="usermanagement.model.Address" %>
 <%@ page import="java.util.Arrays" %>
+<%@ page import="util.Utilities" %>
 
 
 <!DOCTYPE html>
@@ -19,22 +20,58 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
   <style>
-    .phramDashBorder{
-      border-radius:50%;
-      border:solid black;
+    /* Prevent scrolling */
+    body {
+      overflow: hidden;
     }
-    .center{
-      display:flex;
-      align-items:flex-start;
+
+    .entry-field {
+      margin: 8px 0;
     }
-    .test{
-      margin-right: 20px;
-      text-decoration:none;
+
+    .day-div {
+      width: 14.2857%;
     }
+
+    .day {
+      margin: 0 0 4px;
+      text-align: center;
+    }
+
   </style>
 </head>
 
 <body>
+
+<%--Pop ups--%>
+<%
+  String error = request.getParameter("error");
+  if (error != null) {
+%>
+<div id="errorPopup">
+  ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+  if("invalid_form".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ One or more fields are invalid. Please try again." </script>
+<%
+} else if ("update_error".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while updating the account. Please try again." </script>
+<%
+    }
+  }
+
+%>
+<script>
+  setTimeout(() => {
+    const popup = document.getElementById('errorPopup');
+    if (popup) popup.style.display = 'none';
+  }, 3000); // 3 seconds
+</script>
+
+
 <%--NAVIGATION BAR --%>
 <nav class=" bg-body-tertiary navbar">
   <div class="navstart">
@@ -46,7 +83,7 @@
               d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
     </svg>
 
-    <a class="navstart homePage">PharmaFinder</a>
+    <a class="navstart homePage" href="index.jsp">PharmaFinder</a>
 
   </div>
 </nav>
@@ -60,47 +97,62 @@
   pharmacy = pharmacyDao.getPharmacyDashboard(userId);
   Address address = pharmacy.getAddress();
 
+  //Convert from abbreviation to full state
+  address.setState(Utilities.abbrevToState(address.getState()));
+
 %>
 
-<div class="container">
-  <h1>Update Pharmacy Information</h1>
-
-  <form action="updatePharmacy" method="post" class="needs-validation" novalidate="">
+<div class="container"></div>
+  <form action="updatePharmacy" method="post" class="needs-validation" novalidate=""
+        style="background-color: white; margin:25px 120px; padding:12px 30px; border-radius:20px;">
+    <h1>Update Pharmacy Information</h1>
     <input type="hidden" name="user_id" value="<%= pharmacy.getUserId() %>">
     <input type="hidden" name="address_id" value="<%= address.getAddressId() %>">
 
     <div class="row">
-      <%-- TAX NUMBER --%>
-      <div class="col-sm-6">
-        <label for="tax_Number" class="form-label">Tax Number</label> <input
-              type="text" class="form-control" id="tax_Number" name="tax_Number"
-              value="<%=pharmacy.getTaxNum()%>" required="" pattern="\d{2}-\d{7}">
-        <div class="invalid-feedback">Your tax number is required.</div>
-      </div>
+
       <%-- PHARMACY NAME --%>
-      <div class="col-sm-6">
+      <div class="col-sm-4 entry-field">
         <label for="pharmacy_name" class="form-label">Pharmacy
           Name</label> <input type="text" class="form-control" id="pharmacy_name" name="pharmacy_name"
                               value="<%=pharmacy.getPharmacyName()%>" required="">
         <div class="invalid-feedback">Your pharmacy name is required.</div>
       </div>
+
+
+        <%-- PHONE NUMBER --%>
+        <div class="col-sm-4 entry-field">
+          <label for="phone" class="form-label">Phone Number</label> <span
+                class="text-body-secondary">(Optional)</span><input type="text"
+                                                                    class="form-control" id="phone" name="phone" value="<%=pharmacy.getPhoneNumber()%>">
+        </div>
+
+        <%-- FAX NUMBER --%>
+        <div class="col-sm-4 entry-field">
+          <label for="fax" class="form-label">Fax Number</label><span
+                class="text-body-secondary"> (Optional)</span> <input type="text"
+                                                                     class="form-control" id="fax" name="fax" value="<%=pharmacy.getFaxNumber()%>">
+        </div>
+
+
       <%-- ADDRESS --%>
-      <div class="col-12">
+      <div class="col-5 entry-field">
         <label for="address" class="form-label">Address</label> <input
               type="text" class="form-control" id="address" name="address"
               value="<%=address.getStreetName()%>" required="">
-        <div class="invalid-feedback">Please enter your shipping
+        <div class="invalid-feedback">Please enter your street
           address.</div>
       </div>
+
       <%-- CITY --%>
-      <div class="col-12">
+      <div class="col-2 entry-field">
         <label for="city" class="form-label">City</label> <input type="text"
                                                                  class="form-control" id="city" name="city" value="<%= address.getCity()%>" required="">
         <div class="invalid-feedback">Please provide a valid city.</div>
       </div>
 
       <%-- STATE --%>
-      <div class="col-md-6">
+      <div class="col-md-3 entry-field">
         <label for="state" class="form-label">State</label> <select
               class="form-select" id="state" name="state" required="">
         <option disabled <%= (address.getState() == null || address.getState().isEmpty()) ? "selected" : "" %>>Choose...</option>
@@ -157,38 +209,34 @@
         <option value="Wyoming" <%= "Wyoming".equals(address.getState()) ? "selected" : "" %>>Wyoming</option>
 
       </select>
-        <div class="invalid-feedback">Please provide a valid state.</div>
+        <div class="invalid-feedback">Please choose a valid state.</div>
       </div>
 
       <%-- ZIPCODE --%>
-      <div class="col-md-6">
-        <label for="zip" class="form-label">Zip Code</label> <input
-              type="number" class="form-control" id="zip" name="zip" value="<%=address.getZipcode()%>"
-              required="">
-        <div class="invalid-feedback">Zip code required.</div>
+      <div class="col-md-2 entry-field">
+        <label for="zip" class="form-label">Zip Code</label>
+        <input
+                type="text"
+                class="form-control"
+                id="zip"
+                name="zip"
+                value="<%=address.getZipcode()%>"
+                required=""
+                pattern="\d{5}"
+                maxlength="5"
+                title="Zip code must be exactly 5 digits">
+        <div class="invalid-feedback">Zip code must be exactly 5 digits.</div>
       </div>
 
+        <%-- URL --%>
+        <div class="col-12 entry-field">
+          <label for="url" class="form-label"> URL <span
+                  class="text-body-secondary">(Optional)</span></label> <input type="url"
+                                                                               class="form-control" id="url" name="url" value="<%=pharmacy.getWebURL()%>">
+          <div class="invalid-feedback">Please enter a valid URL
+            (e.g., https://example.com)</div>
+        </div>
 
-      <%-- PHONE NUMBER --%>
-      <div class="col-sm-12">
-        <label for="phone" class="form-label">Phone Number</label> <span
-              class="text-body-secondary">(Optional)</span><input type="text"
-                                                                  class="form-control" id="phone" name="phone" value="<%=pharmacy.getPhoneNumber()%>">
-      </div>
-      <%-- FAX NUMBER --%>
-      <div class="col-sm-12">
-        <label for="fax" class="form-label">Fax Number</label><span
-              class="text-body-secondary">(Optional)</span> <input type="text"
-                                                                   class="form-control" id="fax" name="fax" value="<%=pharmacy.getFaxNumber()%>">
-      </div>
-      <%-- URL --%>
-      <div class="col-12">
-        <label for="url" class="form-label"> URL <span
-                class="text-body-secondary">(Optional)</span></label> <input type="url"
-                                                                             class="form-control" id="url" name="url" value="<%=pharmacy.getWebURL()%>">
-        <div class="invalid-feedback">Please enter a valid URL
-          (e.g., https://example.com)</div>
-      </div>
       <%--OPERATING HOURS --%>
         <%
           String hours = pharmacy.getOperatingHours();
@@ -200,25 +248,24 @@
           }
           String[] daysOfWeek ={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
         %>
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="margin: 8px 0 2px">
           <label class="form-label">Operating Hours</label>
-          <span class="text-body-secondary"> In military time-format</span>
+          <span class="text-body-secondary"> (e.g., 09:00-17:00)</span>
         </div>
         <br>
           <%
             for (int i = 0; i < timings.length && i < daysOfWeek.length; i++) {
           %>
-        <label><%= daysOfWeek[i] %></label>
-        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>" required="">
+        <div class="col-sm-1 day-div">
+          <label><%= daysOfWeek[i] %></label>
+          <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>"
+                 required="">
+        </div>
           <% } %>
-        <div class="invalid-feedback">Please fill in every day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.</div>
+        <div class="invalid-feedback">Please fill in each day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.</div>
 
 
 
-        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-    <% if (errorMessage != null) { %>
-    <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
-    <% } %>
     <%-- BUTTON --%>
         <%-- BUTTONS: Update and Cancel --%>
         <div class="d-flex justify-content-start gap-2 mt-3">
