@@ -115,8 +115,7 @@ public class CustomerDao {
 
     //update customer
 private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c ON u.user_id = c.user_id " +
-        "SET c.avatar_id = ?, c.email_address = ?, u.username = ? " +
-        "WHERE c.user_id = ?";
+        "SET c.avatar_id = ? WHERE c.user_id = ?";
 
 
     public boolean updateCustomer(Customer customer) throws SQLException {
@@ -125,9 +124,7 @@ private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c
                 Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
               PreparedStatement ps = con.prepareStatement(UPDATE_CUSTOMER_SQL)) {
             ps.setInt(1,customer.getAvatarId());
-            ps.setString(2, customer.getEmailAddress());
-            ps.setString(3,customer.getUsername() );
-            ps.setInt(4, customer.getUserId());
+            ps.setInt(2, customer.getUserId());
             rowUpdated = ps.executeUpdate() > 0;
         }
         return rowUpdated;
@@ -157,6 +154,43 @@ private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c
         return isUnique;
     }
 
+    public int resetCustomerPassword(int userId, String userInputPassword, String newPassword) {
+        int status = 0;
+        String RETRIEVE_CUSTOMER_CREDENTIALS_SQL = "SELECT password FROM user WHERE user_id = ?";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+            PreparedStatement ps = con.prepareStatement(RETRIEVE_CUSTOMER_CREDENTIALS_SQL);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            String currentPassword = "";
+
+            if (rs.next()) {
+                currentPassword = rs.getString("password");
+            }
+
+            if (!currentPassword.equals(Utilities.hash(userInputPassword))) {
+                status = 2; // Current password does not match
+            }
+            else if (currentPassword.equals(Utilities.hash(newPassword))) {
+                status =  3; // New password is the same as the current password
+            }
+            else {
+                String UPDATE_CUSTOMER_PASSWORD_SQL = "UPDATE user SET password = ? WHERE user_id = ?";
+                PreparedStatement updatePs = con.prepareStatement(UPDATE_CUSTOMER_PASSWORD_SQL);
+                updatePs.setString(1, Utilities.hash(newPassword));
+                updatePs.setInt(2, userId);
+                status = updatePs.executeUpdate();
+            }
+
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            printSQLException((SQLException) e);
+        }
+        return status;
+    }
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/updateCustomer")
-public class UpdateCustomerServlet extends HttpServlet {
+public class CustomerUpdateServlet extends HttpServlet {
 
     private CustomerDao customerDao;
 
@@ -34,26 +34,12 @@ public class UpdateCustomerServlet extends HttpServlet {
             throws ServletException, IOException {
         Integer userId = (Integer) request.getSession().getAttribute("user_id");
         String avatarIdString = request.getParameter("avatarId");
-        String emailAddress = request.getParameter("emailAddress");
-        String username = request.getParameter("username");
-        if (avatarIdString == null || avatarIdString.isEmpty()
-                || emailAddress == null || emailAddress.trim().isEmpty()
-                || username == null || username.trim().isEmpty()) {
-
-            request.setAttribute("errorMessage", "Please fill all the fields.");
-            request.setAttribute("userId", userId);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("custUpdate.jsp?userId=" + userId);
-            dispatcher.forward(request, response);
-            return;
-        }
 
         int avatarId = Integer.parseInt(avatarIdString);
 
         Customer customer = new Customer();
         customer.setUserId(userId);
         customer.setAvatarId(avatarId);
-        customer.setEmailAddress(emailAddress);
-        customer.setUsername(username);
         boolean status=false;
         try {
              status = customerDao.updateCustomer(customer);
@@ -61,6 +47,9 @@ public class UpdateCustomerServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         if(status){
+            HttpSession session = request.getSession();
+            customer = customerDao.getCustomerDashboard(userId);
+            session.setAttribute("avatar", customer.getAvatarDirectory());
             response.sendRedirect("custDashboard.jsp?success=updated_info");
         }else{
             response.sendRedirect("custDashboard.jsp?error=update_fail");

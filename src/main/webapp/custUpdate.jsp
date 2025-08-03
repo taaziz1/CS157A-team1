@@ -54,9 +54,10 @@
                String[] split = avatar.split("\\|");
                String avatarId = split[0];
                String avatarPath = split[1];
+               boolean isChecked = (avatarPath.equals(customer.getAvatarDirectory())); // Check if this avatar is selected
         %>
         <div class="pharmDashBorder" >
-        <input  type="radio" name="avatarId" value="<%= avatarId %>">
+        <input  type="radio" name="avatarId" value="<%= avatarId %>" <% if (isChecked) {%> checked="checked"<% } %>>
 <img  src="<%= avatarPath %>"style="width:40px;height:40px;">
         </div>
         <%}%>
@@ -69,9 +70,6 @@
                placeholder="Username"   value="<%= customer.getUsername() %>" name="username">
         <label >Username</label>
     </div>
-
-
-
 
     <div class="form-floating">
     <input type="email" id="emailAddress"  class="form-control" name="emailAddress" placeholder="Email Address"
@@ -92,6 +90,18 @@
 </div>
 </main>
 
+<script>
+    function openUpdateModal() {
+        document
+            .getElementById('updateCustomerModal')
+            .style.display = 'flex';
+    }
+    function closeUpdateModal() {
+        document
+            .getElementById('updateCustomerModal')
+            .style.display = 'none';
+    }
+</script>
 
 
 </body>
