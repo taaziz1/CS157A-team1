@@ -13,7 +13,7 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
 
-  <title >Edit Medication </title>
+  <title>Edit Medication </title>
 
 </head>
 <body>
@@ -34,28 +34,57 @@
 <%
   String medIdParam = request.getParameter("med_id");
   String userIdParam = request.getParameter("user_id");
+
 %>
 
-<h1>Edit Medication </h1>
-<main class="form-signin w-100 m-auto">
-  <div class="bubble">
-<form method="post" action="updateMedication">
+
+<main class="form-signin w-100 m-auto" >
+  <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
+  <h3>Edit Medication</h3>
+<form method="post" action="updateMedication" class="needs-validation" novalidate>
 
   <input type="hidden" name="med_id" value="<%= medIdParam %>" />
   <input type="hidden" name="user_id" value="<%= userIdParam %>" />
 
-  <div class="form-floating">
+  <div class="form-floating" styLe="margin:5px;">
   <input type="text"  pattern="^\d+\.\d{2}$" title="Must be valid price" name="price" id="price" required  class="form-control">
   <label for="price">Price:</label>
+  <div class="invalid-feedback">
+          Must be a valid price (eg:0.99,34.66)
+        </div>
   </div>
-    <div class="form-floating">
+
+
+    <div class="form-floating" styLe="margin:5px;">
   <input type="number" min="0" name="qty" id="qty" class="form-control" required >
     <label for="qty">Quantity:</label>
-
-  <input class="btn btn-primary w-100 py-2 " type="submit" style="" value="Update Medication" />
+    <div class="invalid-feedback">
+          Quantity must be a positive number.
+        </div>
   </div>
+  <div styLe="margin:5px;">
+  <input class="btn btn-primary w-100 py-2 " type="submit" value="Update Medication" />
+    <a href="pharmDashboard.jsp" style="color:grey;text-decoration:none; display:flex;justify-content:center;">Cancel</a>
+</div>
 </form>
   </div>
 </main>
-</body>
+
+<script>
+		// Bootstrap form validation
+		(function () {
+			'use strict'
+			const forms = document.querySelectorAll('.needs-validation')
+			Array.from(forms).forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
+	</body>
 </html>

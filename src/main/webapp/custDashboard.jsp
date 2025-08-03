@@ -31,19 +31,25 @@
 
 /*Review boxes*/
 .reviewBox{
-background:white;
+background-color:whitesmoke;
 padding:20px;
 border-radius:20px;
-
+width:900px;
+margin: 5px auto;
 }
 
 .reviewBox:hover {
-  transform: scale(1.03); /* Increases size by 10% */
+  transform: scale(1.03);
 }
   </style>
 </head>
 
 <body>
+<%
+  CustomerDao customerDao = new CustomerDao();
+  int userId =(int)session.getAttribute("user_id");
+  Customer customer = customerDao.getCustomerDashboard(userId);
+%>
 
 <%--NAVIGATION BAR --%>
 <nav class=" bg-body-tertiary navbar">
@@ -60,34 +66,33 @@ border-radius:20px;
         href="index.jsp">PharmaFinder</a>
   </div>
 
-  <a  class="formPath" href="logout" >Logout</a>
-
-</nav>
-<%
-  CustomerDao customerDao = new CustomerDao();
-  int userId =(int)session.getAttribute("user_id");
-  Customer customer = customerDao.getCustomerDashboard(userId);
-%>
-
-<h1 style="margin-top:40px;"> Customer Dashboard</h1>
-<div style="display:flex; justify-content:end; ">
+<div class="navend">
 <!-- Delete Account Button -->
-<div  style="padding:20px;">
-  <button type="button" class="comment-submit" style="background-color: #dc3545;" onclick="openDeleteModal()">
+<div  style="padding:9px 20px; top:-10px;">
+  <a type="button"  class="formPath" onclick="openDeleteModal()">
     Delete Account
-  </button>
+  </a>
 </div>
 <!-- Update Account Button -->
-<div  style="padding:20px;">
+<div  style="padding:9px 20px; top:-10px;" >
   <form action="custUpdate.jsp" method="get">
     <input type="hidden" name="userId" value="<%= userId %>">
     <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
-    <button type="submit" class="comment-submit" style="background-color: #28a745;">
+    <a type="submit" class="formPath">
       Update Account
-    </button>
+    </a>
   </form>
 </div>
+<a style="padding-top:7px;" class="formPath" href="logout" >Logout</a>
 </div>
+
+
+
+</nav>
+
+
+<h1 style="margin-top:40px;"> Customer Dashboard</h1>
+
 <div style="display:flex; justify-content:center; padding:20px;margin-bottom:20px;">
   <div class="custDashBorder" >
   <table>
@@ -120,8 +125,8 @@ ReviewDao reviewdao = new ReviewDao();
 ArrayList<Review> reviews = reviewdao.getReviewList(userId);
 for(Review review: reviews){
 %>
-<div style="padding:0 25rem; ">
-<div class="reviewBox"onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" >
+
+<div  class="reviewBox card-body  mb-4 shadow-sm "onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" >
 
 <p style="font-size:30px;"><%=review.getPharmacy()%></p>
 
@@ -154,7 +159,6 @@ let starRating = "<%=review.getRating()%>";
 
 })();
 </script>
-</div>
 
 </div>
 <br>

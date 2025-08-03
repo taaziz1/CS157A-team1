@@ -12,8 +12,6 @@ import java.util.List;
 
 public class MedicationDao {
     public List<Medication> getMedication(int userId) {
-
-
         List<Medication> med = new ArrayList();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

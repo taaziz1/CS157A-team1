@@ -33,8 +33,9 @@
       cursor: pointer;
       margin: 1.2rem;
   }
-  .pharmCard:hover {
-    transform: scale(1.03); /* Increases size by 10% */
+  .pharmCard:hover,.card:hover {
+    transform: scale(1.03);
+
   }
   .distDisplay{
       color:green;
