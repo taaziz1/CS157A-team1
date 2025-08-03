@@ -288,6 +288,10 @@ else if ("updated_info".equals(success)) {
       <td ><img  src="<%=customer.getAvatarDirectory()%>"  alt="Avatar" width="100" height="100"></td>
     </tr>
     <tr>
+      <th>User Id</th>
+      <td><%=customer.getUserId()%></td>
+    </tr>
+    <tr>
       <th>Username</th>
       <td><%=customer.getUsername()%></td>
     </tr>
