@@ -49,12 +49,12 @@ public class PharmacyDeleteAccountServlet extends HttpServlet {
                 response.sendRedirect("logout");
             }
             else{
-                response.sendRedirect("loginPharmacySuccess.jsp?error=delete_failed");
+                response.sendRedirect("pharmDashboard.jsp?error=delete_failed");
             }
         }
         else {
             // If password or tax number does not match, redirect with error
-            response.sendRedirect("loginPharmacySuccess.jsp?error=invalid_credentials");
+            response.sendRedirect("pharmDashboard.jsp?error=invalid_credentials");
         }
 
 

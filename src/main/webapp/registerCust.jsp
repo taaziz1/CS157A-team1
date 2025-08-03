@@ -6,25 +6,78 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css" type="text/css">
-<title>Customer Create Account</title>
+<title>Customer Registration</title>
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
-	crossorigin="anonymous">
+	<%-- To link Bootstrap --%>
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+		crossorigin="anonymous">
+
 	<style>
-	.button{
-	display:flex;
-	padding:30px;
-	  }
-	  .btn{
-	  margin:20px;}
+		/* Prevent scrolling */
+		body {
+			overflow: hidden;
+		}
+
+		.button {
+			display: flex;
+			padding: 20px 30px 10px;
+		}
 	</style>
 </head>
 
 <body>
-	<%--NAVIGATION BAR --%>
+
+<%--Pop ups--%>
+<%
+	String error = request.getParameter("error");
+	if (error != null) {
+%>
+<div id="errorPopup" style="
+    position: fixed;
+    top: 7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 1rem;
+    text-align: center;
+">
+	❌ An unknown error has occurred. Please try again.
+</div>
+<%
+		if("duplicate_account".equals(error)) {
+%>
+			<script> document.getElementById("errorPopup").innerHTML = "❌ Username or email address already exists. Please try again." </script>
+<%
+		} else if ("invalid_form".equals(error)) {
+
+%>
+			<script> document.getElementById("errorPopup").innerHTML = "❌ One or more fields are invalid. Please try again." </script>
+<%
+		} else if ("creation_error".equals(error)) {
+%>
+			<script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while creating the account. Please try again." </script>
+<%
+		} else {}
+	}
+
+%>
+<script>
+	setTimeout(() => {
+		const popup = document.getElementById('errorPopup');
+		if (popup) popup.style.display = 'none';
+	}, 3000); // 3 seconds
+</script>
+
+<%--NAVIGATION BAR --%>
 	<nav class=" bg-body-tertiary navbar">
 		<div class="navstart">
 			<%--ICON--%>
@@ -40,17 +93,15 @@
 		</div>
 	</nav>
 
-	<h1>Create Account</h1>
-
-	<%-- REGISTRATION --%>
-
+	<%-- REGISTRATION CARD --%>
 	<div class="center">
-		<div class="col-md-7 col-lg-8">
-			<form class="needs-validation" action="registerCustomer" method="post" novalidate="">
+			<form class="needs-validation" action="registerCustomer" method="post" novalidate=""
+				  style="background-color: white; margin:20px 32%; padding:12px 30px; border-radius:20px;">
+				<h1>Create an Account</h1>
 				<div class="row">
-                  	
+
                    <%-- USERNAME--%>
-					<div class="col-sm-12">
+					<div class="col-sm-12" style="margin: 0 0 4px">
 						<label for="username" class="form-label">Username</label>
 						<div class="input-group has-validation">
 							<span class="input-group-text">@</span> <input type="text"
@@ -59,37 +110,59 @@
 							<div class="invalid-feedback">Your username is required.</div>
 						</div>
 					</div>
-					
+
                     <%-- PASSWORD --%>
-					<div class="col-sm-12">
-						<label for="password" class="form-label">Password</label> <input
-							type="password" class="form-control" id="password" name="password" placeholder=""
-							value="" required="">
-					</div>
-					
+					   <div class="col-sm-12" style="margin: 8px 0 4px">
+						   <label for="password" class="form-label">Password</label>
+						   <input
+								   type="password"
+								   class="form-control"
+								   id="password"
+								   name="password"
+								   required
+								   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+								   title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.">
+						   <div class="invalid-feedback">
+							   Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
+						   </div>
+					   </div>
+
+
 					<%-- EMAIL --%>
-					<div class="col-md-12">
+					<div class="col-md-12" style="margin: 8px 0 4px">
 						<label for="emailAddress" class="form-label">Email Address</label> <input
 							type="email" class="form-control" id="emailAddress" name="emailAddress"
 							placeholder="" required="">
 						<div class="invalid-feedback">Email required.</div>
 					</div>
-						   <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-						   <% if (errorMessage != null) { %>
-					   <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
-						   <% } %>
-					
-					
-<%-- BUTTON --%>
-<div class="button">
-            
-					<button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
-		        	
-			
-			</div>
-			 <a href="index.jsp"style="text-decoration:none; color:gray;">Cancel</a></form>
-		</div>
+
+					<%-- BUTTON --%>
+					<div class="button">
+						<button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
+					</div>
+
+				<%-- CANCEL --%>
+				<div style="margin:auto; width: 50%; text-align: center;">
+					<a class="formPath" href="index.jsp">Cancel</a>
+				</div>
+			</form>
 	</div>
+	<script>
+		// Bootstrap form validation
+		(function () {
+			'use strict'
+			const forms = document.querySelectorAll('.needs-validation')
+			Array.from(forms).forEach(function (form) {
+				form.addEventListener('submit', function (event) {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
 
 </body>
 </html>

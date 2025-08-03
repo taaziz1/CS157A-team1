@@ -33,19 +33,119 @@
     <title id="title"></title>
 
     <style>
+        /* ==================== Resets & Globals ==================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* guard against stray overflow */
+        }
+
+        /* ==================== Layout Wrappers ==================== */
+        /* Center the card wrapper */
+        .center1 {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            width: auto; /* allow it to shrink */
+        }
+
+        /* Card container */
+        .pharmDashBorder {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 1450px;  /* cap width */
+            margin: 1rem auto;  /* vertical spacing + center */
+        }
+
+        /* ==================== Table Styling ==================== */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* equal-width columns */
+            word-wrap: break-word;
+            background-color: #fff;
+        }
+
+        .info-table thead th {
+            background-color: #fff;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 2px solid #dee2e6;
+            text-align: center;
+            padding: 0.75rem 1.25rem;
+        }
+
+        .info-table th,
+        .info-table td {
+            padding: 0.75rem 1.25rem;
+            border-top: none;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+        .info-table tbody tr:last-child th,
+        .info-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Remove Bootstrap row/col gutters inside <dl class="row"> */
+        .info-table dl.row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        .info-table dl.row .col-sm-4,
+        .info-table dl.row .col-sm-8 {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .info-table dl.row dt,
+        .info-table dl.row dd {
+            margin: 0;
+            padding: 0.25rem 0;
+        }
+
+        /* ==================== Hours List ==================== */
+        .hours-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .hours-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* ==================== Stars & Ratings ==================== */
+        .checked {
+            color: orange; /* orange stars */
+        }
+
+        /* ==================== Utility Classes ==================== */
+        .align-middle {
+            vertical-align: middle !important;
+        }
         .table_header {
             text-align: right;
             font-size: large;
-            padding: 0.75rem 1rem 0.75rem;
+            padding: 0.75rem 1rem;
         }
-
         .table_data {
             text-align: left;
             font-size: medium;
-        }
-
-        .checked {
-            color: orange;
         }
 
         /* === Dropdown Menu for Reviews === */
@@ -145,15 +245,13 @@
                 <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
             </svg>
 
-            <a class="navstart homePage" style="font-weight: bold;" href="index.jsp">PharmaFinder</a>
+            <a class="navstart homePage" href="index.jsp">PharmaFinder</a>
         </div>
 
-        <div class="navend">
-            <%--TAKE ADDRESS--%>
-
-            <input type="text" id="location" placeholder="Enter your location">
-            <button id="submitBtnLocation">Submit</button>
-
+<div class="navend">
+        <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
+        <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
+</div>
             <div class="navend">
                 <%-- Welcome message + Logout for logged-in users --%>
                 <%
@@ -164,21 +262,23 @@
                 %>
 
 
-                <span class="navend " style="margin:0;padding-right: 20px;"> <a class="formPath"
-                                                                                href="custDashboard.jsp"><%= customerName %></a></span>
-                <a href="logout" class="btn btn-outline-danger">Logout</a>
+                <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+                    <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+                </span>
+                <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
                 <%
                 } else if (customerName == null && pharmName != null) {
                 %>
-                <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath"
-                                                                              href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
-                <a href="logout" class="btn btn-outline-danger">Logout</a>
+                <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+                    <a class="formPath" style="text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+                </span>
+                <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
                 <%
                         }
                     }
                 %>
 
-            </div>
+        </div>
 
     </nav>
 
@@ -190,74 +290,65 @@
     %>
 
     <%-- Pharmacy Info Card --%>
-    <div class="card" style="margin: 1.8rem;">
-        <div class="card-header">
-            <h2 class="card-title" style="margin: 0.5rem; text-align: left;"><%=pharmacy.getPharmacyName()%>-<h5
-                    class="distDisplay" style="color:green;"></h5>
-            </h2>
-        </div>
-        <%
-            String phoneNumber = pharmacy.getPhoneNumber();
-            String faxNumber = pharmacy.getFaxNumber();
-            String webUrl = pharmacy.getWebURL();
-
-        %>
-        <div class="card-body">
-            <table>
+    <div class="center1">
+        <div class="pharmDashBorder">
+            <table class="table table-hover table-borderless mb-0 info-table align-middle">
+                <thead class="table-light">
                 <tr>
-                    <th class="table_header">Address</th>
+                    <th colspan="2" class="text-center">
+                        <h2 class="mb-0"><%=pharmacy.getPharmacyName()%><h4
+                                class="distDisplay" style="color:green;"></h4></h2>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    String phoneNumber = pharmacy.getPhoneNumber();
+                    if (phoneNumber == null || phoneNumber.isEmpty()) phoneNumber = "N/A";
+                    String faxNumber = pharmacy.getFaxNumber();
+                    if (faxNumber == null || faxNumber.isEmpty()) faxNumber = "N/A";
+                    String webUrl = pharmacy.getWebURL();
+                    String hours = pharmacy.getOperatingHours();
+                    String[] timings = (hours != null) ? hours.split(",") : new String[0];
+                    String[] daysOfWeek = {
+                            "Monday","Tuesday","Wednesday",
+                            "Thursday","Friday","Saturday","Sunday"
+                    };
+                %>
+                <tr>
+                    <th>Address</th>
                     <td class="pharmDist"><%=pharmacy.getAddress()%>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th class="table_header">Website</th>
-                    <td><%
-                        if (webUrl == null || webUrl.isEmpty()) {
-                            webUrl = "N/A";
-                    %>
-                        <%=webUrl%>
-                        <% } else {%>
-                        <a href="<%= pharmacy.getWebURL() %>"><%= pharmacy.getWebURL() %>
-                        </a>
-                        <%}%>
-                    </td>
                 </tr>
                 <tr>
-                    <th class="table_header">Phone Number</th>
-                    <td><%
-                        if (phoneNumber == null || phoneNumber.isEmpty())
-                            phoneNumber = "N/A";
-                    %><%=phoneNumber%>
-                    </td>
+                    <th>Phone Number</th>
+                    <td><%= phoneNumber %></td>
                 </tr>
                 <tr>
-                    <th class="table_header">Fax Number</th>
-                    <td><%
-                        if (faxNumber == null || faxNumber.isEmpty())
-                            faxNumber = "N/A";
-                    %><%=faxNumber%>
-                    </td>
+                    <th>Fax Number</th>
+                    <td><%= faxNumber %></td>
                 </tr>
                 <tr>
-                    <th class="table_header">Operating Hours</th>
+                    <th>Website</th>
                     <td>
-                        <table>
-                            <%
-                                String hours = pharmacy.getOperatingHours();
-                                String timings[] = hours.split(",");
-                                String daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-                                for (int i = 0, j = 0; i < timings.length && j < daysOfWeek.length; i++, j++) {
-                            %>
-                            <tr>
-                                <td><%=daysOfWeek[j]%>
-                                </td>
-                                <td><%=timings[i]%>
-                                </td>
-                            </tr>
-                            <%}%>
-                        </table>
+                        <% if (webUrl == null || webUrl.isEmpty()) { %>
+                        N/A
+                        <% } else { %>
+                        <a href="<%= webUrl %>" target="_blank" rel="noopener"><%= webUrl %></a>
+                        <% } %>
+                    </td>
                 </tr>
+                <tr>
+                    <th>Operating Hours</th>
+                    <td>
+                        <dl class="row mb-0">
+                            <% for (int i = 0; i < timings.length && i < daysOfWeek.length; i++) { %>
+                            <dt class="col-sm-4"><%= daysOfWeek[i] %></dt>
+                            <dd class="col-sm-8"><%= timings[i] %></dd>
+                            <% } %>
+                        </dl>
+                    </td>
+                </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -314,15 +405,25 @@
             <%
                 ReviewDao reviewDao = new ReviewDao();
                 double rating = reviewDao.getAverageRating(userId);
-                int roundedRating = (int) Math.round(rating);
+                double decimal = rating - Math.floor(rating);
+                double ratingCopy = rating;
 
-                for (int rate = 1; rate <= 5; rate++) {
-                    if (rate <= roundedRating) {
-                        out.println("<span class=\"fa fa-star checked\"></span>");
-                    } else {
-                        out.println("<span class=\"fa fa-star\"></span>");
-                    }
+                //Full stars
+                for(int i = 1; i <= rating; i++) {
+                    out.println("<span class=\"fa fa-star checked\"></span>");
                 }
+
+                //Half star
+                if(decimal >= 0.5) {
+                    out.println("<span class=\"fa fa-star-half-full checked\"></span>");
+                    ratingCopy++;
+                }
+
+                //Empty stars
+                for(double x = ratingCopy; x < 5; x++) {
+                    out.println("<span class=\"fa fa-star-o checked\"></span>");
+                }
+
                 out.println(String.format(
                         "<p style=\"font-size: x-large; margin-top: 0.5rem;\">Average Rating: %.2f</p>", rating));
             %>

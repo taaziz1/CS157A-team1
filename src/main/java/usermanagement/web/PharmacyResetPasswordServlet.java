@@ -27,7 +27,8 @@ public class PharmacyResetPasswordServlet extends HttpServlet {
         // Basic validation
         if (taxNum == null || taxNum.isEmpty() || newPassword == null || newPassword.isEmpty()) {
             request.setAttribute("errorMessage", "Tax number and new password are required.");
-            request.getRequestDispatcher("pharmResetPassword.jsp").forward(request, response);
+            request.setAttribute("openResetModal", true);
+            request.getRequestDispatcher("pharmDashboard.jsp").forward(request, response);
             return;
         }
 
@@ -40,19 +41,23 @@ public class PharmacyResetPasswordServlet extends HttpServlet {
         }
         else if (status == 2) {
             request.setAttribute("errorMessage", "Current password is incorrect. Please try again.");
-            request.getRequestDispatcher("pharmResetPassword.jsp").forward(request, response);
+            request.setAttribute("openResetModal", true);
+            request.getRequestDispatcher("pharmDashboard.jsp").forward(request, response);
         }
         else if (status == 3) {
             request.setAttribute("errorMessage", "Tax number is incorrect. Please try again.");
-            request.getRequestDispatcher("pharmResetPassword.jsp").forward(request, response);
+            request.setAttribute("openResetModal", true);
+            request.getRequestDispatcher("pharmDashboard.jsp").forward(request, response);
         }
         else if (status == 4) {
             request.setAttribute("errorMessage", "New password cannot be the same as the current password. Please choose a different password.");
-            request.getRequestDispatcher("pharmResetPassword.jsp").forward(request, response);
+            request.setAttribute("openResetModal", true);
+            request.getRequestDispatcher("pharmDashboard.jsp").forward(request, response);
         }
         else {
             request.setAttribute("errorMessage", "An error occurred. Please try again.");
-            request.getRequestDispatcher("pharmResetPassword.jsp").forward(request, response);
+            request.setAttribute("openResetModal", true);
+            request.getRequestDispatcher("pharmDashboard.jsp").forward(request, response);
         }
     }
 }

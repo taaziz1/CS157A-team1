@@ -40,8 +40,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         // Basic validation
         if (pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
                 streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
-                state == null || state.isEmpty() || phoneNumber == null || phoneNumber.isEmpty() ||
-                faxNumber == null || faxNumber.isEmpty() || webURL == null || webURL.isEmpty() ||
+                state == null || state.isEmpty() || zipString == null || zipString.isEmpty() ||
                 operatingHoursArray == null || operatingHoursArray.length != 7) {
             request.setAttribute("errorMessage", "All fields are required.");
             request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);
@@ -84,10 +83,10 @@ public class PharmacyUpdateServlet extends HttpServlet {
         }
 
         if (status > 0) {
-            response.sendRedirect("loginPharmacySuccess.jsp");
+            response.sendRedirect("pharmDashboard.jsp");
         } else {
             // Set error message
-            request.setAttribute("errorMessage", "Please choose a different username.");
+            request.setAttribute("errorMessage", "Invalid credentials. Please try again");
 
             // Forward to login page with error message
             request.getRequestDispatcher("pharmInfoUpdate.jsp").forward(request, response);

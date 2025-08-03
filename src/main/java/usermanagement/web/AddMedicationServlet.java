@@ -10,6 +10,7 @@ import usermanagement.model.Medication;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @WebServlet("/addMed")
 public class AddMedicationServlet  extends HttpServlet {
@@ -45,14 +46,15 @@ public class AddMedicationServlet  extends HttpServlet {
         boolean status = false;
         try{
             status = medDao.insertMedication(med,userId);
-        }catch(SQLException e){
-            throw new RuntimeException(e);
+
+        } catch(SQLException e){
+           throw new RuntimeException(e);
         }
 
         if (status){
-            response.sendRedirect("loginPharmacySuccess.jsp");
+            response.sendRedirect("pharmDashboard.jsp");
         }else{
-            System.out.println("Forwarding to edit page with: " + medId + ", " + userId);
+            request.setAttribute("errorMessage", "Medication already present");
             request.getRequestDispatcher("addMeds.jsp").forward(request, response);
 
         }

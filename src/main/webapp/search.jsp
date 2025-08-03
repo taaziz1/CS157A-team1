@@ -33,6 +33,9 @@
       cursor: pointer;
       margin: 1.2rem;
   }
+  .pharmCard:hover {
+    transform: scale(1.03); /* Increases size by 10% */
+  }
   .distDisplay{
       color:green;
       font-size: 20px;
@@ -66,27 +69,32 @@
             <a class="navstart homePage" style="font-weight:bold;" href="index.jsp">PharmaFinder</a>
         </div>
 
-        <div class="navend" >
+
 
             <%--TAKE ADDRESS--%>
-
-            <input type="text" id="location"  placeholder="Enter your location">
-            <button id="submitBtnLocation">Submit</button>
-
+                <div class="navend">
+                    <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
+                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
+                </div>
+        <div class="navend">
             <%
                 String customerName = (String) session.getAttribute("username1");
                 String pharmName = (String) session.getAttribute("username2");
                 if (session != null && session.getAttribute("user_id") != null) {
-                    if(customerName!=null && pharmName==null){
+                    if(customerName != null && pharmName == null){
             %>
 
-            <span class="navend " style="margin:0;padding-right: 20px;"> <a  class="formPath" href="custDashboard.jsp"><%= customerName %></a></span>
-            <a href="logout" class="btn btn-outline-danger">Logout</a>
+            <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+                <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+            </span>
+            <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
             <%
-            }else if(customerName==null && pharmName!=null){
+            } else if (customerName == null && pharmName != null){
             %>
-            <span class="navend" style="margin:0;padding-right: 20px;"><a class="formPath" href="loginPharmacySuccess.jsp"> <%= pharmName %></a></span>
-            <a href="logout" class="btn btn-outline-danger">Logout</a>
+            <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+                <a class="formPath" style="text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+            </span>
+            <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
             <%
                     }
                 }
@@ -227,8 +235,6 @@
         .catch(err => console.error('Error fetching API key:', err));
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="distancePharmacy.js"></script>
 </body>
 </html>

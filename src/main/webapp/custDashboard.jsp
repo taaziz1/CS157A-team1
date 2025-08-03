@@ -1,6 +1,10 @@
 <%@ page import="usermanagement.dao.CustomerDao" %>
 <%@ page import="usermanagement.model.Customer" %>
 <%@ page import="usermanagement.web.CustomerLoginServlet" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="usermanagement.dao.ReviewDao" %>
+<%@ page import="usermanagement.model.Review" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,6 +29,17 @@
 
   }
 
+/*Review boxes*/
+.reviewBox{
+background:white;
+padding:20px;
+border-radius:20px;
+
+}
+
+.reviewBox:hover {
+  transform: scale(1.03); /* Increases size by 10% */
+}
   </style>
 </head>
 
@@ -53,13 +68,31 @@
   int userId =(int)session.getAttribute("user_id");
   Customer customer = customerDao.getCustomerDashboard(userId);
 %>
-<h1 style="margin-top:40px;"> Customer Dashboard</h1>
 
-  <div class="custDashBorder">
+<h1 style="margin-top:40px;"> Customer Dashboard</h1>
+<div style="display:flex; justify-content:end; ">
+<!-- Delete Account Button -->
+<div  style="padding:20px;">
+  <button type="button" class="comment-submit" style="background-color: #dc3545;" onclick="openDeleteModal()">
+    Delete Account
+  </button>
+</div>
+<!-- Update Account Button -->
+<div  style="padding:20px;">
+  <form action="custUpdate.jsp" method="get">
+    <input type="hidden" name="userId" value="<%= userId %>">
+    <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
+    <button type="submit" class="comment-submit" style="background-color: #28a745;">
+      Update Account
+    </button>
+  </form>
+</div>
+</div>
+<div style="display:flex; justify-content:center; padding:20px;margin-bottom:20px;">
+  <div class="custDashBorder" >
   <table>
     <tr>
-
-      <td ><img src="<%=customer.getAvatarDirectory()%>"  alt="Avatar" width="100" height="100"></td>
+      <td ><img  src="<%=customer.getAvatarDirectory()%>"  alt="Avatar" width="100" height="100"></td>
     </tr>
     <tr>
       <th>User Id</th>
@@ -78,12 +111,57 @@
     </table>
 
   </div>
-<!-- Delete Account Button -->
-<div class="custDashBorder" style="margin-top: 20px;">
-  <button type="button" class="comment-submit" style="background-color: #dc3545;" onclick="openDeleteModal()">
-    Delete Account
-  </button>
+  </div>
+<hr style=" width: 90%; margin: 0 auto;">
+<h4 style="display:flex;justify-content:center;padding:10px;">Reviews</h4>
+<%
+
+ReviewDao reviewdao = new ReviewDao();
+ArrayList<Review> reviews = reviewdao.getReviewList(userId);
+for(Review review: reviews){
+%>
+<div style="padding:0 25rem; ">
+<div class="reviewBox"onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" >
+
+<p style="font-size:30px;"><%=review.getPharmacy()%></p>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <p class="rating">
+                    <span class="fa fa-star-o star1<%=review.getReviewId()%> checked"></span>
+                    <span class="fa fa-star-o star2<%=review.getReviewId()%> checked"></span>
+                    <span class="fa fa-star-o star3<%=review.getReviewId()%> checked"></span>
+                    <span class="fa fa-star-o star4<%=review.getReviewId()%> checked"></span>
+                    <span class="fa fa-star-o star5<%=review.getReviewId()%> checked"></span>
+     </p>
+<p><%=review.getContent()%></p>
+
+<p style="color:grey; display:flex; justify-content:right;"><%=review.getLastDate()%></p>
+<script>
+function pharmacyRedirectFunction(userIdPharm){
+location.href = "pharmacy.jsp?p="+userIdPharm;
+console.log("test");
+console.log(userIdPharm);
+}
+
+(function() {
+let starRating = "<%=review.getRating()%>";
+
+    for (let i = 1; i <= starRating; i++) {
+        let star = document.querySelector(".star" + i+<%=review.getReviewId()%>);
+        star.setAttribute("class", "fa fa-star checked");
+        console.log("stars"+i+<%=review.getReviewId()%>);
+    }
+
+})();
+</script>
 </div>
+
+</div>
+<br>
+<%
+}
+%>
+
 
 <!-- Modal -->
 <div id="deleteModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -92,7 +170,7 @@
         style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333;"
         onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
     <h4>Please enter your password to confirm:</h4>
-    <input type="hidden" name="user_id" value="<%= customer.getUserId() %>">
+    <input type="hidden" name="user_id" value="<%= userId %>">
     <input type="password" name="password" required placeholder="Enter password"
            style="padding: 8px; width: 100%; margin-top: 10px; margin-bottom: 20px;">
 
@@ -107,8 +185,21 @@
   String error = request.getParameter("error");
   if ("invalid_password".equals(error)) {
 %>
-<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
-                padding: 10px; margin: 20px auto; width: fit-content; border-radius: 6px;">
+<div id="errorPopup" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-size: 1rem;
+    text-align: center;
+">
   ❌ Incorrect password. Please try again.
 </div>
 <%
@@ -126,10 +217,14 @@
 </script>
 
 <script>
-  setTimeout(function () {
-    const alertBox = document.querySelector("div[style*='f8d7da']");
-    if (alertBox) alertBox.style.display = 'none';
-  }, 2500);
+
+  setTimeout(() => {
+    const popup = document.getElementById('errorPopup');
+    if (popup) popup.style.display = 'none';
+  }, 3000); // 3 seconds
+
+
+
 </script>
 
 </body>

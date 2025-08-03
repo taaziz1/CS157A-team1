@@ -3,6 +3,7 @@
 <%@ page import="usermanagement.dao.PharmacyDao"%>
 <%@ page import="usermanagement.model.Pharmacy"%>
 <%@ page import="usermanagement.model.Address" %>
+<%@ page import="java.util.Arrays" %>
 
 
 <!DOCTYPE html>
@@ -46,11 +47,7 @@
     </svg>
 
     <a class="navstart homePage">PharmaFinder</a>
-    <%-- NEED TO CHANGE THIS LATER ON FOR IT TO LOG OUT --%>
 
-  </div>
-  <div class="navend ">
-    <a   class="test" href="logout" style="color:grey;" >Log Out</a>
   </div>
 </nav>
 
@@ -65,8 +62,8 @@
 
 %>
 
-<div class=" container">
-  <h1>Register your Pharmacy</h1>
+<div class="container">
+  <h1>Update Pharmacy Information</h1>
 
   <form action="updatePharmacy" method="post" class="needs-validation" novalidate="">
     <input type="hidden" name="user_id" value="<%= pharmacy.getUserId() %>">
@@ -77,13 +74,15 @@
       <div class="col-sm-6">
         <label for="tax_Number" class="form-label">Tax Number</label> <input
               type="text" class="form-control" id="tax_Number" name="tax_Number"
-              value="<%=pharmacy.getTaxNum()%>" required="">
+              value="<%=pharmacy.getTaxNum()%>" required="" pattern="\d{2}-\d{7}">
+        <div class="invalid-feedback">Your tax number is required.</div>
       </div>
       <%-- PHARMACY NAME --%>
       <div class="col-sm-6">
         <label for="pharmacy_name" class="form-label">Pharmacy
           Name</label> <input type="text" class="form-control" id="pharmacy_name" name="pharmacy_name"
                               value="<%=pharmacy.getPharmacyName()%>" required="">
+        <div class="invalid-feedback">Your pharmacy name is required.</div>
       </div>
       <%-- ADDRESS --%>
       <div class="col-12">
@@ -194,7 +193,12 @@
         <%
           String hours = pharmacy.getOperatingHours();
           String timings[] =hours.split(",");
-          String daysOfWeek[] ={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+          if (timings.length == 0) {
+            // create a 7-element array and fill with "N/A"
+            timings = new String[7];
+            Arrays.fill(timings, "N/A");
+          }
+          String[] daysOfWeek ={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
         %>
         <div class="col-sm-12">
           <label class="form-label">Operating Hours</label>
@@ -205,11 +209,13 @@
             for (int i = 0; i < timings.length && i < daysOfWeek.length; i++) {
           %>
         <label><%= daysOfWeek[i] %></label>
-        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>">
+        <input type="text" class="form-control" name="operating_hours" value="<%= timings[i] %>" required="">
           <% } %>
+        <div class="invalid-feedback">Please fill in every day’s operating hours. If you’re closed (or it doesn’t apply), enter **N/A**.</div>
 
 
-      <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+
+        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
     <% if (errorMessage != null) { %>
     <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
     <% } %>
@@ -217,10 +223,25 @@
         <%-- BUTTONS: Update and Cancel --%>
         <div class="d-flex justify-content-start gap-2 mt-3">
           <button class="btn btn-primary btn-lg" type="submit">Update</button>
-          <a href="loginPharmacySuccess.jsp" class="btn btn-secondary btn-lg">Cancel</a>
+          <a href="pharmDashboard.jsp" class="btn btn-secondary btn-lg">Cancel</a>
         </div>
   </form>
 </div>
-
+<script>
+  // Bootstrap form validation
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
 </body>
 </html>

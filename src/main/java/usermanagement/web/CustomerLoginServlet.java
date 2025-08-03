@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpSession;
+import usermanagement.dao.CustomerDao;
+import usermanagement.model.Customer;
 import usermanagement.model.User;
 import usermanagement.dao.LoginDao;
 
@@ -27,20 +29,23 @@ public class CustomerLoginServlet extends HttpServlet {
         user.setUsername(username);
         user.setPassword(password);
 
+
         try {
             if (loginDao.validate(user, "customer")) {
                 response.sendRedirect("index.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
                 session.setAttribute("username1", username);
-            } else {
-                // Set error message
-                request.setAttribute("errorMessage", "Invalid username or password. Please try again.");
 
-                // Forward to login page with error message
-                request.getRequestDispatcher("custLogIn.jsp").forward(request, response);
+                CustomerDao customerDao = new CustomerDao();
+                Customer customer = customerDao.getCustomerDashboard(user.getUserId());
+                session.setAttribute("avatar", customer.getAvatarDirectory());
+
+
+            } else {
+                response.sendRedirect("custLogIn.jsp?error=invalid_credentials");
             }
-            
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

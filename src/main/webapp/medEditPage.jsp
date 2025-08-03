@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="usermanagement.model.Medication" %>
+
 <html>
 <head>
 
@@ -28,7 +28,7 @@
               d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
     </svg>
 
-    <a  class="navstart homePage" href="index.jsp">PharmaFinder</a>
+      <a  class="navstart homePage" href="index.jsp"><strong>PharmaFinder</strong></a>
   </div>
 </nav>
 <%
@@ -37,20 +37,25 @@
 %>
 
 <h1>Edit Medication </h1>
-
+<main class="form-signin w-100 m-auto">
+  <div class="bubble">
 <form method="post" action="updateMedication">
+
   <input type="hidden" name="med_id" value="<%= medIdParam %>" />
   <input type="hidden" name="user_id" value="<%= userIdParam %>" />
 
+  <div class="form-floating">
+  <input type="text"  pattern="^\d+\.\d{2}$" title="Must be valid price" name="price" id="price" required  class="form-control">
   <label for="price">Price:</label>
-  <input type="text" name="price" id="price" required /><br><br>
+  </div>
+    <div class="form-floating">
+  <input type="number" min="0" name="qty" id="qty" class="form-control" required >
+    <label for="qty">Quantity:</label>
 
-  <label for="qty">Quantity:</label>
-  <input type="number" name="qty" id="qty" required /><br><br>
-
-  <input type="submit" style="" value="Update Medication" />
-
+  <input class="btn btn-primary w-100 py-2 " type="submit" style="" value="Update Medication" />
+  </div>
 </form>
-
+  </div>
+</main>
 </body>
 </html>

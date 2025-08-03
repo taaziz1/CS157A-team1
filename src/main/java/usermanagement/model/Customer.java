@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class Customer extends User implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int avatarId;
+
     private String emailAddress;
 
     //for image display in customer dashboard
+    private int avatarId;
     private String avatarDirectory;
     public void setAvatarDirectory(String avatarDirectory) {
         this.avatarDirectory = avatarDirectory;

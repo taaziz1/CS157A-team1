@@ -47,7 +47,8 @@ String userId =request.getParameter("user_id");
         <form action="addMed" method="post">
             <input type="hidden" name="user_id" value="<%= userId %>" />
             <h1 class="h3 mb-3 fw-normal">Add medication</h1>
-            <div> <label for="state" class="form-label">Medication Name </label> <select class="form-select" id="state" name="med_id" required/> <option value="">Choose...</option>
+            <div> <label for="med" class="form-label">Medication Name </label> <select class="form-select" id="med" name="med_id" required/>
+                <option value="">Choose...</option>
                 <%
                     MedicationDao medicationDao = new MedicationDao();
                     List<Medication> medications = medicationDao.listMeds();
@@ -60,16 +61,22 @@ String userId =request.getParameter("user_id");
                  </select>
                </div>
             <div class="form-floating">
-                <input type="text" class="form-control" id="Price" name="price" required > <label for="Price">Price</label>
+                <input type="text" class="form-control" id="Price" title="Please add valid price, #.##" pattern="^\d+\.\d{2}$" name="price" required > <label for="Price">Price</label>
             </div>
             <div class="form-floating">
-                <input type="number" class="form-control" id="Quantity" name="quantity" required> <label for="Quantity">Quantity</label>
+                <input type="number" class="form-control" id="Quantity"  min="0" name="quantity" required> <label for="Quantity">Quantity</label>
             </div>
+            <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+            <% if (errorMessage != null) { %>
+            <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
+            <% } %>
 
             <input class="btn btn-primary w-100 py-2 " type="submit" value="Add Medication ">
+            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel<a>
 
         </form>
     </div>
 </main>
+
 </body>
 </html>
