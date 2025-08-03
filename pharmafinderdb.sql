@@ -91,7 +91,7 @@ CREATE TABLE `categorized_as` (
 
 LOCK TABLES `categorized_as` WRITE;
 /*!40000 ALTER TABLE `categorized_as` DISABLE KEYS */;
-INSERT INTO `categorized_as` VALUES (5,1),(6,1),(8,1),(10,1),(1,2),(2,2),(3,2),(4,2),(8,3),(1,4),(1,5),(2,5),(3,5),(4,5),(7,6),(1,8),(3,8),(4,8),(9,10);
+INSERT INTO `categorized_as` VALUES (5,1),(6,1),(8,1),(10,1),(11,1),(1,2),(2,2),(3,2),(4,2),(12,2),(8,3),(1,4),(1,5),(2,5),(3,5),(4,5),(12,5),(7,6),(1,8),(3,8),(4,8),(12,8),(9,10),(13,11);
 /*!40000 ALTER TABLE `categorized_as` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +135,7 @@ CREATE TABLE `manufacturer` (
   `manf_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`manf_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (1,'Pfizer'),(2,'Prestige Consumer Healthcare'),(3,'Roche'),(4,'Bayer'),(5,'Merck'),(6,'Johnson & Johnson'),(7,'Procter & Gamble'),(8,'AbbVie'),(9,'Novartis'),(10,'GSK plc');
+INSERT INTO `manufacturer` VALUES (1,'Pfizer'),(2,'Prestige Consumer Healthcare'),(3,'Roche'),(4,'Bayer'),(5,'Merck'),(6,'Johnson & Johnson'),(7,'Procter & Gamble'),(8,'AbbVie'),(9,'Novartis'),(10,'GSK plc'),(11,'Haleon');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `medication` (
   PRIMARY KEY (`med_id`),
   KEY `manf_id_idx` (`manf_id`),
   CONSTRAINT `manf_id` FOREIGN KEY (`manf_id`) REFERENCES `manufacturer` (`manf_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `medication` (
 
 LOCK TABLES `medication` WRITE;
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
-INSERT INTO `medication` VALUES (1,4,'Aspirin'),(2,6,'Tylenol'),(3,1,'Advil'),(4,6,'Motrin'),(5,6,'Benadryl'),(6,4,'Claritin'),(7,10,'Tums'),(8,2,'Dramamine'),(9,4,'MiraLAX'),(10,7,'NyQuil');
+INSERT INTO `medication` VALUES (1,4,'Aspirin'),(2,6,'Tylenol'),(3,1,'Advil'),(4,6,'Motrin'),(5,6,'Benadryl'),(6,4,'Claritin'),(7,10,'Tums'),(8,2,'Dramamine'),(9,4,'MiraLAX'),(10,7,'NyQuil'),(11,6,'Zyrtec'),(12,4,'Aleve'),(13,11,'Robitussin');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `sells` (
 
 LOCK TABLES `sells` WRITE;
 /*!40000 ALTER TABLE `sells` DISABLE KEYS */;
-INSERT INTO `sells` VALUES (1,3,19,12.50),(3,8,17,18.99),(4,7,24,12.95),(5,1,12,9.99),(5,2,31,16.99),(5,7,5,13.99),(6,2,29,15.95),(8,1,12,8.50),(8,9,6,22.50),(9,10,14,26.99);
+INSERT INTO `sells` VALUES (1,1,32,7.50),(1,3,19,12.50),(1,5,22,6.50),(2,4,24,7.50),(2,5,19,6.50),(3,2,22,4.99),(3,6,8,13.99),(3,8,17,18.99),(3,10,30,7.99),(3,13,29,10.99),(4,3,27,4.95),(4,4,42,8.95),(4,6,22,9.95),(4,7,24,12.95),(4,11,6,8.95),(5,1,12,9.99),(5,2,31,16.99),(5,7,5,13.99),(6,2,29,15.95),(6,4,14,6.95),(7,4,10,7.99),(7,8,28,12.99),(7,12,35,6.99),(7,13,20,9.99),(8,1,12,8.50),(8,9,6,22.50),(9,9,15,13.99),(9,10,14,26.99),(9,11,18,13.99),(9,12,39,5.99),(10,1,30,5.95),(10,3,16,7.95),(10,5,12,4.95),(10,6,25,9.95),(10,11,13,10.95);
 /*!40000 ALTER TABLE `sells` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +283,7 @@ CREATE TABLE `type` (
   `type_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +292,7 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
-INSERT INTO `type` VALUES (1,'Antihistamine'),(2,'Fever Reducer'),(3,'Antiemetic'),(4,'Blood Thinner'),(5,'Pain Reliever'),(6,'Antacid'),(7,'Antidepressant'),(8,'Anti-inflammatory'),(9,'Antibiotic'),(10,'Laxative');
+INSERT INTO `type` VALUES (1,'Antihistamine'),(2,'Fever Reducer'),(3,'Antiemetic'),(4,'Blood Thinner'),(5,'Pain Reliever'),(6,'Antacid'),(7,'Antidepressant'),(8,'Anti-inflammatory'),(9,'Antibiotic'),(10,'Laxative'),(11,'Cough Medicine');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-02 22:39:19
+-- Dump completed on 2025-08-03  0:00:01
