@@ -152,7 +152,7 @@
 								pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
 								title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.">
 						<div class="invalid-feedback">
-							Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
+							Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
 						</div>
 					</div>
 

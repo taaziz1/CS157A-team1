@@ -262,7 +262,7 @@
                 placeholder="Enter New Password"
                 style="padding: 8px; width: 100%; margin: 8px 0 20px 0;">
         <div class="invalid-feedback">
-            Password must contain at least one uppercase, one lowercase, one number, one special character, and be 8+ characters long.
+            Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
         </div>
 
         <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
