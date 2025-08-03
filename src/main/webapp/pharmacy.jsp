@@ -545,7 +545,7 @@
         </div>
     </div>
 </div>
-<% if (session != null && session.getAttribute("user_id") != null) { %>
+<% if (session != null && session.getAttribute("user_id") != null && customerName != null && pharmName == null) { %>
 
 <div id="editModal" class="modal-overlay" style="display:none;">
     <form class="comment-box" id="editForm" method="POST" action="editReview">
