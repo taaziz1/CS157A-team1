@@ -11,7 +11,6 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css" type="text/css">
   <title>Pharmacy Information Update</title>
 
   <link
@@ -19,6 +18,7 @@
           rel="stylesheet"
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css" type="text/css">
   <style>
     /* Prevent scrolling */
     body {

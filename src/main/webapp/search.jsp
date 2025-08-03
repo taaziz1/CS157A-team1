@@ -11,15 +11,15 @@
 <html>
 <head>
 
-    <%--LINKS TO THE CSS PAGE--%>
-    <link rel="stylesheet" href="style.css" type="text/css">
-
     <%--TO LINK BOOTSTRAP--%>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
+
+    <%--LINKS TO THE CSS PAGE--%>
+    <link rel="stylesheet" href="style.css" type="text/css">
 
     <title id="title"></title>
 <style>
@@ -57,7 +57,7 @@
 <body>
 
 <%--NAVIGATION BAR --%>
-<div class="fullscreen">
+<div>
     <nav class=" bg-body-tertiary navbar">
         <div class="navstart">
             <%--ICON--%>
@@ -75,7 +75,7 @@
             <%--TAKE ADDRESS--%>
                 <div class="navend">
                     <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
-                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
+                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid grey; border-radius:15px; color:white;">Search</button>
                 </div>
         <div class="navend">
             <%
@@ -93,9 +93,9 @@
             } else if (customerName == null && pharmName != null){
             %>
             <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-                <a class="formPath" style="text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+                <a class="formPath" style="text-decoration: none; color: white;" href="pharmDashboard.jsp"> <%= pharmName %></a>
             </span>
-            <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
+            <a href="logout" class="btn btn-outline-danger" style="margin-right:23px;">Logout</a>
             <%
                     }
                 }

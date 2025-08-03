@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<link rel="stylesheet" href="style.css" type="text/css">
     <title>Customer Sign In</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 	<style>
@@ -17,6 +16,7 @@
 			background-image: linear-gradient(#575555 50%, #2500ff 50%) !important
 		}
 	</style>
+	<link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body>
@@ -57,7 +57,7 @@
 
 <%--LOG IN--%>
 <main class="form-signin w-100 m-auto" >
-	<div class="bubble">
+	<div class="bubble" style="margin-bottom: 15%;">
 		<form action="<%=request.getContextPath()%>/loginCustomer" method="post" style="background-color: white;  padding:20px; border-radius:20px;">
 			<h3 class="h3" style="font-size: 2.2em; text-align: center; padding: 0.2rem">Sign in</h3>
 

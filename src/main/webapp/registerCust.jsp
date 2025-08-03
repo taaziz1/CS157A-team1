@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="style.css" type="text/css">
 <title>Customer Registration</title>
 
 	<%-- To link Bootstrap --%>
@@ -14,6 +13,9 @@
 		rel="stylesheet"
 		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
 		crossorigin="anonymous">
+
+	<%--TO LINK STYLESHEET--%>
+	<link rel="stylesheet" href="style.css" type="text/css">
 
 	<style>
 		/* Prevent scrolling */
@@ -82,7 +84,7 @@
 	<%-- REGISTRATION CARD --%>
 	<div class="center">
 			<form class="needs-validation" action="registerCustomer" method="post" novalidate=""
-				  style="background-color: white; margin:20px 32%; padding:12px 30px; border-radius:20px;">
+				  style="background-color: white; margin:20px 34% 8%; padding:12px 30px; border-radius:20px;">
 				<h1>Create an Account</h1>
 				<div class="row">
 

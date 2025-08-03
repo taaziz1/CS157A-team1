@@ -11,6 +11,9 @@
 <html>
 <head>
 
+	<%--LINKS TO THE CSS PAGE--%>
+	<link rel="stylesheet" href="style.css" type="text/css">
+
 	<style>
 		html,
 		body {
@@ -101,9 +104,6 @@
 
 	<meta charset="UTF-8">
 
-	<%--LINKS TO THE CSS PAGE--%>
-	<link rel="stylesheet" href="style.css" type="text/css">
-
 	<%--TAB NAME--%>
 	<title>PharmaFinder</title>
 
@@ -161,12 +161,12 @@
 	<nav class="navbar">
 		<div class="navstart">
 			<%--ICON--%>
-			<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25" stroke="white" stroke-width="0.4">
+			<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-prescription2" viewBox="0 -4 20 25">
 				<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"></path>
 				<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
 			</svg>
 
-			<span style="font-weight:bold; color: white;" class="navstart">PharmaFinder</span>
+			<span class="navstart homePage">PharmaFinder</span>
 		</div>
 
 		<div class="navend">
@@ -186,7 +186,7 @@
 			}else if(customerName==null && pharmName!=null){
 			%>
 			<span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-				<a class="formPath" style="color:white; text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+				<a class="formPath" style="text-decoration: none; color:white;" href="pharmDashboard.jsp"> <%= pharmName %></a>
 			</span>
 			<a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
 			<%

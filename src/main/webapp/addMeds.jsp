@@ -4,15 +4,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%--LINKS TO THE CSS PAGE--%>
-    <link rel="stylesheet" href="style.css" type="text/css">
-
     <%--TO LINK BOOTSTRAP--%>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
+
+    <%--LINKS TO THE CSS PAGE--%>
+    <link rel="stylesheet" href="style.css" type="text/css">
 
     <title>Add Medication</title>
 </head>

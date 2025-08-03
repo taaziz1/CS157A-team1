@@ -3,9 +3,6 @@
 <html>
 <head>
 
-  <%--LINKS TO THE CSS PAGE--%>
-  <link rel="stylesheet" href="style.css" type="text/css">
-
   <%--TO LINK BOOTSTRAP--%>
   <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -14,6 +11,9 @@
           crossorigin="anonymous">
 
   <title>Edit Medication </title>
+
+  <%--LINKS TO THE CSS PAGE--%>
+  <link rel="stylesheet" href="style.css" type="text/css">
 
 </head>
 <body>
@@ -57,7 +57,7 @@
               d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"></path>
     </svg>
 
-      <a  class="navstart homePage" href="index.jsp"><strong>PharmaFinder</strong></a>
+      <a  class="navstart homePage" href="index.jsp">PharmaFinder</a>
   </div>
 </nav>
 <%
