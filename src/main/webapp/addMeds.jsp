@@ -1,19 +1,9 @@
 <%@ page import="usermanagement.dao.MedicationDao" %>
 <%@ page import="usermanagement.model.Medication" %>
 <%@ page import="java.util.List" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: anilgm
-  Date: 7/25/25
-  Time: 1:34 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%--LINKS TO THE CSS PAGE--%>
-    <link rel="stylesheet" href="style.css" type="text/css">
-
     <%--TO LINK BOOTSTRAP--%>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -21,9 +11,32 @@
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
 
+    <%--LINKS TO THE CSS PAGE--%>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
     <title>Add Medication</title>
 </head>
 <body>
+
+<%--Pop ups--%>
+<%
+    String error = request.getParameter("error");
+    if ("duplicate_med".equals(error)) {
+%>
+<div id="errorPopup">
+    ❌ Listing for specified medication already exists. Please try again.
+</div>
+<%
+    }
+%>
+
+<script>
+    setTimeout(() => {
+        const popup = document.getElementById('errorPopup');
+        if (popup) popup.style.display = 'none';
+    }, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR--%>
 <nav class=" bg-body-tertiary navbar">
     <div class="navstart">
@@ -43,7 +56,7 @@ String userId =request.getParameter("user_id");
 %>
 <%--LOG IN--%>
 <main class="form-signin w-100 m-auto">
-    <div class="bubble">
+    <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
         <form action="addMed" method="post">
             <input type="hidden" name="user_id" value="<%= userId %>" />
             <h1 class="h3 mb-3 fw-normal">Add medication</h1>
@@ -72,8 +85,7 @@ String userId =request.getParameter("user_id");
             <% } %>
 
             <input class="btn btn-primary w-100 py-2 " type="submit" value="Add Medication ">
-            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel<a>
-
+            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel</a>
         </form>
     </div>
 </main>

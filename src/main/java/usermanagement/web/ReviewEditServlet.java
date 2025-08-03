@@ -34,7 +34,9 @@ public class ReviewEditServlet  extends HttpServlet {
         try {
             status = reviewDao.updateReview(review);
             if (status > 0) {
-                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId);
+                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId + "&success=updated_review");
+            } else {
+                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId + "&error=update_failed");
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -52,10 +52,9 @@ public class AddMedicationServlet  extends HttpServlet {
         }
 
         if (status){
-            response.sendRedirect("pharmDashboard.jsp");
+            response.sendRedirect("pharmDashboard.jsp?success=added_med");
         }else{
-            request.setAttribute("errorMessage", "Medication already present");
-            request.getRequestDispatcher("addMeds.jsp").forward(request, response);
+            response.sendRedirect("addMeds.jsp?error=duplicate_med");
 
         }
 

@@ -12,8 +12,6 @@ import java.util.List;
 
 public class MedicationDao {
     public List<Medication> getMedication(int userId) {
-
-
         List<Medication> med = new ArrayList();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -28,7 +26,8 @@ public class MedicationDao {
                             "FROM medication " +
                             "JOIN sells USING (med_id) " +
                             "JOIN manufacturer USING (manf_id) " +
-                            "WHERE user_id = ?"
+                            "WHERE user_id = ? " +
+                            "ORDER BY medication.name ASC"
             );
 
 
@@ -98,7 +97,7 @@ public class MedicationDao {
         return rowDelete;
     }
 //list Med options
-private static final String LIST_MEDICATION_SQL ="SELECT * FROM medication";
+private static final String LIST_MEDICATION_SQL ="SELECT * FROM medication ORDER BY name ASC";
     public List<Medication> listMeds() {
         ArrayList<Medication> medList = new ArrayList<>();
         try (Connection connection = getConnection();

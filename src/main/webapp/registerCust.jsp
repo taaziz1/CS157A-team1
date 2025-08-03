@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="style.css" type="text/css">
 <title>Customer Registration</title>
 
 	<%-- To link Bootstrap --%>
@@ -14,6 +13,9 @@
 		rel="stylesheet"
 		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
 		crossorigin="anonymous">
+
+	<%--TO LINK STYLESHEET--%>
+	<link rel="stylesheet" href="style.css" type="text/css">
 
 	<style>
 		/* Prevent scrolling */
@@ -35,21 +37,7 @@
 	String error = request.getParameter("error");
 	if (error != null) {
 %>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
+<div id="errorPopup">
 	❌ An unknown error has occurred. Please try again.
 </div>
 <%
@@ -66,7 +54,7 @@
 %>
 			<script> document.getElementById("errorPopup").innerHTML = "❌ An error occurred while creating the account. Please try again." </script>
 <%
-		} else {}
+		}
 	}
 
 %>
@@ -96,7 +84,7 @@
 	<%-- REGISTRATION CARD --%>
 	<div class="center">
 			<form class="needs-validation" action="registerCustomer" method="post" novalidate=""
-				  style="background-color: white; margin:20px 32%; padding:12px 30px; border-radius:20px;">
+				  style="background-color: white; margin:20px 34% 8%; padding:12px 30px; border-radius:20px;">
 				<h1>Create an Account</h1>
 				<div class="row">
 
@@ -112,12 +100,24 @@
 					</div>
 
                     <%-- PASSWORD --%>
-					   <div class="col-sm-12" style="margin: 8px 0 4px">
-						   <label for="password" class="form-label">Password</label>
+					   <div class="col-sm-12" style="margin: 8px 0 4px;position:relative;">
+						   <label class="form-label">Password</label>
+						                          <%-- View password --%>
+						                          <div style=" z-index:2; position:absolute; top:38px;right:25px;">
+                          						   <a onclick="passwordFunction()" >
+                                                        <span id="passwordImage">
+                             									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                          			      <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                             			       <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                          									</svg>
+                                                      		</span>
+                                                            		</a>
+                                                            		</div>
+
 						   <input
 								   type="password"
 								   class="form-control"
-								   id="password"
+								   id="floatingPassword"
 								   name="password"
 								   required
 								   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
@@ -164,5 +164,7 @@
 		})()
 	</script>
 
+<script src="index.js">
+</script>
 </body>
 </html>

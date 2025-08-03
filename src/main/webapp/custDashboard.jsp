@@ -1,9 +1,9 @@
 <%@ page import="usermanagement.dao.CustomerDao" %>
 <%@ page import="usermanagement.model.Customer" %>
-<%@ page import="usermanagement.web.CustomerLoginServlet" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="usermanagement.dao.ReviewDao" %>
 <%@ page import="usermanagement.model.Review" %>
+<%@ page import="java.util.List" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
@@ -11,11 +11,22 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css" type="text/css">
   <title>Customer Login Page</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
+  <link rel="stylesheet" href="style.css" type="text/css">
+
   <style>
+
+    /* middle slot for buttons */
+    .navcenter {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-right: 45px;
+    }
 
   .custDashBorder {
 
@@ -31,19 +42,111 @@
 
 /*Review boxes*/
 .reviewBox{
-background:white;
+background-color:whitesmoke;
 padding:20px;
 border-radius:20px;
-
+width:900px;
+margin: 5px auto;
 }
 
 .reviewBox:hover {
-  transform: scale(1.03); /* Increases size by 10% */
+  transform: scale(1.03);
 }
+
+    /* container flex so avatars wrap */
+    .avatar-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* hide the native radio */
+    .avatar-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* the circular “frame” around each image */
+    .avatar-option img {
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid transparent;
+      transition: background‐color 0.2s, border‐color 0.2s;
+      cursor: pointer;
+    }
+
+    /* when the radio is checked, style the img */
+    .avatar-option input:checked + img {
+      background-color: #eee;
+      border: 2px solid #007bff;
+    }
+
   </style>
 </head>
 
 <body>
+<%
+  CustomerDao customerDao = new CustomerDao();
+  int userId =(int)session.getAttribute("user_id");
+  Customer customer = customerDao.getCustomerDashboard(userId);
+%>
+
+<%--Pop ups--%>
+<%
+  String error = request.getParameter("error");
+  String success = request.getParameter("success");
+  if(error != null) {
+
+%>
+<div id="errorPopup">
+  ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+  if ("delete_failed".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Account could not be deleted. Please try again.";</script>
+<%
+  } else if ("invalid_password".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Password is incorrect. Please try again.";</script>
+<%
+  } else if ("update_fail".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Account information could not be updated. Please try again.";</script>
+<%
+  } else if ("identical_pass".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ New password cannot be the same as the current password. Please try again.";</script>
+<%
+  } else if ("incorrect_pass".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Current password is incorrect. Please try again.";</script>
+<%
+  }
+}
+
+else if ("updated_info".equals(success)) {
+%>
+<div id="successPopup">
+  ✅ Successfully updated avatar.
+</div>
+<%
+  }
+%>
+
+<script>
+  setTimeout(() => {
+    const popup1 = document.getElementById('errorPopup');
+    const popup2 = document.getElementById('successPopup');
+    if (popup1) popup1.style.display = 'none';
+    if (popup2) popup2.style.display = 'none';
+  }, 3000); // 3 seconds
+</script>
 
 <%--NAVIGATION BAR --%>
 <nav class=" bg-body-tertiary navbar">
@@ -60,34 +163,124 @@ border-radius:20px;
         href="index.jsp">PharmaFinder</a>
   </div>
 
-  <a  class="formPath" href="logout" >Logout</a>
-
-</nav>
-<%
-  CustomerDao customerDao = new CustomerDao();
-  int userId =(int)session.getAttribute("user_id");
-  Customer customer = customerDao.getCustomerDashboard(userId);
-%>
-
-<h1 style="margin-top:40px;"> Customer Dashboard</h1>
-<div style="display:flex; justify-content:end; ">
-<!-- Delete Account Button -->
-<div  style="padding:20px;">
-  <button type="button" class="comment-submit" style="background-color: #dc3545;" onclick="openDeleteModal()">
-    Delete Account
-  </button>
-</div>
-<!-- Update Account Button -->
-<div  style="padding:20px;">
-  <form action="custUpdate.jsp" method="get">
-    <input type="hidden" name="userId" value="<%= userId %>">
-    <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
-    <button type="submit" class="comment-submit" style="background-color: #28a745;">
-      Update Account
+  <div class="navcenter">
+    <button type="button" class="btn btn-primary" onclick="openUpdateModal()">
+      ✏️ Change Avatar
     </button>
+    <!-- Reset Password Button -->
+    <button type="button" onclick="openResetModal()" class="btn btn-warning">🔒 Reset Password</button>
+    <!-- Delete Account Button -->
+    <button type="button" onclick="openDeleteModal()" class="btn btn-danger">🗑 Delete Account</button>
+  </div>
+
+  <div class="navend">
+    <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
+  </div>
+</nav>
+
+<!-- Update Customer Modal -->
+<div id="updateCustomerModal"
+     style="display:none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            ">
+  <form action="updateCustomer"
+        method="post"
+        class="needs-validation"
+        novalidate
+        style="background: white;
+               padding: 30px;
+               border-radius: 10px;
+               box-shadow: 0 0 10px #333;
+               width: 500px;">
+
+    <input type="hidden" name="userId" value="<%= userId %>">
+      <h3 style="margin-bottom: 20px;">✏️ Choose Your Avatar</h3>
+
+    <div class="avatar-container">
+      <%
+        CustomerDao customerdao = new CustomerDao();
+        List<String> avList = customerdao.avatarList();
+        for (String avatar : avList) {
+          String[] split      = avatar.split("\\|");
+          String  avatarId    = split[0];
+          String  avatarPath  = split[1];
+          boolean isChecked = (avatarPath.equals(customer.getAvatarDirectory())); // Check if this avatar is selected
+      %>
+      <label class="avatar-option">
+        <input  type="radio"
+                    name="avatarId"
+                    value="<%= avatarId %>"
+              <% if (isChecked) {%> checked="checked"<% } %>
+        >
+
+            <img src="<%= avatarPath %>"
+                 alt="Avatar <%= avatarId %>"
+                 style="width:90px;height:90px; display:block; margin-top:5px;" />
+        </label>
+      <% } %>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <button type="submit" class="btn btn-primary">Change Avatar</button>
+      <button type="button"
+              class="btn btn-secondary"
+              onclick="closeUpdateModal()">
+        Cancel
+      </button>
+    </div>
   </form>
 </div>
+
+<!-- Reset Password Modal -->
+<div id="resetPasswordModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 9999;">
+
+  <form action="custResetPassword" method="post" class="needs-validation" novalidate=""
+        style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333; width: 400px;"
+        class="needs-validation" novalidate>
+
+    <h3 style="margin-bottom: 20px;">🔒 Reset Your Password</h3>
+
+    <input type="hidden" name="user_id" value="<%= session.getAttribute("user_id") %>">
+
+    <!-- Current Password -->
+    <label for="current_password" style="font-weight: bold;">Current Password</label>
+    <input type="password" id="current_password" name="current_password" required
+           placeholder="Enter Current Password"
+           style="padding: 8px; width: 100%; margin: 8px 0 16px 0;">
+
+    <!-- New Password -->
+    <label for="new_password" style="font-weight: bold;">New Password</label>
+    <input
+            type="password"
+            id="new_password"
+            name="new_password"
+            required
+            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+            title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long."
+            placeholder="Enter New Password"
+            style="padding: 8px; width: 100%; margin: 8px 0 20px 0;">
+    <div class="invalid-feedback">
+      Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
+    </div>
+
+    <!-- Buttons -->
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button type="submit" class="comment-submit" style="background-color: #0d6efd; color: white;">Change Password</button>
+      <button type="button" class="comment-submit" onclick="closeResetModal()">Cancel</button>
+    </div>
+  </form>
 </div>
+
+
+<h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px; justify-content:center;">Welcome, <%=customer.getUsername()%></h2>
+
 <div style="display:flex; justify-content:center; padding:20px;margin-bottom:20px;">
   <div class="custDashBorder" >
   <table>
@@ -113,15 +306,15 @@ border-radius:20px;
   </div>
   </div>
 <hr style=" width: 90%; margin: 0 auto;">
-<h4 style="display:flex;justify-content:center;padding:10px;">Reviews</h4>
+<h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px; justify-content:center; margin-bottom: 20px">Your Reviews</h2>
 <%
 
 ReviewDao reviewdao = new ReviewDao();
 ArrayList<Review> reviews = reviewdao.getReviewList(userId);
 for(Review review: reviews){
 %>
-<div style="padding:0 25rem; ">
-<div class="reviewBox"onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" >
+
+<div  class="reviewBox card-body  mb-4 shadow-sm "onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" >
 
 <p style="font-size:30px;"><%=review.getPharmacy()%></p>
 
@@ -154,7 +347,6 @@ let starRating = "<%=review.getRating()%>";
 
 })();
 </script>
-</div>
 
 </div>
 <br>
@@ -181,31 +373,6 @@ let starRating = "<%=review.getRating()%>";
   </form>
 </div>
 
-<%
-  String error = request.getParameter("error");
-  if ("invalid_password".equals(error)) {
-%>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
-  ❌ Incorrect password. Please try again.
-</div>
-<%
-  }
-%>
-
 <script>
   function openDeleteModal() {
     document.getElementById("deleteModal").style.display = "flex";
@@ -217,14 +384,42 @@ let starRating = "<%=review.getRating()%>";
 </script>
 
 <script>
+  function openResetModal() {
+    document.getElementById("resetPasswordModal").style.display = "flex";
+  }
+  function closeResetModal() {
+    document.getElementById("resetPasswordModal").style.display = "none";
+  }
+</script>
 
-  setTimeout(() => {
-    const popup = document.getElementById('errorPopup');
-    if (popup) popup.style.display = 'none';
-  }, 3000); // 3 seconds
+<script>
+  // Bootstrap form validation
+  (function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
 
-
-
+<script>
+  function openUpdateModal() {
+    document
+            .getElementById('updateCustomerModal')
+            .style.display = 'flex';
+  }
+  function closeUpdateModal() {
+    document
+            .getElementById('updateCustomerModal')
+            .style.display = 'none';
+  }
 </script>
 
 </body>

@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<link rel="stylesheet" href="style.css" type="text/css">
     <title>Pharmacy Sign In</title>
+	<%--TO LINK BOOTSTRAP--%>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+	<%--TO LINK STYLESHEET--%>
+	<link rel="stylesheet" href="style.css" type="text/css">
 
 <style>
 	/* Prevent scrolling */
@@ -27,21 +30,7 @@
 	String error = request.getParameter("error");
 	if ("invalid_credentials".equals(error)) {
 %>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
+<div id="errorPopup">
 	❌ Invalid credentials. Please try again.
 </div>
 <%
@@ -70,7 +59,7 @@
 	</nav>
 	<%--LOG IN--%>
 	<main class="form-signin w-100 m-auto" >
-	<div class="bubble">
+	<div class="bubble" style="margin-bottom: 15%;">
 		<form action="<%=request.getContextPath()%>/loginPharmacy" method="post" style="background-color: white;  padding:20px; border-radius:20px;">
 			<h3 class="h3" style="font-size: 2.2em; text-align: center; padding: 0.2rem">Sign in</h3>
 

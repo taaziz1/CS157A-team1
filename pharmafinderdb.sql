@@ -91,7 +91,7 @@ CREATE TABLE `categorized_as` (
 
 LOCK TABLES `categorized_as` WRITE;
 /*!40000 ALTER TABLE `categorized_as` DISABLE KEYS */;
-INSERT INTO `categorized_as` VALUES (5,1),(6,1),(8,1),(10,1),(1,2),(2,2),(3,2),(4,2),(8,3),(1,4),(1,5),(2,5),(3,5),(4,5),(7,6),(1,8),(3,8),(4,8),(9,10);
+INSERT INTO `categorized_as` VALUES (5,1),(6,1),(8,1),(10,1),(11,1),(1,2),(2,2),(3,2),(4,2),(12,2),(8,3),(1,4),(1,5),(2,5),(3,5),(4,5),(12,5),(7,6),(1,8),(3,8),(4,8),(12,8),(9,10),(13,11);
 /*!40000 ALTER TABLE `categorized_as` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +135,7 @@ CREATE TABLE `manufacturer` (
   `manf_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`manf_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `manufacturer` (
 
 LOCK TABLES `manufacturer` WRITE;
 /*!40000 ALTER TABLE `manufacturer` DISABLE KEYS */;
-INSERT INTO `manufacturer` VALUES (1,'Pfizer'),(2,'Prestige Consumer Healthcare'),(3,'Roche'),(4,'Bayer'),(5,'Merck'),(6,'Johnson & Johnson'),(7,'Procter & Gamble'),(8,'AbbVie'),(9,'Novartis'),(10,'GSK plc');
+INSERT INTO `manufacturer` VALUES (1,'Pfizer'),(2,'Prestige Consumer Healthcare'),(3,'Roche'),(4,'Bayer'),(5,'Merck'),(6,'Johnson & Johnson'),(7,'Procter & Gamble'),(8,'AbbVie'),(9,'Novartis'),(10,'GSK plc'),(11,'Haleon');
 /*!40000 ALTER TABLE `manufacturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `medication` (
   PRIMARY KEY (`med_id`),
   KEY `manf_id_idx` (`manf_id`),
   CONSTRAINT `manf_id` FOREIGN KEY (`manf_id`) REFERENCES `manufacturer` (`manf_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `medication` (
 
 LOCK TABLES `medication` WRITE;
 /*!40000 ALTER TABLE `medication` DISABLE KEYS */;
-INSERT INTO `medication` VALUES (1,4,'Aspirin'),(2,6,'Tylenol'),(3,1,'Advil'),(4,6,'Motrin'),(5,6,'Benadryl'),(6,4,'Claritin'),(7,10,'Tums'),(8,2,'Dramamine'),(9,4,'MiraLAX'),(10,7,'NyQuil');
+INSERT INTO `medication` VALUES (1,4,'Aspirin'),(2,6,'Tylenol'),(3,1,'Advil'),(4,6,'Motrin'),(5,6,'Benadryl'),(6,4,'Claritin'),(7,10,'Tums'),(8,2,'Dramamine'),(9,4,'MiraLAX'),(10,7,'NyQuil'),(11,6,'Zyrtec'),(12,4,'Aleve'),(13,11,'Robitussin');
 /*!40000 ALTER TABLE `medication` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `sells` (
 
 LOCK TABLES `sells` WRITE;
 /*!40000 ALTER TABLE `sells` DISABLE KEYS */;
-INSERT INTO `sells` VALUES (1,3,19,12.50),(3,8,17,18.99),(4,7,24,12.95),(5,1,12,9.99),(5,2,31,16.99),(5,7,5,13.99),(6,2,29,15.95),(8,1,12,8.50),(8,9,6,22.50),(9,10,14,26.99);
+INSERT INTO `sells` VALUES (1,1,32,7.50),(1,3,19,12.50),(1,5,22,6.50),(2,4,24,7.50),(2,5,19,6.50),(3,2,22,4.99),(3,6,8,13.99),(3,8,17,18.99),(3,10,30,7.99),(3,13,29,10.99),(4,3,27,4.95),(4,4,42,8.95),(4,6,22,9.95),(4,7,24,12.95),(4,11,6,8.95),(5,1,12,9.99),(5,2,31,16.99),(5,7,5,13.99),(6,2,29,15.95),(6,4,14,6.95),(7,4,10,7.99),(7,8,28,12.99),(7,12,35,6.99),(7,13,20,9.99),(8,1,12,8.50),(8,9,6,22.50),(9,9,15,13.99),(9,10,14,26.99),(9,11,18,13.99),(9,12,39,5.99),(10,1,30,5.95),(10,3,16,7.95),(10,5,12,4.95),(10,6,25,9.95),(10,11,13,10.95);
 /*!40000 ALTER TABLE `sells` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +283,7 @@ CREATE TABLE `type` (
   `type_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +292,7 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
-INSERT INTO `type` VALUES (1,'Antihistamine'),(2,'Fever Reducer'),(3,'Antiemetic'),(4,'Blood Thinner'),(5,'Pain Reliever'),(6,'Antacid'),(7,'Antidepressant'),(8,'Anti-inflammatory'),(9,'Antibiotic'),(10,'Laxative');
+INSERT INTO `type` VALUES (1,'Antihistamine'),(2,'Fever Reducer'),(3,'Antiemetic'),(4,'Blood Thinner'),(5,'Pain Reliever'),(6,'Antacid'),(7,'Antidepressant'),(8,'Anti-inflammatory'),(9,'Antibiotic'),(10,'Laxative'),(11,'Cough Medicine');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +318,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'cvs1','1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014'),(2,'kaiser1','60303ae22b998861bce3b28f33eec1be758a213c86c93c076dbe9f558c11c752'),(3,'walgreens1','fd61a03af4f77d870fc21e05e7e80678095c92d808cfb3b5c279ee04c74aca13'),(4,'savco1','a4e624d686e03ed2767c0abd85c14426b0b1157d2ce81d27bb4fe4f6f01d688a'),(5,'walgreens2','a140c0c1eda2def2b830363ba362aa4d7d255c262960544821f556e16661b6ff'),(6,'qbit1','ed0cb90bdfa4f93981a7d03cff99213a86aa96a6cbcf89ec5e8889871f088727'),(7,'safeway1','bd7c911264aae15b66d4291b6850829aa96986b1d3ead34d1fdbfef27056c112'),(8,'cvs2','1f9bfeb15fee8a10c4d0711c7eb0c083962123e1918e461b6a508e7146c189b2'),(9,'calaveras1','b4451034d3b6590060ce9484a28b88dd332a80a22ae8e39c9c5cb7357ab26c9f'),(10,'kml1','ec2738feb2bbb0bc783eb4667903391416372ba6ed8b8dddbebbdb37e5102473'),(11,'joe_b1','744ea9ec6fa0a83e9764b4e323d5be6b55a5accfc7fe4c08eab6a8de1fca4855'),(12,'alexxj','a98ec5c5044800c88e862f007b98d89815fc40ca155d6ce7909530d792e909ce'),(13,'maria.c','166fb78f0f44d271a2d9065272a67ba373c3266b59d85847c02ef695af0cbf3f'),(14,'lisaa3','40cca5cc13abf91c7d5a72c0aea9bcbea4108946e67f24c0c23003cbf307efa2'),(15,'tyl_do','ebb39b342baead7aa52c0bcd6c0d4ba061b42f3a9dd6bafa2407a096b91b2450'),(16,'samm2','8ffd063b93a29f84389a635552740a9f0a7234169994158fb19692f5964dd7f5'),(17,'wesley.smith','813e41d4092656716cb0b46a1e5002857066cdaef8decf182ae15abf0b43b8d5'),(18,'s.brown1','b3c0e5febe1ec8875cd4a06fa4a99abf270de3f131d83a65f897322edbc12aec'),(19,'mel_garcia','840b1bf550a873a1dbed1381abe379cb9f1e76067b6de54bcd37367ce6ca3c0a'),(20,'mark.d','946cc198869790373cd8424cd9073e9e29aaa17b6f6a6ec55b38110cae856385');
+INSERT INTO `user` VALUES (1,'cvs1','e5a7f35d94a0f1e613cafb2630569cc3e23313e9d627fb817c9b8d0c79bdc922'),(2,'kaiser1','6dd1ad2e110375ce6f4d8983387c2fa96963b3001af692c7bc3a493d65ec1113'),(3,'walgreens1','8835a520e6e84b712c6d27114997138a52c8c8e115d31cdcb1495326f81852ea'),(4,'savco1','1044cae3f3b534619574d92b852089081adcf1f85107f479445f3516447bb5a6'),(5,'walgreens2','279e121e956e98b9a1a73d1c3b4d6e1473c363a8ada521a8532476182b35613a'),(6,'qbit1','ea6ba68c1c8547473add0b139526b46b7b6e10f194cd552d7cf4ea29c77344c9'),(7,'safeway1','ba01aeb03d660d77f9269d9bbb3b4adf33c784c746acdbf45a7e7701d1684d77'),(8,'cvs2','25977128dcda19b65ea48ff1fa27cab0e7d9d4b2bd91f66f55f5479fcb82fb6c'),(9,'calaveras1','0e0b4a585a951592e79d6b8ca86cdc42c1915f3e54f5223577b366dd8dbe4c4f'),(10,'kml1','dfd2edb8fd6e71d3ec6b20871e08c18793473aba98caad703f04119b13cbb60d'),(11,'joe_b1','6bb2c4a99d13d01535d0a4b484c5b1becafac457d237f2f3fab00fd6f5a7f095'),(12,'alexxj','256d80362a47144e5dd68e81c0f832333eb326a2c99c83fc9fe8fbda07417512'),(13,'maria.c','4d61656b9187d2533adb9b74020b77761e4fe503e72a0cd4bae0aa63ed139431'),(14,'lisaa3','9b911d76b0bd77aafff5e03c589c3045fe3295be56f356e89b78560c0f7d8ddb'),(15,'tyl_do','9ca1f6bc0b28f49b17a37602b37e23ae88df33f8b09d4f0be07522afd051874b'),(16,'samm2','928fabe1cd8c39463bac686f48ae79280a5499860adbc9b86d12e5053326d6ce'),(17,'wesley.smith','76eed9224fcb61935b8ab326c3565e62e5e7d984924d90171e80d5792b69e64e'),(18,'s.brown1','9f87720a4f544e58bbf773ca5945b5848d1a1e9be3dbfc5bc4f210478c79ea72'),(19,'mel_garcia','ff8b2bcdf23b91e3302615958b7316508c4e9df156b8f2612f613cb6118e4e5c'),(20,'mark.d','32aa06cfbda25058a875d23ddf440396c0923f3163ba2d323a7fab6737f67c44');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -331,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-22 23:51:17
+-- Dump completed on 2025-08-03  0:00:01

@@ -13,6 +13,8 @@ import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
 import usermanagement.dao.PharmacyDao;
 
+import util.Utilities;
+
 @WebServlet("/registerPharmacy")
 public class PharmacyRegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -37,7 +39,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         String taxNum = request.getParameter("tax_Number");
         String streetAddress = request.getParameter("address");
         String city = request.getParameter("city");
-        String state = request.getParameter("state");
+        String state = Utilities.stateToAbbrev(request.getParameter("state"));
         String zipString = request.getParameter("zip");
         String phoneNumber = request.getParameter("phone");
         String faxNumber = request.getParameter("fax");
@@ -54,7 +56,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
             return;
         }
 
-        //Check for duplicate username or email address
+        //Check for duplicate username or tax number
         if(!userDao.checkUsernameUnique(username) || !pharmacyDao.checkTaxNumberUnique(taxNum)) {
             response.sendRedirect("registerPharm.jsp?error=duplicate_account");
             return;
@@ -91,7 +93,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         int status = pharmacyDao.registerPharmacy(pharmacy, address);
 
         if (status > 0) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp?success=registration");
         } else {
             response.sendRedirect("registerPharm.jsp?error=creation_error");
         }

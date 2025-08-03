@@ -11,15 +11,15 @@
 <html>
 <head>
 
-    <%--LINKS TO THE CSS PAGE--%>
-    <link rel="stylesheet" href="style.css" type="text/css">
-
     <%--TO LINK BOOTSTRAP--%>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
+
+    <%--LINKS TO THE CSS PAGE--%>
+    <link rel="stylesheet" href="style.css" type="text/css">
 
     <title id="title"></title>
 <style>
@@ -33,8 +33,9 @@
       cursor: pointer;
       margin: 1.2rem;
   }
-  .pharmCard:hover {
-    transform: scale(1.03); /* Increases size by 10% */
+  .pharmCard:hover,.card:hover {
+    transform: scale(1.03);
+
   }
   .distDisplay{
       color:green;
@@ -56,7 +57,7 @@
 <body>
 
 <%--NAVIGATION BAR --%>
-<div class="fullscreen">
+<div>
     <nav class=" bg-body-tertiary navbar">
         <div class="navstart">
             <%--ICON--%>
@@ -74,27 +75,27 @@
             <%--TAKE ADDRESS--%>
                 <div class="navend">
                     <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
-                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
+                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid grey; border-radius:15px; color:white;">Search</button>
                 </div>
         <div class="navend">
             <%
-                String customerName = (String) session.getAttribute("username1");
+                String customerName = (String) session.getAttribute("avatar");
                 String pharmName = (String) session.getAttribute("username2");
                 if (session != null && session.getAttribute("user_id") != null) {
                     if(customerName != null && pharmName == null){
             %>
 
-            <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-                <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+            <span class="navend" style="margin:0; ">
+                <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><img src="<%= customerName %>" style="width:36px;height:36px;"></a>
             </span>
             <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
             <%
             } else if (customerName == null && pharmName != null){
             %>
             <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-                <a class="formPath" style="text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+                <a class="formPath" style="text-decoration: none; color: white;" href="pharmDashboard.jsp"> <%= pharmName %></a>
             </span>
-            <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
+            <a href="logout" class="btn btn-outline-danger" style="margin-right:23px;">Logout</a>
             <%
                     }
                 }
@@ -134,12 +135,12 @@
 
                 //If the query returned nothing
                 if (!rs.isBeforeFirst()) {
-                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center;\">No pharmacies found for %s.</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center; color: white;\">No pharmacies found for %s.</h3>", searchQuery));
                 }
 
                 //If at least one pharmacy was returned by the query
                 else {
-                    out.println(String.format("<h3 style=\"margin: 0.6rem;\">Pharmacies for %s</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.6rem; color: white;\">Pharmacies for %s</h3>", searchQuery));
                     out.println("<div id=\"flex\">");
 
                     while (rs.next()) {
@@ -188,12 +189,12 @@
 
                 //If the query returned nothing
                 if (!rs.isBeforeFirst()) {
-                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center;\">No medications found for %s.</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center; color: white;\">No medications found for %s.</h3>", searchQuery));
                 }
 
                 //If at least one medication was returned by the query
                 else {
-                    out.println(String.format("<h3 style=\"margin: 0.6rem;\">%ss</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.6rem; color: white;\">%ss</h3>", searchQuery));
 
                     while (rs.next()) {
                         String medName = rs.getString(1);

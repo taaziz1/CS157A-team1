@@ -17,18 +17,18 @@
 <head>
     <meta charset="UTF-8">
 
-    <%-- CSS & Bootstrap Links --%>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css" type="text/css">
-
     <%--TO LINK BOOTSTRAP--%>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
             crossorigin="anonymous">
+
+    <%--FOR STAR STYLING--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%--TO LINK STYLESHEET--%>
+    <link rel="stylesheet" href="style.css" type="text/css">
 
     <title id="title"></title>
 
@@ -234,8 +234,65 @@
 
 <body>
 
+<%--Pop ups--%>
+<%
+    String error = request.getParameter("error");
+    String success = request.getParameter("success");
+    if(error != null) {
+
+%>
+<div id="errorPopup">
+    ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+    if ("update_failed".equals(error)) {
+%>
+<script>document.getElementById("errorPopup").innerHTML = "❌ Review could not be updated. Please try again.";</script>
+<%
+} else if ("delete_failed".equals(error)) {
+%>
+<script>document.getElementById("errorPopup").innerHTML = "❌ Review could not be deleted. Please try again.";</script>
+<%
+} else if ("post_failed".equals(error)) {
+%>
+<script>document.getElementById("errorPopup").innerHTML = "❌ Review could not be posted. Please try again.";</script>
+<%
+    }
+}
+
+else if (success != null) {
+%>
+<div id="successPopup">
+    ✅
+</div>
+<%
+    if("updated_review".equals(success)) {
+%>
+        <script>document.getElementById("successPopup").innerHTML = "✅ Review successfully updated."</script>
+<%
+} else if("deleted_review".equals(success)) {
+%>
+        <script>document.getElementById("successPopup").innerHTML = "✅ Review successfully deleted."</script>
+<%
+} else if ("posted_review".equals(success)) {
+%>
+        <script>document.getElementById("successPopup").innerHTML = "✅ Review successfully posted."</script>
+<%
+        }
+    }
+%>
+
+<script>
+    setTimeout(() => {
+        const popup1 = document.getElementById('errorPopup');
+        const popup2 = document.getElementById('successPopup');
+        if (popup1) popup1.style.display = 'none';
+        if (popup2) popup2.style.display = 'none';
+    }, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR --%>
-<div class="fullscreen">
+<div>
     <nav class=" bg-body-tertiary navbar">
         <div class="navstart">
             <%-- App Icon --%>
@@ -250,29 +307,29 @@
 
 <div class="navend">
         <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
-        <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid black; border-radius:15px;">Search</button>
+        <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid grey; border-radius:15px; color:white;">Search</button>
 </div>
             <div class="navend">
                 <%-- Welcome message + Logout for logged-in users --%>
                 <%
-                    String customerName = (String) session.getAttribute("username1");
+                    String customerName = (String) session.getAttribute("avatar");
                     String pharmName = (String) session.getAttribute("username2");
                     if (session != null && session.getAttribute("user_id") != null) {
                         if (customerName != null && pharmName == null) {
                 %>
 
 
-                <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-                    <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+                <span class="navend" style="margin:0;">
+                    <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><img src="<%= customerName %>" style="width:36px;height:36px;top:-2px;"></a>
                 </span>
                 <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
                 <%
                 } else if (customerName == null && pharmName != null) {
                 %>
                 <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-                    <a class="formPath" style="text-decoration: none;" href="pharmDashboard.jsp"> <%= pharmName %></a>
+                    <a class="formPath" style="text-decoration: none; color: white;" href="pharmDashboard.jsp"> <%= pharmName %></a>
                 </span>
-                <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
+                <a href="logout" class="navend btn btn-outline-danger" style="margin-right:23px;">Logout</a>
                 <%
                         }
                     }
@@ -296,17 +353,15 @@
                 <thead class="table-light">
                 <tr>
                     <th colspan="2" class="text-center">
-                        <h2 class="mb-0"><%=pharmacy.getPharmacyName()%><h4
-                                class="distDisplay" style="color:green;"></h4></h2>
+                        <h1 class="mb-0"><%=pharmacy.getPharmacyName()%><h4
+                                class="distDisplay" style="color:green;"></h4></h1>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <%
                     String phoneNumber = pharmacy.getPhoneNumber();
-                    if (phoneNumber == null || phoneNumber.isEmpty()) phoneNumber = "N/A";
                     String faxNumber = pharmacy.getFaxNumber();
-                    if (faxNumber == null || faxNumber.isEmpty()) faxNumber = "N/A";
                     String webUrl = pharmacy.getWebURL();
                     String hours = pharmacy.getOperatingHours();
                     String[] timings = (hours != null) ? hours.split(",") : new String[0];
@@ -319,24 +374,26 @@
                     <th>Address</th>
                     <td class="pharmDist"><%=pharmacy.getAddress()%>
                 </tr>
+                <% if (!(phoneNumber == null || phoneNumber.isEmpty())) { %>
                 <tr>
                     <th>Phone Number</th>
                     <td><%= phoneNumber %></td>
                 </tr>
+                <%} %>
+                <% if (!(faxNumber == null || faxNumber.isEmpty())) { %>
                 <tr>
                     <th>Fax Number</th>
                     <td><%= faxNumber %></td>
                 </tr>
+                <%} %>
+                <% if (!(webUrl == null || webUrl.isEmpty())) { %>
                 <tr>
                     <th>Website</th>
                     <td>
-                        <% if (webUrl == null || webUrl.isEmpty()) { %>
-                        N/A
-                        <% } else { %>
                         <a href="<%= webUrl %>" target="_blank" rel="noopener"><%= webUrl %></a>
-                        <% } %>
                     </td>
                 </tr>
+                <% } %>
                 <tr>
                     <th>Operating Hours</th>
                     <td>
@@ -545,7 +602,7 @@
         </div>
     </div>
 </div>
-<% if (session != null && session.getAttribute("user_id") != null) { %>
+<% if (session != null && session.getAttribute("user_id") != null && customerName != null && pharmName == null) { %>
 
 <div id="editModal" class="modal-overlay" style="display:none;">
     <form class="comment-box" id="editForm" method="POST" action="editReview">

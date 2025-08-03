@@ -32,7 +32,6 @@ public class CustomerLoginServlet extends HttpServlet {
 
         try {
             if (loginDao.validate(user, "customer")) {
-                response.sendRedirect("index.jsp");
                 HttpSession session = request.getSession();
                 session.setAttribute("user_id", user.getUserId()); // Store user ID in session
                 session.setAttribute("username1", username);
@@ -40,6 +39,8 @@ public class CustomerLoginServlet extends HttpServlet {
                 CustomerDao customerDao = new CustomerDao();
                 Customer customer = customerDao.getCustomerDashboard(user.getUserId());
                 session.setAttribute("avatar", customer.getAvatarDirectory());
+
+                response.sendRedirect("index.jsp?success=log_in");
 
 
             } else {
