@@ -217,12 +217,6 @@
     List<Medication> medication = medicationDao.getMedication(userId);
 %>
 
-
-<h1>Welcome, <%=pharmacy.getPharmacyName()%>
-</h1>
-
-
-
 <!-- Reset Password Modal -->
 <div id="resetPasswordModal" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
   background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 9999;">
@@ -296,7 +290,7 @@
     </form>
 </div>
 
-
+<h1 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px;">Welcome, <%=pharmacy.getPharmacyName()%></h1>
 
 <div class="center1">
     <div class="pharmDashBorder">
@@ -374,21 +368,7 @@
     String error = request.getParameter("error");
     if ("invalid_credentials".equals(error)) {
 %>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
+<div id="errorPopup">
     ❌ Incorrect credentials. Please try again.
 </div>
 <%

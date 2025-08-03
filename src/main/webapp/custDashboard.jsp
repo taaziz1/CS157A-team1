@@ -185,21 +185,7 @@ let starRating = "<%=review.getRating()%>";
   String error = request.getParameter("error");
   if ("invalid_password".equals(error)) {
 %>
-<div id="errorPopup" style="
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 9999;
-    font-size: 1rem;
-    text-align: center;
-">
+<div id="errorPopup">
   ❌ Incorrect password. Please try again.
 </div>
 <%
