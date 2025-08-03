@@ -139,7 +139,7 @@
 
 			%>
 
-			<span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
+			<span class="navend" style="margin:0;">
 				<a class="formPath" style="color:white; text-decoration: none;" href="custDashboard.jsp"><img src="<%= customerName %>" style="width:36px;height:36px;top:-2px;"></a>
 			</span>
 			<a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>

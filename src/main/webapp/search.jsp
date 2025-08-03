@@ -78,14 +78,14 @@
                 </div>
         <div class="navend">
             <%
-                String customerName = (String) session.getAttribute("username1");
+                String customerName = (String) session.getAttribute("avatar");
                 String pharmName = (String) session.getAttribute("username2");
                 if (session != null && session.getAttribute("user_id") != null) {
                     if(customerName != null && pharmName == null){
             %>
 
-            <span class="navend" style="margin:0; padding-right:6px; padding-top:4px;">
-                <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><%= customerName %></a>
+            <span class="navend" style="margin:0; ">
+                <a class="formPath" style="text-decoration: none;" href="custDashboard.jsp"><img src="<%= customerName %>" style="width:36px;height:36px;"></a>
             </span>
             <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
             <%
