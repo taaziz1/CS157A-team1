@@ -1,13 +1,6 @@
 <%@ page import="usermanagement.dao.MedicationDao" %>
 <%@ page import="usermanagement.model.Medication" %>
 <%@ page import="java.util.List" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: anilgm
-  Date: 7/25/25
-  Time: 1:34 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -24,6 +17,26 @@
     <title>Add Medication</title>
 </head>
 <body>
+
+<%--Pop ups--%>
+<%
+    String error = request.getParameter("error");
+    if ("duplicate_med".equals(error)) {
+%>
+<div id="errorPopup">
+    ❌ Listing for specified medication already exists. Please try again.
+</div>
+<%
+    }
+%>
+
+<script>
+    setTimeout(() => {
+        const popup = document.getElementById('errorPopup');
+        if (popup) popup.style.display = 'none';
+    }, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR--%>
 <nav class=" bg-body-tertiary navbar">
     <div class="navstart">
@@ -72,8 +85,7 @@ String userId =request.getParameter("user_id");
             <% } %>
 
             <input class="btn btn-primary w-100 py-2 " type="submit" value="Add Medication ">
-            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel<a>
-
+            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel</a>
         </form>
     </div>
 </main>

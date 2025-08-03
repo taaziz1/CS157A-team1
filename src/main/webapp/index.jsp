@@ -117,6 +117,40 @@
 </head>
 
 <body>
+
+<%--Pop ups--%>
+<%
+	String success = request.getParameter("success");
+	if (success != null) {
+%>
+<div id="successPopup">
+	✅
+</div>
+<%
+	if("log_in".equals(success)) {
+%>
+<script> document.getElementById("successPopup").innerHTML = "✅ Successfully logged in." </script>
+<%
+} else if ("registration".equals(success)) {
+
+%>
+<script> document.getElementById("successPopup").innerHTML = "✅ Account has been created successfully." </script>
+<%
+} else if ("log_out".equals(success)) {
+%>
+<script> document.getElementById("successPopup").innerHTML = "✅ Successfully logged out." </script>
+<%
+		}
+	}
+
+%>
+<script>
+	setTimeout(() => {
+		const popup = document.getElementById('successPopup');
+		if (popup) popup.style.display = 'none';
+	}, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR --%>
 <div class="fullscreen">
 	<nav class="navbar">
@@ -194,7 +228,7 @@
 		<% } %>
 	</nav>
 	<%--HEADING--%>
-	<h1 style="color:white; opacity: 90%; text-shadow: 1px 1px 12px darkblue; padding-top:8%; font-size: 4.0em;">PharmaFinder</h1>
+	<h1 style="color:white; opacity: 95%; text-shadow: 1px 1px 12px darkblue; padding-top:8%; font-size: 4.0em;">PharmaFinder</h1>
 
 	<%--SEARCH BAR--%>
 	<div class="searchdiv">

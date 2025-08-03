@@ -61,11 +61,9 @@ public class UpdateCustomerServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         if(status){
-            response.sendRedirect("custDashboard.jsp");
+            response.sendRedirect("custDashboard.jsp?success=updated_info");
         }else{
-            RequestDispatcher dispatcher = request.getRequestDispatcher("custUpdate.jsp?userId=" + userId);
-            request.setAttribute("errorMessage", "Update failed. Try again.");
-            dispatcher.forward(request, response);
+            response.sendRedirect("custDashboard.jsp?error=update_fail");
         }
     }
 }

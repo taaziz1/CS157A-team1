@@ -199,6 +199,89 @@
 
 
 <body>
+
+<%--Pop ups--%>
+<%
+    String error = request.getParameter("error");
+    String success = request.getParameter("success");
+    if(error != null) {
+
+%>
+<div id="errorPopup">
+    ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+        if ("invalid_credentials".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ Incorrect credentials. Please try again.";</script>
+<%
+        } else if ("delete_med_failed".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ Medication could not be deleted. Please try again.";</script>
+<%
+        } else if ("delete_acc_failed".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ Account could not be deleted. Please try again.";</script>
+<%
+        } else if ("incomplete_field".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ Please fill out all fields.";</script>
+<%
+        } else if ("incorrect_pass".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ Current password is incorrect. Please try again.";</script>
+<%
+        } else if ("incorrect_tax_num".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ Tax number is incorrect. Please try again.";</script>
+<%
+        } else if ("identical_pass".equals(error)) {
+%>
+            <script>document.getElementById("errorPopup").innerHTML = "❌ New password cannot be the same as the current password. Please try again.";</script>
+<%
+        }
+    }
+
+    else if (success != null) {
+%>
+<div id="successPopup">
+    ✅
+</div>
+<%
+        if("log_in".equals(success)) {
+%>
+            <script>document.getElementById("successPopup").innerHTML = "✅ Successfully logged in."</script>
+<%
+        } else if("added_med".equals(success)) {
+%>
+            <script>document.getElementById("successPopup").innerHTML = "✅ Successfully added medication."</script>
+<%
+        } else if ("deleted_med".equals(success)) {
+%>
+            <script>document.getElementById("successPopup").innerHTML = "✅ Successfully deleted medication."</script>
+<%
+        } else if("updated_med".equals(success)) {
+%>
+            <script>document.getElementById("successPopup").innerHTML = "✅ Successfully updated medication."</script>
+<%
+        } else if("updated_info".equals(success)) {
+%>
+            <script>document.getElementById("successPopup").innerHTML = "✅ Successfully updated pharmacy information."</script>
+<%
+        }
+    }
+%>
+
+<script>
+    setTimeout(() => {
+        const popup1 = document.getElementById('errorPopup');
+        const popup2 = document.getElementById('successPopup');
+        if (popup1) popup1.style.display = 'none';
+        if (popup2) popup2.style.display = 'none';
+    }, 3000); // 3 seconds
+</script>
+
+
 <%--NAVIGATION BAR --%>
 <nav class="bg-body-tertiary navbar">
     <div class="navstart">
@@ -272,11 +355,6 @@
         <div class="invalid-feedback">
             Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
         </div>
-
-        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-        <% if (errorMessage != null) { %>
-        <div style="color: red; font-weight: bold; margin-bottom: 16px;"><%= errorMessage %></div>
-        <% } %>
 
         <!-- Buttons -->
         <div style="display: flex; justify-content: flex-end; gap: 10px;">
@@ -381,16 +459,6 @@
     </div>
 </div>
 
-<%
-    String error = request.getParameter("error");
-    if ("invalid_credentials".equals(error)) {
-%>
-<div id="errorPopup">
-    ❌ Incorrect credentials. Please try again.
-</div>
-<%
-    }
-%>
 
 
 
@@ -509,13 +577,6 @@
     function closeResetModal() {
         document.getElementById("resetPasswordModal").style.display = "none";
     }
-</script>
-
-<script>
-    setTimeout(() => {
-        const popup = document.getElementById('errorPopup');
-        if (popup) popup.style.display = 'none';
-    }, 3000); // 3 seconds
 </script>
 
 <%

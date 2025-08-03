@@ -39,7 +39,9 @@ public class ReviewPostServlet extends HttpServlet {
         }
 
         if (status > 0) {
-            response.sendRedirect("pharmacy.jsp?p=" + pharmacyId);
+            response.sendRedirect("pharmacy.jsp?p=" + pharmacyId + "&success=posted_review");
+        } else {
+            response.sendRedirect("pharmacy.jsp?p=" + pharmacyId + "&error=post_failed");
         }
     }
 }

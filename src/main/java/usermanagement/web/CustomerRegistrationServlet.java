@@ -52,7 +52,7 @@ public class CustomerRegistrationServlet extends HttpServlet {
         int status = customerDao.registerCustomer(customer);
 
         if (status > 0) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp?success=registration");
         } else {
             response.sendRedirect("registerCust.jsp?error=creation_error");
         }

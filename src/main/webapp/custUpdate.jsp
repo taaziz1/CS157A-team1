@@ -89,7 +89,8 @@
         Back to Dashboard
     </a>
 </form>
-    </main>
+</div>
+</main>
 
 
 

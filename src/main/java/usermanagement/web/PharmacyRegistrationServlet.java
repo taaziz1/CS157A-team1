@@ -93,7 +93,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         int status = pharmacyDao.registerPharmacy(pharmacy, address);
 
         if (status > 0) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp?success=registration");
         } else {
             response.sendRedirect("registerPharm.jsp?error=creation_error");
         }

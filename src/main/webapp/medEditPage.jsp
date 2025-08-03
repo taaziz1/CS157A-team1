@@ -17,6 +17,35 @@
 
 </head>
 <body>
+
+<%--Pop ups--%>
+<%
+  String error = request.getParameter("error");
+  if (error != null) {
+%>
+<div id="errorPopup">
+  ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+  if("missing_fields".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ One or more fields are missing. Please try again." </script>
+<%
+} else if ("update_failed".equals(error)) {
+%>
+<script> document.getElementById("errorPopup").innerHTML = "❌ Could not update the medication listing. Please try again." </script>
+<%
+    }
+  }
+
+%>
+<script>
+  setTimeout(() => {
+    const popup = document.getElementById('errorPopup');
+    if (popup) popup.style.display = 'none';
+  }, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR--%>
 <nav class=" bg-body-tertiary navbar">
   <div class="navstart">

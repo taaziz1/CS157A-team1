@@ -72,6 +72,22 @@ h1 {
 	text-align: center;
 }
 
+#successPopup {
+	position: fixed;
+	top: 7%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #d9f8d7;
+	color: #22721c;
+	border: 1px solid #c9f5c6;
+	padding: 15px 25px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+	font-size: 1rem;
+	text-align: center;
+}
+
 /* === Login Form === */
 .form-signin {
 	width: 100vw;

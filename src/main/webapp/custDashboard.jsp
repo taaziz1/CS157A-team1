@@ -1,6 +1,5 @@
 <%@ page import="usermanagement.dao.CustomerDao" %>
 <%@ page import="usermanagement.model.Customer" %>
-<%@ page import="usermanagement.web.CustomerLoginServlet" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="usermanagement.dao.ReviewDao" %>
 <%@ page import="usermanagement.model.Review" %>
@@ -51,6 +50,50 @@ margin: 5px auto;
   Customer customer = customerDao.getCustomerDashboard(userId);
 %>
 
+<%--Pop ups--%>
+<%
+  String error = request.getParameter("error");
+  String success = request.getParameter("success");
+  if(error != null) {
+
+%>
+<div id="errorPopup">
+  ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+  if ("delete_failed".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Account could not be deleted. Please try again.";</script>
+<%
+} else if ("invalid_password".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Password is incorrect. Please try again.";</script>
+<%
+  } else if ("update_fail".equals(error)) {
+%>
+  <script>document.getElementById("errorPopup").innerHTML = "❌ Account information could not be updated. Please try again.";</script>
+<%
+  }
+}
+
+else if ("updated_info".equals(success)) {
+%>
+<div id="successPopup">
+  ✅ Successfully updated account information.
+</div>
+<%
+  }
+%>
+
+<script>
+  setTimeout(() => {
+    const popup1 = document.getElementById('errorPopup');
+    const popup2 = document.getElementById('successPopup');
+    if (popup1) popup1.style.display = 'none';
+    if (popup2) popup2.style.display = 'none';
+  }, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR --%>
 <nav class=" bg-body-tertiary navbar">
   <div class="navstart">
@@ -78,12 +121,12 @@ margin: 5px auto;
   <form action="custUpdate.jsp" method="get">
     <input type="hidden" name="userId" value="<%= userId %>">
     <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
-    <a type="submit" class="formPath">
+    <a href="custUpdate.jsp?userId=<%= userId %>&avatarID=<%=customer.getAvatarId()%>" type="submit" class="formPath">
       Update Account
     </a>
   </form>
 </div>
-<a style="padding-top:7px;" class="formPath" href="logout" >Logout</a>
+  <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
 </div>
 
 
@@ -185,17 +228,6 @@ let starRating = "<%=review.getRating()%>";
   </form>
 </div>
 
-<%
-  String error = request.getParameter("error");
-  if ("invalid_password".equals(error)) {
-%>
-<div id="errorPopup">
-  ❌ Incorrect password. Please try again.
-</div>
-<%
-  }
-%>
-
 <script>
   function openDeleteModal() {
     document.getElementById("deleteModal").style.display = "flex";
@@ -204,17 +236,6 @@ let starRating = "<%=review.getRating()%>";
   function closeDeleteModal() {
     document.getElementById("deleteModal").style.display = "none";
   }
-</script>
-
-<script>
-
-  setTimeout(() => {
-    const popup = document.getElementById('errorPopup');
-    if (popup) popup.style.display = 'none';
-  }, 3000); // 3 seconds
-
-
-
 </script>
 
 </body>

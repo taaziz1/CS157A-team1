@@ -127,7 +127,7 @@
 
 					<%-- PASSWORD --%>
 					<div class="col-sm-3 entry-field" style="position:relative;">
-						<label for="password" class="form-label">Password</label>
+						<label class="form-label">Password</label>
                      <%-- View password --%>
                       <div style=" z-index:2; position:absolute; top:38px;right:25px;">
 						   <a onclick="passwordFunction()" >

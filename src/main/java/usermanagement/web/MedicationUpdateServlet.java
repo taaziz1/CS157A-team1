@@ -27,8 +27,7 @@ public class MedicationUpdateServlet extends HttpServlet {
         Integer userId = (Integer) request.getSession().getAttribute("user_id");
 
         if(priceString==null||priceString.isEmpty()|| qtyString==null || qtyString.isEmpty()|| medIdString == null || medIdString.isEmpty()){
-            request.setAttribute("errorMessage", "All fields are required.");
-            request.getRequestDispatcher("medEditPage.jsp").forward(request, response);
+            response.sendRedirect("medEditPage.jsp?error=missing_fields");
             return;
         }
             double price = Double.parseDouble(priceString);
@@ -49,13 +48,11 @@ public class MedicationUpdateServlet extends HttpServlet {
         }
 if(status){
     //success
-    response.sendRedirect("pharmDashboard.jsp");
+    response.sendRedirect("pharmDashboard.jsp?success=updated_med");
 }
 else{
     //failed
-   request.setAttribute("errorMessage", "Update failed, Please try again");
-    System.out.println("Forwarding to edit page with: " + medId + ", " + userId);
-    request.getRequestDispatcher("medEditPage.jsp").forward(request, response);
+    response.sendRedirect("medEditPage.jsp?error=update_failed");
 
 }
 

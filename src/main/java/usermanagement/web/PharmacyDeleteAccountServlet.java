@@ -49,7 +49,7 @@ public class PharmacyDeleteAccountServlet extends HttpServlet {
                 response.sendRedirect("logout");
             }
             else{
-                response.sendRedirect("pharmDashboard.jsp?error=delete_failed");
+                response.sendRedirect("pharmDashboard.jsp?error=delete_acc_failed");
             }
         }
         else {

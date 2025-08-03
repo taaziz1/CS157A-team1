@@ -36,7 +36,8 @@ public class PharmacyLoginServlet extends HttpServlet {
             	HttpSession session = request.getSession();
             	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
                 session.setAttribute("username2", user.getUsername());
-                response.sendRedirect("pharmDashboard.jsp");
+
+                response.sendRedirect("pharmDashboard.jsp?success=log_in");
 
 
             } else {
@@ -44,8 +45,7 @@ public class PharmacyLoginServlet extends HttpServlet {
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "An unexpected error occurred.");
-            request.getRequestDispatcher("pharmLogIn.jsp").forward(request, response);
+            response.sendRedirect("pharmLogIn.jsp?error=");
         }
     }
 }

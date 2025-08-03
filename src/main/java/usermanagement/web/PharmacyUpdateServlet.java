@@ -82,7 +82,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         }
 
         if (status > 0) {
-            response.sendRedirect("pharmDashboard.jsp");
+            response.sendRedirect("pharmDashboard.jsp?success=updated_info");
         } else {
             response.sendRedirect("pharmInfoUpdate.jsp?error=update_error");
         }

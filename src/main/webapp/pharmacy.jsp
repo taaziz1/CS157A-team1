@@ -234,6 +234,63 @@
 
 <body>
 
+<%--Pop ups--%>
+<%
+    String error = request.getParameter("error");
+    String success = request.getParameter("success");
+    if(error != null) {
+
+%>
+<div id="errorPopup">
+    ❌ An unknown error has occurred. Please try again.
+</div>
+<%
+    if ("update_failed".equals(error)) {
+%>
+<script>document.getElementById("errorPopup").innerHTML = "❌ Review could not be updated. Please try again.";</script>
+<%
+} else if ("delete_failed".equals(error)) {
+%>
+<script>document.getElementById("errorPopup").innerHTML = "❌ Review could not be deleted. Please try again.";</script>
+<%
+} else if ("post_failed".equals(error)) {
+%>
+<script>document.getElementById("errorPopup").innerHTML = "❌ Review could not be posted. Please try again.";</script>
+<%
+    }
+}
+
+else if (success != null) {
+%>
+<div id="successPopup">
+    ✅
+</div>
+<%
+    if("updated_review".equals(success)) {
+%>
+        <script>document.getElementById("successPopup").innerHTML = "✅ Review successfully updated."</script>
+<%
+} else if("deleted_review".equals(success)) {
+%>
+        <script>document.getElementById("successPopup").innerHTML = "✅ Review successfully deleted."</script>
+<%
+} else if ("posted_review".equals(success)) {
+%>
+        <script>document.getElementById("successPopup").innerHTML = "✅ Review successfully posted."</script>
+<%
+        }
+    }
+%>
+
+<script>
+    setTimeout(() => {
+        const popup1 = document.getElementById('errorPopup');
+        const popup2 = document.getElementById('successPopup');
+        if (popup1) popup1.style.display = 'none';
+        if (popup2) popup2.style.display = 'none';
+    }, 3000); // 3 seconds
+</script>
+
 <%--NAVIGATION BAR --%>
 <div class="fullscreen">
     <nav class=" bg-body-tertiary navbar">
