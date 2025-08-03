@@ -169,6 +169,23 @@
             justify-content: space-between;
         }
 
+        /* force text for each medication listing to line up*/
+        .medStyle li {
+            display: inline-block;
+        }
+        .medStyle li:nth-child(1) {
+            width: 40%;
+        }
+        .medStyle li:nth-child(2) {
+            width: 30%;
+        }
+        .medStyle li:nth-child(3) {
+            width: 20%;
+        }
+        .medStyle li:nth-child(4) {
+            width: 10%;
+        }
+
         /*for delete and edit button*/
 
         .functionOptions {
