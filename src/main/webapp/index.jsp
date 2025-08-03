@@ -335,8 +335,9 @@
 		minWidth: 200.00,
 		highlightColor: 0x113858,
 		midtoneColor: 0x493cae,
-		baseColor: 0x3c96a9,
-		speed: 0.70
+		lowlightColor: 0x3112b6,
+		baseColor: 0x202b3d,
+		blurFactor: 0.45
 	})
 </script>
 

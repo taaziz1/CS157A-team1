@@ -22,14 +22,7 @@ public class CustomerUpdateServlet extends HttpServlet {
     public void init() {
         customerDao = new CustomerDao();
     }
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        int userId = (int) session.getAttribute("user_id");
-        Customer customer = customerDao.getCustomerDashboard(userId);
-        request.setAttribute("customer", customer);
-        request.getRequestDispatcher("custUpdate.jsp").forward(request, response);
-    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer userId = (Integer) request.getSession().getAttribute("user_id");

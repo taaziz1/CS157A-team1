@@ -11,9 +11,11 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css" type="text/css">
   <title>Customer Login Page</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="style.css" type="text/css">
 
   <style>
 
@@ -131,7 +133,7 @@ margin: 5px auto;
 else if ("updated_info".equals(success)) {
 %>
 <div id="successPopup">
-  ✅ Successfully updated account information.
+  ✅ Successfully updated avatar.
 </div>
 <%
   }
@@ -225,7 +227,7 @@ else if ("updated_info".equals(success)) {
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
-      <button type="submit" class="btn btn-primary">Update Customer</button>
+      <button type="submit" class="btn btn-primary">Change Avatar</button>
       <button type="button"
               class="btn btn-secondary"
               onclick="closeUpdateModal()">
