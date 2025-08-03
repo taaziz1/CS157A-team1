@@ -16,6 +16,15 @@
 
   <style>
 
+    /* middle slot for buttons */
+    .navcenter {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-right: 45px;
+    }
+
   .custDashBorder {
 
   background-color: whitesmoke;
@@ -109,23 +118,20 @@ else if ("updated_info".equals(success)) {
         href="index.jsp">PharmaFinder</a>
   </div>
 
+  <div class="navcenter">
+    <!-- Delete Account Button -->
+      <button type="button" onclick="openDeleteModal()" class="btn btn-danger">🗑 Delete Account</button>
+    <!-- Update Account Button -->
+      <form action="custUpdate.jsp" method="get">
+        <input type="hidden" name="userId" value="<%= userId %>">
+        <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
+        <a href="custUpdate.jsp?userId=<%= userId %>&avatarID=<%=customer.getAvatarId()%>" type="submit" class="btn btn-primary">
+          ✏️ Update Account
+        </a>
+      </form>
+  </div>
+
 <div class="navend">
-<!-- Delete Account Button -->
-<div  style="padding:9px 20px; top:-10px;">
-  <a type="button"  class="formPath" onclick="openDeleteModal()">
-    Delete Account
-  </a>
-</div>
-<!-- Update Account Button -->
-<div  style="padding:9px 20px; top:-10px;" >
-  <form action="custUpdate.jsp" method="get">
-    <input type="hidden" name="userId" value="<%= userId %>">
-    <input type="hidden" name="avatarID" value="<%=customer.getAvatarId()%>">
-    <a href="custUpdate.jsp?userId=<%= userId %>&avatarID=<%=customer.getAvatarId()%>" type="submit" class="formPath">
-      Update Account
-    </a>
-  </form>
-</div>
   <a href="logout" class="btn btn-outline-danger" style="margin-right:8px;">Logout</a>
 </div>
 
@@ -134,7 +140,7 @@ else if ("updated_info".equals(success)) {
 </nav>
 
 
-<h1 style="margin-top:40px;"> Customer Dashboard</h1>
+<h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px; justify-content:center;">Welcome, <%=customer.getUsername()%></h2>
 
 <div style="display:flex; justify-content:center; padding:20px;margin-bottom:20px;">
   <div class="custDashBorder" >
@@ -161,7 +167,7 @@ else if ("updated_info".equals(success)) {
   </div>
   </div>
 <hr style=" width: 90%; margin: 0 auto;">
-<h4 style="display:flex;justify-content:center;padding:10px;">Reviews</h4>
+<h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px; justify-content:center; margin-bottom: 20px">Your Reviews</h2>
 <%
 
 ReviewDao reviewdao = new ReviewDao();

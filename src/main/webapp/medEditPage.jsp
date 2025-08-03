@@ -69,7 +69,7 @@
 
 <main class="form-signin w-100 m-auto" >
   <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
-  <h3>Edit Medication</h3>
+    <h3 style="text-align: center;">Edit Medication</h3>
 <form method="post" action="updateMedication" class="needs-validation" novalidate>
 
   <input type="hidden" name="med_id" value="<%= medIdParam %>" />

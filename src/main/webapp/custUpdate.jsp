@@ -41,7 +41,7 @@
 %>
 <main class="form-signin w-100 m-auto">
 
-<div class="bubble">
+<div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
 <form action="updateCustomer" method="post">
     <input type="hidden" name="userId" value="<%= userId %>">
     <h1 class="h3 mb-3 fw-normal">Update Customer Details</h1>
@@ -85,7 +85,7 @@
     <% } %>
     <input type="submit" class="w-100 btn btn-primary btn-lg" value="Update Customer">
 
-    <a href="custDashboard.jsp">
+    <a href="custDashboard.jsp" class="btn  w-100 py-2 ">
         Back to Dashboard
     </a>
 </form>

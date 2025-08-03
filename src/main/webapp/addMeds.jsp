@@ -56,7 +56,7 @@ String userId =request.getParameter("user_id");
 %>
 <%--LOG IN--%>
 <main class="form-signin w-100 m-auto">
-    <div class="bubble">
+    <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
         <form action="addMed" method="post">
             <input type="hidden" name="user_id" value="<%= userId %>" />
             <h1 class="h3 mb-3 fw-normal">Add medication</h1>
