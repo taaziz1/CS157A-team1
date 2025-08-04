@@ -40,7 +40,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'CA',95132,'San Jose','2514 Berryessa Rd'),(2,'CA',95119,'San Jose','276 Hospital Pkwy'),(3,'CA',95123,'San Jose','440 Blossom Hill Rd'),(4,'CA',95128,'San Jose','455 O\'Connor Dr Suite 190'),(5,'CA',94538,'Sunnyvale','2600 Mowry Ave'),(6,'CA',94089,'Santa Clara','1287 Hammerwood Ave Suite B'),(7,'CA',95054,'Fremont','3970 Rivermark Plaza'),(8,'CA',94538,'Fremont','4020 Fremont Hub'),(9,'CA',95035,'Milpitas','114 S Park Victoria Dr'),(10,'CA',95014,'Cupertino','1655 South De Anza Boulevard, Suite 2');
+INSERT INTO `address` VALUES (1,'CA',95132,'San Jose','2514 Berryessa Rd'),(2,'CA',95119,'San Jose','276 Hospital Pkwy'),(3,'CA',95123,'San Jose','440 Blossom Hill Rd'),(4,'CA',95128,'San Jose','455 O\'Connor Dr Suite 190'),(5,'CA',94538,'Fremont','2600 Mowry Ave'),(6,'CA',94089,'Santa Clara','1287 Hammerwood Ave Suite B'),(7,'CA',95054,'Fremont','3970 Rivermark Plaza'),(8,'CA',94538,'Fremont','4020 Fremont Hub'),(9,'CA',95035,'Milpitas','114 S Park Victoria Dr'),(10,'CA',95014,'Cupertino','1655 South De Anza Boulevard, Suite 2');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 

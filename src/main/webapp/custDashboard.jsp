@@ -328,8 +328,6 @@ for(Review review: reviews){
 <script>
 function pharmacyRedirectFunction(userIdPharm){
 location.href = "pharmacy.jsp?p="+userIdPharm;
-console.log("test");
-console.log(userIdPharm);
 }
 
 (function() {
@@ -338,7 +336,6 @@ let starRating = "<%=review.getRating()%>";
     for (let i = 1; i <= starRating; i++) {
         let star = document.querySelector(".star" + i+<%=review.getReviewId()%>);
         star.setAttribute("class", "fa fa-star checked");
-        console.log("stars"+i+<%=review.getReviewId()%>);
     }
 
 })();

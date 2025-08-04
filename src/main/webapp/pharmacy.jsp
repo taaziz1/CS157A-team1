@@ -46,6 +46,20 @@
             overflow-x: hidden; /* guard against stray overflow */
         }
 
+        /* ====================== Search Bar ========================= */
+
+        .navcenter {
+            flex: 1;
+            display: flex;
+            position: absolute;
+            align-items: center;
+            justify-content: center;
+            left: 40%;
+            gap: 8px;
+            list-style-type: none;
+            margin: 0;
+        }
+
         /* ==================== Layout Wrappers ==================== */
         /* Center the card wrapper */
         .center1 {
@@ -95,6 +109,16 @@
         .info-table tbody tr:last-child th,
         .info-table tbody tr:last-child td {
             border-bottom: none;
+        }
+
+        /* ======= Stock ======== */
+
+        #flexbox {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: auto;
+            width: 80%;
         }
 
         /* Remove Bootstrap row/col gutters inside <dl class="row"> */
@@ -305,8 +329,8 @@ else if (success != null) {
             <a class="navstart homePage" href="index.jsp">PharmaFinder</a>
         </div>
 
-<div class="navend">
-        <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
+<div class="navcenter">
+        <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location" style="width: 60%;">
         <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid grey; border-radius:15px; color:white;">Search</button>
 </div>
             <div class="navend">
@@ -344,6 +368,24 @@ else if (success != null) {
         int userId = Integer.parseInt(request.getParameter("p"));
         PharmacyDao pharmacyDao = new PharmacyDao();
         Pharmacy pharmacy = pharmacyDao.getPharmacyDashboard(userId);
+
+        //Retrieve pharmacy information fields
+        String phoneNumber = pharmacy.getPhoneNumber();
+        String faxNumber = pharmacy.getFaxNumber();
+        String webUrl = pharmacy.getWebURL();
+        String hours = pharmacy.getOperatingHours();
+        String[] timings = (hours != null) ? hours.split(",") : new String[0];
+        String[] daysOfWeek = {
+                "Monday","Tuesday","Wednesday",
+                "Thursday","Friday","Saturday","Sunday"
+        };
+
+        //Get pharmacy rating
+        ReviewDao reviewDao = new ReviewDao();
+        double rating = reviewDao.getAverageRating(userId);
+        double decimal = rating - Math.floor(rating);
+        double ratingCopy = rating;
+
     %>
 
     <%-- Pharmacy Info Card --%>
@@ -353,23 +395,37 @@ else if (success != null) {
                 <thead class="table-light">
                 <tr>
                     <th colspan="2" class="text-center">
-                        <h1 class="mb-0"><%=pharmacy.getPharmacyName()%><h4
-                                class="distDisplay" style="color:green;"></h4></h1>
+                        <h1><%=pharmacy.getPharmacyName()%><span
+                                class="distDisplay" style="color:grey; font-size: 35px;"></span>
+                        <%
+                            if(rating > 0) {
+                                out.println("<div style=\"font-size: 1.4rem;margin-top: 0.8rem;\">");
+                                //Full stars
+                                for (int i = 1; i <= rating; i++) {
+                                    out.println("<span class=\"fa fa-star checked\"></span>");
+                                }
+
+                                //Half star
+                                if (decimal >= 0.5) {
+                                    out.println("<span class=\"fa fa-star-half-full checked\"></span>");
+                                    ratingCopy++;
+                                }
+
+                                //Empty stars
+                                for (double x = ratingCopy; x < 5; x++) {
+                                    out.println("<span class=\"fa fa-star-o checked\"></span>");
+                                }
+
+                                out.println(String.format("<span style=\"font-size: 1.2rem;\"> (%.1f)</span>", rating));
+
+                                out.println("</div>");
+                            }
+                        %>
+                        </h1>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <%
-                    String phoneNumber = pharmacy.getPhoneNumber();
-                    String faxNumber = pharmacy.getFaxNumber();
-                    String webUrl = pharmacy.getWebURL();
-                    String hours = pharmacy.getOperatingHours();
-                    String[] timings = (hours != null) ? hours.split(",") : new String[0];
-                    String[] daysOfWeek = {
-                            "Monday","Tuesday","Wednesday",
-                            "Thursday","Friday","Saturday","Sunday"
-                    };
-                %>
                 <tr>
                     <th>Address</th>
                     <td class="pharmDist"><%=pharmacy.getAddress()%>
@@ -412,78 +468,55 @@ else if (success != null) {
 
     <%-- Stock Card --%>
     <div class="card" style="margin: 1.8rem;">
-        <div class="card-header">
-            <h2 class="card-title" style="margin: 0.5rem; text-align: left;">Stock</h2>
-        </div>
-        <div class="card-body">
-            <%
-                String SEARCH_SOLD_MEDS = "SELECT name, quantity, price FROM medication NATURAL JOIN sells WHERE user_id = ?";
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection con = DriverManager.getConnection(
-                            "jdbc:mysql://localhost:3306/pharmafinder",
-                            Utilities.getdbvar("user"),
-                            Utilities.getdbvar("pass")
-                    );
-                    PreparedStatement ps = con.prepareStatement(SEARCH_SOLD_MEDS, PreparedStatement.RETURN_GENERATED_KEYS);
-                    ps.setInt(1, userId);
-                    ResultSet rs = ps.executeQuery();
+            <div class="card-header">
+                <h2 class="card-title" style="margin: 0.5rem; text-align: left;">Stock</h2>
+            </div>
+            <div class="card-body">
+                <div id="flexbox">
+                <%
+                    String SEARCH_SOLD_MEDS = "SELECT name, quantity, price FROM medication NATURAL JOIN sells WHERE user_id = ?";
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        Connection con = DriverManager.getConnection(
+                                "jdbc:mysql://localhost:3306/pharmafinder",
+                                Utilities.getdbvar("user"),
+                                Utilities.getdbvar("pass")
+                        );
+                        PreparedStatement ps = con.prepareStatement(SEARCH_SOLD_MEDS, PreparedStatement.RETURN_GENERATED_KEYS);
+                        ps.setInt(1, userId);
+                        ResultSet rs = ps.executeQuery();
 
-                    // Display each medication if available
-                    if (rs.isBeforeFirst()) {
-                        while (rs.next()) {
-                            String medName = rs.getString(1);
-                            int quantity = rs.getInt(2);
-                            double price = rs.getDouble(3);
+                        // Display each medication if available
+                        if (rs.isBeforeFirst()) {
+                            while (rs.next()) {
+                                String medName = rs.getString(1);
+                                int quantity = rs.getInt(2);
+                                double price = rs.getDouble(3);
 
-                            out.println(String.format(
-                                    "<div class=\"card\" style=\"width: 26rem; margin: 1.2rem;\">\n" +
-                                            "<div class=\"card-body\">\n" +
-                                            "<h4 class=\"card-title\">%s</h4>\n" +
-                                            "<p style=\"font-size: x-large\" class=\"card-text\">$%.2f - " +
-                                            "<span style=\"color: red\">%d</span> in stock</p>\n" +
-                                            "</div>\n</div>", medName, price, quantity));
+                                out.println(String.format(
+                                        "<div class=\"card\" style=\"width: 16rem; margin: 1.2rem;\">\n" +
+                                                "<div class=\"card-body\">\n" +
+                                                "<h4 class=\"card-title\">%s</h4>\n" +
+                                                "<p style=\"font-size: x-large\" class=\"card-text\">$%.2f - " +
+                                                "<span style=\"color: red\">%d</span> in stock</p>\n" +
+                                                "</div>\n</div>", medName, price, quantity));
+                            }
                         }
+                        con.close();
+                    } catch (ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
                     }
-                    con.close();
-                } catch (ClassNotFoundException | SQLException e) {
-                    e.printStackTrace();
-                }
-            %>
+                %>
+            </div>
         </div>
     </div>
 
     <%-- Rating Card --%>
     <div class="card" style="margin: 1.8rem;">
         <div class="card-header">
-            <h2 class="card-title" style="margin: 0.5rem; text-align: left;">Rating</h2>
+            <h2 class="card-title" style="margin: 0.5rem; text-align: left;">Reviews</h2>
         </div>
         <div class="card-body">
-            <%
-                ReviewDao reviewDao = new ReviewDao();
-                double rating = reviewDao.getAverageRating(userId);
-                double decimal = rating - Math.floor(rating);
-                double ratingCopy = rating;
-
-                //Full stars
-                for(int i = 1; i <= rating; i++) {
-                    out.println("<span class=\"fa fa-star checked\"></span>");
-                }
-
-                //Half star
-                if(decimal >= 0.5) {
-                    out.println("<span class=\"fa fa-star-half-full checked\"></span>");
-                    ratingCopy++;
-                }
-
-                //Empty stars
-                for(double x = ratingCopy; x < 5; x++) {
-                    out.println("<span class=\"fa fa-star-o checked\"></span>");
-                }
-
-                out.println(String.format(
-                        "<p style=\"font-size: x-large; margin-top: 0.5rem;\">Average Rating: %.2f</p>", rating));
-            %>
 
             <%-- Review Form For Customers --%>
             <%
