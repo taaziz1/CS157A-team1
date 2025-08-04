@@ -14,6 +14,13 @@
     <%--LINKS TO THE CSS PAGE--%>
     <link rel="stylesheet" href="style.css" type="text/css">
 
+    <style>
+        /* Prevent scrolling */
+        body {
+            overflow: hidden;
+        }
+    </style>
+
     <title>Add Medication</title>
 </head>
 <body>
@@ -56,11 +63,11 @@ String userId =request.getParameter("user_id");
 %>
 <%--LOG IN--%>
 <main class="form-signin w-100 m-auto">
-    <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
-        <form action="addMed" method="post">
+    <div class="bubble">
+        <form action="addMed" method="post" style="background-color:white; padding:20px; border-radius:20px;">
             <input type="hidden" name="user_id" value="<%= userId %>" />
-            <h1 class="h3 mb-3 fw-normal">Add medication</h1>
-            <div> <label for="med" class="form-label">Medication Name </label> <select class="form-select" id="med" name="med_id" required/>
+            <h2 style="margin-bottom: 10px; text-align: center;">Add Medication</h2>
+            <div> <label for="med" class="form-label">Medication Name</label> <select class="form-select" id="med" name="med_id" required>
                 <option value="">Choose...</option>
                 <%
                     MedicationDao medicationDao = new MedicationDao();
@@ -70,22 +77,21 @@ String userId =request.getParameter("user_id");
                 %>
 
                 <option value="<%= med.getMedId() %>"><%=med.getMedName()%></option>
-<%}%>
+                <%} %>
                  </select>
                </div>
             <div class="form-floating">
-                <input type="text" class="form-control" id="Price" title="Please add valid price, #.##" pattern="^\d+\.\d{2}$" name="price" required > <label for="Price">Price</label>
+                <input type="text" class="form-control" id="Price" title="Choose a valid price, #.##" pattern="^\d+\.\d{2}$" name="price" style="margin: 10px 0;" required> <label for="Price">Price</label>
             </div>
             <div class="form-floating">
-                <input type="number" class="form-control" id="Quantity"  min="0" name="quantity" required> <label for="Quantity">Quantity</label>
+                <input type="number" class="form-control" id="Quantity"  min="0" name="quantity" style="margin: 10px 0;" required> <label for="Quantity">Quantity</label>
             </div>
-            <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-            <% if (errorMessage != null) { %>
-            <div style="color: red; font-weight: bold;"><%= errorMessage %></div>
-            <% } %>
 
-            <input class="btn btn-primary w-100 py-2 " type="submit" value="Add Medication ">
-            <a href="pharmDashboard.jsp"class="btn  w-100 py-2 ">Cancel</a>
+            <input class="btn btn-primary w-100 py-2" type="submit" value="Add Medication">
+
+            <div style="margin:auto; width: 50%; text-align: center; padding-top: 0.35rem;">
+                <a class="formPath" href="pharmDashboard.jsp">Cancel</a>
+            </div>
         </form>
     </div>
 </main>

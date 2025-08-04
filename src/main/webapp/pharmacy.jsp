@@ -512,6 +512,7 @@ else if (success != null) {
     </div>
 
     <%-- Rating Card --%>
+    <section id="reviews">
     <div class="card" style="margin: 1.8rem;">
         <div class="card-header">
             <h2 class="card-title" style="margin: 0.5rem; text-align: left;">Reviews</h2>
@@ -634,6 +635,7 @@ else if (success != null) {
             %>
         </div>
     </div>
+    </section>
 </div>
 <% if (session != null && session.getAttribute("user_id") != null && customerName != null && pharmName == null) { %>
 

@@ -103,7 +103,7 @@
 					   <div class="col-sm-12" style="margin: 8px 0 4px;position:relative;">
 						   <label class="form-label">Password</label>
 						                          <%-- View password --%>
-						                          <div style=" z-index:2; position:absolute; top:38px;right:25px;">
+						                          <div style=" z-index:2; position:absolute; top:36px;right:20px;">
                           						   <a onclick="passwordFunction()" >
                                                         <span id="passwordImage">
                              									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

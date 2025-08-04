@@ -295,7 +295,7 @@
 
     <div class="navcenter">
         <a href="pharmInfoUpdate.jsp" class="btn btn-primary">✏️ Edit Info</a>
-        <button type="button" onclick="openResetModal()" class="btn btn-warning">🔒 Reset Password</button>
+        <button type="button" onclick="openResetModal()" class="btn btn-warning">🔒 Change Password</button>
         <button type="button" onclick="openDeleteModal()" class="btn btn-danger">🗑 Delete Account</button>
     </div>
 
@@ -325,7 +325,7 @@
           style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333; width: 400px;"
           class="needs-validation" novalidate>
 
-        <h3 style="margin-bottom: 20px;">🔒 Reset Your Password</h3>
+        <h3 style="margin-bottom: 20px;">🔒 Change Your Password</h3>
 
         <input type="hidden" name="user_id" value="<%= session.getAttribute("user_id") %>">
 
@@ -351,13 +351,13 @@
                 pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
                 title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long."
                 placeholder="Enter New Password"
-                style="padding: 8px; width: 100%; margin: 8px 0 20px 0;">
+                style="padding: 8px; width: 100%; margin-top: 8px;">
         <div class="invalid-feedback">
-            Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
+            New password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
         </div>
 
         <!-- Buttons -->
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
             <button type="submit" class="comment-submit" style="background-color: #0d6efd; color: white;">Change Password</button>
             <button type="button" class="comment-submit" onclick="closeResetModal()">Cancel</button>
         </div>
@@ -393,7 +393,7 @@
             <thead class="table-light">
             <tr>
                 <th colspan="2" class="text-center">
-                    <h2 class="mb-0">Pharmacy Details</h2>
+                    <h1 class="mb-0" style="padding-bottom: 14px;">Pharmacy Details</h1>
                 </th>
             </tr>
             </thead>
@@ -467,13 +467,13 @@
     <%--medication display--%>
     <div style="margin-left: 20px;">
         <div>
-            <h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px;">Medications Inventory</h2>
+            <h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px;">Medication Inventory</h2>
             <%--add medication--%>
             <div class="navend" style="margin-right:50px;">
                 <form method="get" action="addMeds.jsp" style="display: inline;">
                     <input type="hidden" name="user_id" value="<%=userId%>"/>
                     <button type="submit"  style="background: none; border: none; padding: 0;"><strong>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" color="white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" color="white"
                      class="bi bi-plus-square" viewBox="0 0 30 30">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>

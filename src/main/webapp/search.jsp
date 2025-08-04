@@ -59,6 +59,7 @@
 
   .exponent1{
       font-size: 1.3rem;
+      margin-left: 10px;
   }
 
   .price {
@@ -173,7 +174,9 @@
 
                 //If at least one pharmacy was returned by the query
                 else {
-                    out.println(String.format("<h2 style=\"margin: 0.8rem auto auto auto; color: white; text-align: center; width: fit-content; text-shadow: 5px 2px 5px black; border-radius: 10px; padding: 4px 8px;\">Pharmacies for %s</h2>", searchQuery));
+                    out.println(String.format("<h2 style=\"margin: 0.8rem auto auto auto; color: white; " +
+                            "text-align: center; width: fit-content; text-shadow: 5px 2px 5px black; " +
+                            "border-radius: 10px; padding: 4px 8px;\">Pharmacies for %s</h2>", searchQuery));
                     out.println("<div id=\"flexbox\">");
 
                     while (rs.next()) {
@@ -190,9 +193,14 @@
                                 "style=\"order: 0; box-shadow: 6px 6px 5px black;\" data-dist=\"0\">\n" +
                                 "<div class=\"card-body\">\n" +
                                 "<h4 class=\"card-title\">%s<span class=\"distDisplay\"></span></h4>\n" +
-                                "<h6 class=\"card-title pharmDist\">%s</h6>\n" +
-                                "<p class=\"card-text pr\"><sup class=\"exponent1\">$</sup><span class=\"price\">%.0f</span><sup class=\"exponent2\">%s</sup>" +
-                                "<span style=\"font-size: 1.6em; font-weight: 600; margin-left: 16px;\">%d</span style=\"font-size: 1.4em;\"> in stock</p>\n" +
+                                "<h6 class=\"card-title pharmDist\" style=\"margin-bottom: 2px;\">%s</h6>\n" +
+                                "<p class=\"card-text pr\">" +
+                                    "<sup class=\"exponent1\">$</sup>" +
+                                    "<span class=\"price\">%.0f</span>" +
+                                    "<sup class=\"exponent2\">%s</sup>" +
+                                    "<span style=\"font-size: 1.6em; font-weight: 600; margin-left: 16px;\">%d</span>" +
+                                    "<span style=\"font-size: 1em;\"> in stock</span>" +
+                                "</p>\n" +
                                 "</div>\n" +
                                 "</div>", pharmId, name, address, price, priceDecimal, quantity));
 
@@ -229,7 +237,9 @@
 
                 //If at least one medication was returned by the query
                 else {
-                    out.println(String.format("<h2 style=\"margin: 0.8rem auto auto auto; text-align: center; color: white; width: fit-content;  text-shadow: 5px 2px 5px black; border-radius: 10px; padding: 4px 8px;\">%ss</h2>", searchQuery));
+                    out.println(String.format("<h2 style=\"margin: 0.8rem auto auto auto; " +
+                            "text-align: center; color: white; width: fit-content; text-shadow: 5px 2px 5px black; " +
+                            "border-radius: 10px; padding: 4px 8px;\">%ss</h2>", searchQuery));
                     out.println("<div id=\"flexbox\">");
 
                     while (rs.next()) {
@@ -237,7 +247,8 @@
 
                         //Create a hyperlinked box for each medication
                         out.println(String.format("<div class=\"card\" onclick=\"location.href='/PharmaFinder/search.jsp?query=%s&cat=Medication';\" " +
-                                "style=\"width: auto; cursor: pointer; text-align: center; margin: 1.2rem; padding: 0 0.4rem; box-shadow: 6px 6px 5px black;\">\n" +
+                                "style=\"width: auto; cursor: pointer; text-align: center; margin: 1.2rem; " +
+                                    "padding: 0 0.4rem; box-shadow: 6px 6px 5px black;\">\n" +
                                 "<div class=\"card-body\">\n" +
                                 "<h3 class=\"card-title\">%s</h3>\n" +
                                 "</div>\n" +
