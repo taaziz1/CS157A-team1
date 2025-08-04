@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="usermanagement.dao.MedicationDao" %>
+<%@ page import="usermanagement.model.Medication" %>
 
 <html>
 <head>
@@ -63,29 +65,32 @@
 <%
   String medIdParam = request.getParameter("med_id");
   String userIdParam = request.getParameter("user_id");
-
+  int medId = Integer.parseInt(medIdParam);
+  int userId = Integer.parseInt(userIdParam);
+  MedicationDao medDao = new MedicationDao();
+  Medication currentMedication = medDao.getMedicationByMedId(medId, userId);
 %>
 
 
 <main class="form-signin w-100 m-auto" >
   <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
-    <h3 style="text-align: center;">Edit Medication</h3>
+    <h3 style="text-align: center;"><%=currentMedication.getMedName()%></h3>
 <form method="post" action="updateMedication" class="needs-validation" novalidate>
 
   <input type="hidden" name="med_id" value="<%= medIdParam %>" />
   <input type="hidden" name="user_id" value="<%= userIdParam %>" />
 
   <div class="form-floating" styLe="margin:5px;">
-  <input type="text"  pattern="^\d+\.\d{2}$" title="Must be valid price" name="price" id="price" required  class="form-control">
+  <input type="text"  pattern="^\d+\.\d{2}$" title="Must be valid price" name="price" id="price" value="<%= String.format("%.2f", currentMedication.getPrice()) %>" required  class="form-control">
   <label for="price">Price:</label>
   <div class="invalid-feedback">
-          Must be a valid price (eg:0.99,34.66)
+          Must be a valid price (eg:0.99,34.66,24.00)
         </div>
   </div>
 
 
     <div class="form-floating" styLe="margin:5px;">
-  <input type="number" min="0" name="qty" id="qty" class="form-control" required >
+  <input type="number" min="0" name="qty" id="qty" class="form-control" value="<%= currentMedication.getQuantity() %>" required >
     <label for="qty">Quantity:</label>
     <div class="invalid-feedback">
           Quantity must be a positive number.
