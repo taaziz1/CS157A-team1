@@ -157,7 +157,8 @@
                     "CONCAT(street_address, ', ', city, ', ', state, ', ', zip_code), " +
                     "quantity, price " +
                     "FROM pharmacy NATURAL JOIN sells NATURAL JOIN address " +
-                    "JOIN medication USING(med_id) WHERE medication.name = ?";
+                    "JOIN medication USING(med_id)" +
+                    "WHERE medication.name = ? AND quantity > 0";
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
