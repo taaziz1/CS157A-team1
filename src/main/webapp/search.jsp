@@ -202,7 +202,7 @@
                                     "<span style=\"font-size: 1em;\"> in stock</span>" +
                                 "</p>\n" +
                                 "</div>\n" +
-                                "</div>", pharmId, name, address, price, priceDecimal, quantity));
+                                "</div>", pharmId, name, address, Math.floor(price), priceDecimal, quantity));
 
                     }
                 }
