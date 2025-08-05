@@ -23,9 +23,24 @@
 
     <title id="title"></title>
 <style>
-  #flex {
+  #flexbox {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: auto;
+      width: 80%;
+  }
+
+  .navcenter {
+      flex: 1;
+      display: flex;
+      position: absolute;
+      align-items: center;
+      justify-content: center;
+      left: 40%;
+      gap: 8px;
+      list-style-type: none;
+      margin: 0;
   }
 
   .pharmCard {
@@ -37,9 +52,27 @@
     transform: scale(1.03);
 
   }
+
+  .pr{
+    margin-bottom: 0.2rem;
+  }
+
+  .exponent1{
+      font-size: 1.3rem;
+      margin-left: 10px;
+  }
+
+  .price {
+      font-size: 2.2rem;
+      font-weight: 600;
+  }
+  .exponent2 {
+      padding-left: 0.1rem;
+      font-size: 1.3rem;
+  }
   .distDisplay{
-      color:green;
-      font-size: 20px;
+      color: grey;
+      font-size: 1.2rem;
   }
 </style>
     <%--Set tab title as the search query--%>
@@ -71,12 +104,13 @@
         </div>
 
 
+        <%--TAKE ADDRESS--%>
+        <div class="navcenter">
+            <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location" style="width: 60%;">
+            <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid grey; border-radius:15px; color:white;">Search</button>
+        </div>
 
-            <%--TAKE ADDRESS--%>
-                <div class="navend">
-                    <input type="text" class="form-control me-2" id="location"  placeholder="Enter your location">
-                    <button id="submitBtnLocation" style="padding:5px; background: none; border:1px solid grey; border-radius:15px; color:white;">Search</button>
-                </div>
+
         <div class="navend">
             <%
                 String customerName = (String) session.getAttribute("avatar");
@@ -140,8 +174,10 @@
 
                 //If at least one pharmacy was returned by the query
                 else {
-                    out.println(String.format("<h3 style=\"margin: 0.6rem; color: white;\">Pharmacies for %s</h3>", searchQuery));
-                    out.println("<div id=\"flex\">");
+                    out.println(String.format("<h2 style=\"margin: 0.8rem auto auto auto; color: white; " +
+                            "text-align: center; width: fit-content; text-shadow: 5px 2px 5px black; " +
+                            "border-radius: 10px; padding: 4px 8px;\">Pharmacies for %s</h2>", searchQuery));
+                    out.println("<div id=\"flexbox\">");
 
                     while (rs.next()) {
                         int pharmId = rs.getInt(1);
@@ -149,17 +185,24 @@
                         String address = rs.getString(3);
                         int quantity = rs.getInt(4);
                         double price = rs.getDouble(5);
+                        String priceString = String.format("%.2f", price);
+                        String priceDecimal = priceString.substring(priceString.indexOf('.') + 1);
 
                         //Create a hyperlinked box for each pharmacy
                         out.println(String.format("<div class=\"card pharmCard\" onclick=\"location.href='/PharmaFinder/pharmacy.jsp?p=%d';\" " +
-                                "style=\"order: 0;\" data-dist=\"0\">\n" +
+                                "style=\"order: 0; box-shadow: 6px 6px 5px black;\" data-dist=\"0\">\n" +
                                 "<div class=\"card-body\">\n" +
-                                "<h4 class=\"card-title\">%s</h4>\n" +
-                                "<h6 class=\"card-title pharmDist\">%s</h6>\n" +
-                                "<p class=\"card-text\">Quantity: %d, Price: %.2f</p>\n" +
-                                "<p class=\"card-text distDisplay\" ></p>\n" +
+                                "<h4 class=\"card-title\">%s<span class=\"distDisplay\"></span></h4>\n" +
+                                "<h6 class=\"card-title pharmDist\" style=\"margin-bottom: 2px;\">%s</h6>\n" +
+                                "<p class=\"card-text pr\">" +
+                                    "<sup class=\"exponent1\">$</sup>" +
+                                    "<span class=\"price\">%.0f</span>" +
+                                    "<sup class=\"exponent2\">%s</sup>" +
+                                    "<span style=\"font-size: 1.6em; font-weight: 600; margin-left: 16px;\">%d</span>" +
+                                    "<span style=\"font-size: 1em;\"> in stock</span>" +
+                                "</p>\n" +
                                 "</div>\n" +
-                                "</div>", pharmId, name, address, quantity, price));
+                                "</div>", pharmId, name, address, price, priceDecimal, quantity));
 
                     }
                 }
@@ -189,25 +232,31 @@
 
                 //If the query returned nothing
                 if (!rs.isBeforeFirst()) {
-                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center; color: white;\">No medications found for %s.</h3>", searchQuery));
+                    out.println(String.format("<h3 style=\"margin: 0.4rem; text-align: center; color: white; text-shadow: 5px 2px 5px black;\">No medications found for %s.</h3>", searchQuery));
                 }
 
                 //If at least one medication was returned by the query
                 else {
-                    out.println(String.format("<h3 style=\"margin: 0.6rem; color: white;\">%ss</h3>", searchQuery));
+                    out.println(String.format("<h2 style=\"margin: 0.8rem auto auto auto; " +
+                            "text-align: center; color: white; width: fit-content; text-shadow: 5px 2px 5px black; " +
+                            "border-radius: 10px; padding: 4px 8px;\">%ss</h2>", searchQuery));
+                    out.println("<div id=\"flexbox\">");
 
                     while (rs.next()) {
                         String medName = rs.getString(1);
 
                         //Create a hyperlinked box for each medication
                         out.println(String.format("<div class=\"card\" onclick=\"location.href='/PharmaFinder/search.jsp?query=%s&cat=Medication';\" " +
-                                "style=\"width: 12rem; cursor: pointer; text-align: center; margin: 1.2rem;\">\n" +
+                                "style=\"width: auto; cursor: pointer; text-align: center; margin: 1.2rem; " +
+                                    "padding: 0 0.4rem; box-shadow: 6px 6px 5px black;\">\n" +
                                 "<div class=\"card-body\">\n" +
-                                "<h4 class=\"card-title\">%s</h4>\n" +
+                                "<h3 class=\"card-title\">%s</h3>\n" +
                                 "</div>\n" +
                                 "</div>", medName, medName));
                     }
                 }
+
+                out.println("</div>");
 
                 con.close();
             } catch (ClassNotFoundException | SQLException e) {
@@ -217,7 +266,7 @@
 
         //If the url search query parameters are invalid
         else {
-            out.println("<h3 style=\"margin: 0.4rem; text-align: center;\">Invalid Search</h3>");
+            out.println("<h3 style=\"margin: 0.4rem; text-align: center; color: white; text-shadow: 5px 2px 5px black;\">Invalid Search</h3>");
         }
     %>
 </div>

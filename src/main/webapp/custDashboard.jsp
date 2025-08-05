@@ -11,7 +11,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Customer Login Page</title>
+  <title>Customer Dashboard</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
@@ -57,6 +57,7 @@ margin: 5px auto;
     .avatar-container {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
     }
 
@@ -83,7 +84,7 @@ margin: 5px auto;
     /* when the radio is checked, style the img */
     .avatar-option input:checked + img {
       background-color: #eee;
-      border: 2px solid #007bff;
+      border: 2px solid #007bff !important;
     }
 
   </style>
@@ -168,7 +169,7 @@ else if ("updated_info".equals(success)) {
       ✏️ Change Avatar
     </button>
     <!-- Reset Password Button -->
-    <button type="button" onclick="openResetModal()" class="btn btn-warning">🔒 Reset Password</button>
+    <button type="button" onclick="openResetModal()" class="btn btn-warning">🔒 Change Password</button>
     <!-- Delete Account Button -->
     <button type="button" onclick="openDeleteModal()" class="btn btn-danger">🗑 Delete Account</button>
   </div>
@@ -200,7 +201,7 @@ else if ("updated_info".equals(success)) {
                width: 500px;">
 
     <input type="hidden" name="userId" value="<%= userId %>">
-      <h3 style="margin-bottom: 20px;">✏️ Choose Your Avatar</h3>
+      <h3 style="margin-bottom: 20px;">✏️ Choose an Avatar</h3>
 
     <div class="avatar-container">
       <%
@@ -221,7 +222,7 @@ else if ("updated_info".equals(success)) {
 
             <img src="<%= avatarPath %>"
                  alt="Avatar <%= avatarId %>"
-                 style="width:90px;height:90px; display:block; margin-top:5px;" />
+                 style="width:90px;height:90px; display:block; margin-top:5px; border: 1px solid black;" />
         </label>
       <% } %>
     </div>
@@ -245,7 +246,7 @@ else if ("updated_info".equals(success)) {
         style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px #333; width: 400px;"
         class="needs-validation" novalidate>
 
-    <h3 style="margin-bottom: 20px;">🔒 Reset Your Password</h3>
+    <h3 style="margin-bottom: 20px;">🔒 Change Your Password</h3>
 
     <input type="hidden" name="user_id" value="<%= session.getAttribute("user_id") %>">
 
@@ -265,13 +266,13 @@ else if ("updated_info".equals(success)) {
             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
             title="Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long."
             placeholder="Enter New Password"
-            style="padding: 8px; width: 100%; margin: 8px 0 20px 0;">
+            style="padding: 8px; width: 100%; margin-top: 8px;">
     <div class="invalid-feedback">
-      Password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
+      New password must contain at least one uppercase, one lowercase, one number, one special character (@, $, !, %, *, ?, &), and be 8+ characters long.
     </div>
 
     <!-- Buttons -->
-    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
       <button type="submit" class="comment-submit" style="background-color: #0d6efd; color: white;">Change Password</button>
       <button type="button" class="comment-submit" onclick="closeResetModal()">Cancel</button>
     </div>
@@ -282,14 +283,10 @@ else if ("updated_info".equals(success)) {
 <h2 style="width: fit-content; font-size: 2.5rem; background-color: white; margin:20px auto 0; padding:10px 25px; border-radius:80px; justify-content:center;">Welcome, <%=customer.getUsername()%></h2>
 
 <div style="display:flex; justify-content:center; padding:20px;margin-bottom:20px;">
-  <div class="custDashBorder" >
+  <div class="custDashBorder">
   <table>
     <tr>
-      <td ><img  src="<%=customer.getAvatarDirectory()%>"  alt="Avatar" width="100" height="100"></td>
-    </tr>
-    <tr>
-      <th>User Id</th>
-      <td><%=customer.getUserId()%></td>
+      <td><img src="<%=customer.getAvatarDirectory()%>" alt="Avatar" width="100" height="100"></td>
     </tr>
     <tr>
       <th>Username</th>
@@ -314,9 +311,9 @@ ArrayList<Review> reviews = reviewdao.getReviewList(userId);
 for(Review review: reviews){
 %>
 
-<div  class="reviewBox card-body  mb-4 shadow-sm "onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" >
+<div  class="reviewBox card-body  mb-4 shadow-sm "onclick="pharmacyRedirectFunction(<%=review.getPharmacyId()%>);" style="cursor: pointer;">
 
-<p style="font-size:30px;"><%=review.getPharmacy()%></p>
+<p style="font-size:30px; font-weight:500;"><%=review.getPharmacy()%></p>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <p class="rating">
@@ -331,9 +328,7 @@ for(Review review: reviews){
 <p style="color:grey; display:flex; justify-content:right;"><%=review.getLastDate()%></p>
 <script>
 function pharmacyRedirectFunction(userIdPharm){
-location.href = "pharmacy.jsp?p="+userIdPharm;
-console.log("test");
-console.log(userIdPharm);
+location.href = "pharmacy.jsp?p="+userIdPharm+"#reviews";
 }
 
 (function() {
@@ -342,7 +337,6 @@ let starRating = "<%=review.getRating()%>";
     for (let i = 1; i <= starRating; i++) {
         let star = document.querySelector(".star" + i+<%=review.getReviewId()%>);
         star.setAttribute("class", "fa fa-star checked");
-        console.log("stars"+i+<%=review.getReviewId()%>);
     }
 
 })();

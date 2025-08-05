@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="usermanagement.dao.MedicationDao" %>
+<%@ page import="usermanagement.model.Medication" %>
 
 <html>
 <head>
@@ -10,10 +12,17 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
 
-  <title>Edit Medication </title>
+  <title>Update Medication</title>
 
   <%--LINKS TO THE CSS PAGE--%>
   <link rel="stylesheet" href="style.css" type="text/css">
+
+  <style>
+    /* Prevent scrolling */
+    body {
+      overflow: hidden;
+    }
+  </style>
 
 </head>
 <body>
@@ -63,39 +72,47 @@
 <%
   String medIdParam = request.getParameter("med_id");
   String userIdParam = request.getParameter("user_id");
-
+  int medId = Integer.parseInt(medIdParam);
+  int userId = Integer.parseInt(userIdParam);
+  MedicationDao medDao = new MedicationDao();
+  Medication currentMedication = medDao.getMedicationByMedId(medId, userId);
 %>
 
 
-<main class="form-signin w-100 m-auto" >
-  <div class="bubble" style="background-color:white;padding:20px;border-radius:20px;">
-    <h3 style="text-align: center;">Edit Medication</h3>
-<form method="post" action="updateMedication" class="needs-validation" novalidate>
+<main class="form-signin w-100 m-auto">
+  <div class="bubble">
+    <form method="post" action="updateMedication" class="needs-validation" novalidate
+      style="background-color:white;padding:20px;border-radius:20px;">
 
-  <input type="hidden" name="med_id" value="<%= medIdParam %>" />
-  <input type="hidden" name="user_id" value="<%= userIdParam %>" />
+      <h2 style="text-align: center; margin-bottom: 10px;">Update Medication</h2>
+      <div class="form-label" style="margin-left:8px;margin-bottom: 4px;font-size: 1.0rem;">Modifying
+        <span style="font-weight: 500;"><%=currentMedication.getMedName()%></span>:</div>
 
-  <div class="form-floating" styLe="margin:5px;">
-  <input type="text"  pattern="^\d+\.\d{2}$" title="Must be valid price" name="price" id="price" required  class="form-control">
-  <label for="price">Price:</label>
-  <div class="invalid-feedback">
-          Must be a valid price (eg:0.99,34.66)
+      <input type="hidden" name="med_id" value="<%= medIdParam %>" />
+      <input type="hidden" name="user_id" value="<%= userIdParam %>" />
+
+      <div class="form-floating" style="margin: 0 0 10px 0;">
+      <input type="text"  pattern="^\d+\.\d{2}$" title="Must be a valid price" name="price" id="price" value="<%= String.format("%.2f", currentMedication.getPrice()) %>" required  class="form-control">
+      <label for="price">Price:</label>
+      <div class="invalid-feedback">
+              Must be a valid price (eg: 2.99, 24.00)
+            </div>
+      </div>
+
+
+        <div class="form-floating" style="margin: 10px 0;">
+      <input type="number" min="0" name="qty" id="qty" class="form-control" value="<%= currentMedication.getQuantity() %>" required >
+        <label for="qty">Quantity:</label>
+        <div class="invalid-feedback">
+              Quantity must be a non-negative integer.
+            </div>
+      </div>
+      <input class="btn btn-primary w-100 py-2 " type="submit" value="Update Medication" />
+        <div style="margin:auto; width: 50%; text-align: center; padding-top: 0.35rem;">
+          <a class="formPath" href="pharmDashboard.jsp">Cancel</a>
         </div>
-  </div>
+    </form>
 
-
-    <div class="form-floating" styLe="margin:5px;">
-  <input type="number" min="0" name="qty" id="qty" class="form-control" required >
-    <label for="qty">Quantity:</label>
-    <div class="invalid-feedback">
-          Quantity must be a positive number.
-        </div>
-  </div>
-  <div styLe="margin:5px;">
-  <input class="btn btn-primary w-100 py-2 " type="submit" value="Update Medication" />
-    <a href="pharmDashboard.jsp" style="color:grey;text-decoration:none; display:flex;justify-content:center;">Cancel</a>
-</div>
-</form>
   </div>
 </main>
 

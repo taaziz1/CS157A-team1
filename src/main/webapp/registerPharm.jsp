@@ -97,7 +97,7 @@
 
     <div class="container">
 			<form action="registerPharmacy" method="post" class="needs-validation" novalidate=""
-				  style="background-color: white; margin:25px 10%; padding:12px 30px; border-radius:20px;">
+				  style="background-color: white; margin:14px 6%; padding:12px 30px; border-radius:20px;">
 				<h1>Register Your Pharmacy</h1>
 				<div class="row">
 
@@ -133,7 +133,7 @@
 					<div class="col-sm-3 entry-field" style="position:relative;">
 						<label class="form-label">Password</label>
                      <%-- View password --%>
-                      <div style=" z-index:2; position:absolute; top:38px;right:25px;">
+                      <div style=" z-index:2; position:absolute;  top:36px;right:20px;">
 						   <a onclick="passwordFunction()" >
                               <span id="passwordImage">
    									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

@@ -38,7 +38,7 @@ function initMap() {
 
                         let distance = ans.distance.text;
                         let duration = ans.duration.text;
-                        distanceAndTime[i].innerHTML = "Distance:" + distance + "," + " Travel:" + duration;
+                        distanceAndTime[i].innerHTML = " - " + distance + " (" + duration + ")";
 
                         if(isMedicationSearch) {
                             let d = distance.split(" ", 2);
@@ -53,7 +53,7 @@ function initMap() {
 
 
                     } else {
-                        distanceAndTime[i].innerHTML = "Distance:N/A , Travel:N/A";
+                        distanceAndTime[i].innerHTML = " - N/A (N/A)";
                         if(isMedicationSearch) {
                             pharmacyCards[i].setAttribute("data-dist", "" + Number.MAX_SAFE_INTEGER);
                         }
@@ -69,7 +69,7 @@ function initMap() {
 
                 }).catch((error) => {
                     console.error(error);
-                    distanceAndTime[i].innerHTML = "Distance: N/A , Travel: N/A";
+                    distanceAndTime[i].innerHTML = " - N/A (N/A)";
                 });
             }
         }

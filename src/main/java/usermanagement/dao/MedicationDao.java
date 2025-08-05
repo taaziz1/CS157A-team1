@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class MedicationDao {
     public List<Medication> getMedication(int userId) {
         List<Medication> med = new ArrayList();
@@ -132,7 +133,41 @@ public boolean insertMedication(Medication medication, int userId) throws  SQLEx
             printSQLException(e);
         }
 return rowInserted;
-}  private void printSQLException(SQLException ex) {
+
+}
+//Get price info on a particular medication(for mededit page)
+String MEDICATION_BY_ID_SQL =
+        "SELECT medication.name AS med_name, " +
+                "sells.price AS med_price, " +
+                "sells.quantity AS med_quantity, " +
+                "medication.med_id AS med_id " +
+                "FROM medication " +
+                "JOIN sells USING (med_id) " +
+                "WHERE sells.med_id = ? AND " +
+                "sells.user_id=?";
+public Medication getMedicationByMedId(int medId, int userId) throws SQLException {
+    Medication medication = null;
+    try (Connection connection = getConnection();
+         PreparedStatement ps = connection.prepareStatement(MEDICATION_BY_ID_SQL)) {
+
+        ps.setInt(1, medId);
+        ps.setInt(2, userId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                medication = new Medication();
+                medication.setMedId(rs.getInt("med_id"));
+                medication.setMedName(rs.getString("med_name"));
+                medication.setPrice(rs.getDouble("med_price"));
+                medication.setQuantity(rs.getInt("med_quantity"));
+            }
+        }
+    } catch (SQLException e) {
+        printSQLException(e);
+    }
+    return medication;
+}
+private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
