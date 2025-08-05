@@ -191,16 +191,18 @@
                         //Create a hyperlinked box for each pharmacy
                         out.println(String.format("<div class=\"card pharmCard\" onclick=\"location.href='/PharmaFinder/pharmacy.jsp?p=%d';\" " +
                                 "style=\"order: 0; box-shadow: 6px 6px 5px black;\" data-dist=\"0\">\n" +
-                                "<div class=\"card-body\">\n" +
+                                "<div class=\"card-body\" style=\"display: flex; flex-direction: column;\">\n" +
                                 "<h4 class=\"card-title\">%s<span class=\"distDisplay\"></span></h4>\n" +
                                 "<h6 class=\"card-title pharmDist\" style=\"margin-bottom: 2px;\">%s</h6>\n" +
-                                "<p class=\"card-text pr\">" +
+                                "<div style=\"flex: 1; display: flex; align-items:center;\">\n" +
+                                "<p class=\"card-text pr\">\n" +
                                     "<sup class=\"exponent1\">$</sup>" +
                                     "<span class=\"price\">%.0f</span>" +
                                     "<sup class=\"exponent2\">%s</sup>" +
                                     "<span style=\"font-size: 1.6em; font-weight: 600; margin-left: 16px;\">%d</span>" +
                                     "<span style=\"font-size: 1em;\"> in stock</span>" +
                                 "</p>\n" +
+                                "</div>\n" +
                                 "</div>\n" +
                                 "</div>", pharmId, name, address, Math.floor(price), priceDecimal, quantity));
 
