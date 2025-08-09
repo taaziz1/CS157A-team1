@@ -30,25 +30,21 @@ public class CustomerLoginServlet extends HttpServlet {
         user.setPassword(password);
 
 
-        try {
-            if (loginDao.validate(user, "customer")) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user_id", user.getUserId()); // Store user ID in session
-                session.setAttribute("username1", username);
+        if (loginDao.validate(user, "customer")) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user_id", user.getUserId()); // Store user ID in session
+            session.setAttribute("username1", username);
 
-                CustomerDao customerDao = new CustomerDao();
-                Customer customer = customerDao.getCustomerDashboard(user.getUserId());
-                session.setAttribute("avatar", customer.getAvatarDirectory());
+            CustomerDao customerDao = new CustomerDao();
+            Customer customer = customerDao.getCustomerDashboard(user.getUserId());
+            session.setAttribute("avatar", customer.getAvatarDirectory());
 
-                response.sendRedirect("index.jsp?success=log_in");
+            response.sendRedirect("index.jsp?success=log_in");
 
 
-            } else {
-                response.sendRedirect("custLogIn.jsp?error=invalid_credentials");
-            }
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } else {
+            response.sendRedirect("custLogIn.jsp?error=invalid_credentials");
         }
     }
+
 }

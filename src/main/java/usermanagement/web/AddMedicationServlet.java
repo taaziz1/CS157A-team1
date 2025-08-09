@@ -44,12 +44,7 @@ public class AddMedicationServlet  extends HttpServlet {
         med.setPrice(price);
         med.setQuantity(qty);
         boolean status = false;
-        try{
-            status = medDao.insertMedication(med,userId);
-
-        } catch(SQLException e){
-           throw new RuntimeException(e);
-        }
+        status = medDao.insertMedication(med,userId);
 
         if (status){
             response.sendRedirect("pharmDashboard.jsp?success=added_med");

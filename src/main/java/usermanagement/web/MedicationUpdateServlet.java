@@ -40,22 +40,15 @@ public class MedicationUpdateServlet extends HttpServlet {
         med.setMedId(medId);
         med.setUserId(userId);
 
-        boolean status =false;
-        try{
-            status =medicationDao.editMedication(med,userId);
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
+        boolean status = false;
+        status = medicationDao.editMedication(med,userId);
+
+        if(status) {
+            response.sendRedirect("pharmDashboard.jsp?success=updated_med"); //success
         }
-if(status){
-    //success
-    response.sendRedirect("pharmDashboard.jsp?success=updated_med");
-}
-else{
-    //failed
-    response.sendRedirect("medEditPage.jsp?error=update_failed");
-
-}
-
+        else {
+            response.sendRedirect("medEditPage.jsp?error=update_failed"); //failed
+        }
     }
 
 }

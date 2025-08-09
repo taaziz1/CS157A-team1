@@ -1,55 +1,63 @@
 package usermanagement.dao;
 
+import java.sql.*;
+
 import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
 import usermanagement.model.User;
-import usermanagement.dao.AddressDao;
 
 import util.Utilities;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
+/**
+ * The PharmacyDao class hosts methods designed to access and modify pharmacy entities
+ * in the pharmafinder database.
+ */
 public class PharmacyDao {
+
+    /**
+     * Retrieves the fields stored in a {@code Pharmacy} object to insert
+     * a new tuple into the pharmafinder pharmacy table.
+     * @param pharmacy  object storing the pharmacy data to be inserted
+     * @return {@code > 0} on success and {@code 0} on failure
+     */
     public int registerPharmacy(Pharmacy pharmacy, Address address) {
         int status = 0;
-        int insertedId = 0;
 
         UserDao userDao = new UserDao();
 
-        // Register the user first
         // Create a User object from the Pharmacy object
         User user = new User();
         user.setUsername(pharmacy.getUsername());
         user.copyPassword(pharmacy.getPassword());
 
-        // Register the user
-        userDao.registerUser(user);
-        // Get the userId from the User object
-        int userId = user.getUserId(); // Assuming the user ID is set after registration
+        // Register the user first and verify that the registration succeeded
+        if (userDao.registerUser(user) == 0) {
+            return status;
+        }
 
-        // Register address and get the address ID
+        int userId = user.getUserId(); // Get the userId from the User object
+
+        // Register address and verify that the registration succeeded
         AddressDao addressDao = new AddressDao();
-        addressDao.registerAddress(address);
-        int addressId = address.getAddressId(); // Assuming the address ID is set after registration
+        if(addressDao.registerAddress(address) == 0) {
+            return status;
+        }
 
-        // Set the address ID in the Pharmacy object
+        int addressId = address.getAddressId(); // Get the addressId from the Address object
+
+        // Set the user and addressId for the Pharmacy object
         pharmacy.setUserId(userId);
         pharmacy.setAddressId(addressId);
-        // Prepare the SQL statement for inserting the pharmacy
 
+        // Prepare the SQL statement for inserting the pharmacy
         String INSERT_PHARMACY_SQL = "INSERT INTO pharmacy (user_id, address_id, tax_num, name, phone_number, " +
                 "fax_number, web_url, operating_hours) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+        //Register the pharmacy
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, pharmacy.getUserId());
             ps.setInt(2, pharmacy.getAddressId());
             ps.setString(3, pharmacy.getTaxNum());
@@ -61,24 +69,30 @@ public class PharmacyDao {
 
             status = ps.executeUpdate();
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
 
-    //pharmacy dashboard to get according to userId
+
+    /**
+     * Retrieves information from the pharmacy and address tables for a pharmacy
+     * in the pharmafinder database.
+     * @param userId  user_id column of a pharmacy tuple
+     * @return a {@code Pharmacy} object on success and {@code null} on failure
+     */
     public Pharmacy getPharmacyDashboard(int userId)  {
     Pharmacy pharmacy = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM pharmacy  WHERE user_id = ?");
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
+    String RETRIEVE_PHARM_DASH_SQL = "SELECT * FROM pharmacy WHERE user_id = ?";
 
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(RETRIEVE_PHARM_DASH_SQL)) {
+
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 pharmacy = new Pharmacy();
 
@@ -90,35 +104,47 @@ public class PharmacyDao {
                 pharmacy.setWebURL(rs.getString("web_url"));
                 pharmacy.setOperatingHours(rs.getString("operating_hours"));
                 pharmacy.setAddressId(rs.getInt("address_id"));
-                //Address
+
+                // Address
                 AddressDao addressDao = new AddressDao();
                 Address address = addressDao.getAddress(pharmacy.getAddressId());
+                pharmacy.setAddress(address);
 
-                // Compute and set the average rating
+                // Average Rating
                 ReviewDao reviewDao = new ReviewDao();
                 pharmacy.setRating(reviewDao.getAverageRating(userId));
 
-                pharmacy.setAddress(address);
             }
 
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
 
         return pharmacy;
     }
 
+
+    /**
+     * Changes the password for a pharmacy in the pharmafinder database.
+     * @param userId             user_id column of the user table
+     * @param userInputTaxNum    the tax number for the pharmacy
+     * @param userInputPassword  the current password
+     * @param newPassword        a new password to store in the user table
+     * @return                   {@code 1} on success <br>
+     *                           {@code 0} on generic failure <br>
+     *                           {@code 2} on incorrect current password <br>
+     *                           {@code 3} on incorrect tax number <br>
+     *                           {@code 4} on identical new password
+     */
     public int resetPharmacyPassword(int userId, String userInputTaxNum, String userInputPassword, String newPassword) {
         int status = 0;
         String RETRIEVE_PHARMACY_CREDENTIALS_SQL = "SELECT password, tax_num " +
                 "FROM pharmacy JOIN user ON pharmacy.user_id = user.user_id " +
                 "WHERE user.user_id = ?";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(RETRIEVE_PHARMACY_CREDENTIALS_SQL);
+
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(RETRIEVE_PHARMACY_CREDENTIALS_SQL)) {
+
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
@@ -147,22 +173,27 @@ public class PharmacyDao {
                 status = updatePs.executeUpdate();
             }
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            printSQLException((SQLException) e);
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
 
+
+    /**
+     * Updates pharmacy information for a pharmacy entity in the pharmafinder database.
+     * @param pharmacy  object storing new information to update the pharmacy table with
+     * @return {@code > 0} on success and {@code 0} on failure
+     */
     public int updatePharmacy(Pharmacy pharmacy) {
         int status = 0;
-        String UPDATE_PHARMACY_SQL = "UPDATE pharmacy SET name = ?, phone_number = ?, fax_number = ?, web_url = ?, operating_hours = ? WHERE user_id = ?";
+        String UPDATE_PHARMACY_SQL = "UPDATE pharmacy SET name = ?, phone_number = ?, fax_number = ?, " +
+                "web_url = ?, operating_hours = ? WHERE user_id = ?";
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(UPDATE_PHARMACY_SQL);
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(UPDATE_PHARMACY_SQL)) {
+
             ps.setString(1, pharmacy.getPharmacyName());
             ps.setString(2, pharmacy.getPhoneNumber());
             ps.setString(3, pharmacy.getFaxNumber());
@@ -172,46 +203,55 @@ public class PharmacyDao {
 
             status = ps.executeUpdate();
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            printSQLException((SQLException) e);
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
 
+
+    /**
+     * Checks if the specified tax number is taken in the database.
+     * @param taxNumber  tax number
+     * @return {@code true} if not taken and {@code false} otherwise
+     */
     public boolean checkTaxNumberUnique(String taxNumber) {
         boolean isUnique = false;
         String SELECT_TAX_NUM_SQL = "SELECT COUNT(tax_num) FROM pharmacy WHERE tax_num = ?";
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
-            ps.setString(1, taxNumber);
-            ResultSet rs = ps.executeQuery();
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL)) {
 
+            ps.setString(1, taxNumber);
+
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int duplicates = rs.getInt(1);
                 isUnique = (duplicates == 0);
             }
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return isUnique;
     }
 
+
+    /**
+     * Checks to see if the specified tax number matches the stored tax number.
+     * @param userId  user_id of the pharmacy
+     * @param taxNum  tax number of the pharmacy
+     * @return {@code true} if not taken and {@code false} otherwise
+     */
     public boolean checkTaxNumMatch(int userId, String taxNum) {
         boolean isMatch = false;
         String SELECT_TAX_NUM_SQL = "SELECT tax_num FROM pharmacy WHERE user_id = ?";
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL)) {
+
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
@@ -220,27 +260,11 @@ public class PharmacyDao {
                 isMatch = storedTaxNum.equals(taxNum);
             }
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return isMatch;
     }
 
-
-    private void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
-            if (e instanceof SQLException) {
-                e.printStackTrace(System.err);
-                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-                System.err.println("Message: " + e.getMessage());
-                Throwable t = ex.getCause();
-                while (t != null) {
-                    System.out.println("Cause: " + t);
-                    t = t.getCause();
-                }
-            }
-        }
-    }
 }

@@ -22,15 +22,13 @@ public class MedicationDeleteServlet extends HttpServlet {
             throws ServletException, IOException {
         int userId = Integer.parseInt(request.getParameter("user_id"));
         int medId=Integer.parseInt(request.getParameter("med_id"));
-        try {
-           boolean deleted = medicationdao.deleteMedication(userId,medId);
-            if(deleted){
-                response.sendRedirect("pharmDashboard.jsp?success=deleted_med");
-            }else{
-                response.sendRedirect("pharmDashboard.jsp?error=delete_med_failed");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+        boolean deleted = medicationdao.deleteMedication(userId,medId);
+        if (deleted) {
+            response.sendRedirect("pharmDashboard.jsp?success=deleted_med");
+        } else {
+            response.sendRedirect("pharmDashboard.jsp?error=delete_med_failed");
         }
+
     }
 }

@@ -1,42 +1,51 @@
 package usermanagement.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import java.sql.*;
+
 import usermanagement.model.*;
 
 import util.Utilities;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * The CustomerDao class hosts methods designed to access and modify customer entities
+ * in the pharmafinder database.
+ */
 public class CustomerDao {
+
+    /**
+     * Retrieves the fields stored in a {@code Customer} object to insert
+     * a new tuple into the pharmafinder customer table.
+     * @param customer  object storing the customer data to be inserted
+     * @return {@code > 0} on success and {@code 0} on failure
+     */
     public int registerCustomer(Customer customer) {
         int status = 0;
 
         UserDao userDao = new UserDao();
 
-        // Register a user first
         // Create a User object from the Customer object
         User user = new User();
         user.setUsername(customer.getUsername());
         user.copyPassword(customer.getPassword());
 
-        // Register the user
-        userDao.registerUser(user);
+        // Register the user first and verify that the registration succeeded
+        if (userDao.registerUser(user) == 0) {
+            return status;
+        }
 
-        // Get the userId from the User object
-        int userId = user.getUserId(); // Assuming the user ID is set after registration
+        int userId = user.getUserId(); // Get the userId from the User object
 
-        // Set the user ID in the Customer object
-        customer.setUserId(userId);
+        customer.setUserId(userId); // Set the userId in the Customer object
 
-        // Prepare the SQL statement for inserting the customer
         String INSERT_CUSTOMER_SQL = "INSERT INTO customer (user_id, avatar_id, email_address) VALUES (?, ?, ?)";
 
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+        //Register the customer
+        try(Connection con = Utilities.createSQLConnection();
+            PreparedStatement ps = con.prepareStatement(INSERT_CUSTOMER_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             //Randomly generate and set a valid avatar ID in the Customer object
             String SELECT_NUMBER_AVATARS = "SELECT COUNT(*) FROM avatar";
@@ -46,28 +55,34 @@ public class CustomerDao {
             int avatarId = (int) (Math.random() * rs.getInt(1) + 1);
             customer.setAvatarId(avatarId);
 
-            PreparedStatement ps = con.prepareStatement(INSERT_CUSTOMER_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, customer.getUserId());
             ps.setInt(2, customer.getAvatarId());
             ps.setString(3, customer.getEmailAddress());
 
             status = ps.executeUpdate();
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
 
-    //Customer DashBoard
+
+    /**
+     * Retrieves information from the user, customer, and avatar tables for a customer
+     * in the pharmafinder database.
+     * @param userId  user_id column of a customer tuple
+     * @return a {@code Customer} object on success and {@code null} on failure
+     */
     public Customer getCustomerDashboard(int userId)  {
         Customer customer = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM customer JOIN avatar USING (avatar_id)  JOIN user USING (user_id)WHERE user_id = ?");
+        String RETRIEVE_CUSTOMER_DASH_SQL = "SELECT * FROM customer JOIN avatar USING (avatar_id) " +
+                "JOIN user USING (user_id) WHERE user_id = ?";
+
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(RETRIEVE_CUSTOMER_DASH_SQL)) {
+
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
@@ -78,67 +93,75 @@ public class CustomerDao {
                 customer.setAvatarDirectory(rs.getString("directory_path"));
                 customer.setEmailAddress(rs.getString("email_address"));
             }
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
 
         return customer;
     }
-    //Avatars
+
+
+    /**
+     * Retrieves information about all avatars stored in the database.
+     * @return a {@code List<String>} containing the id and directory path of each avatar on success
+     * <br> an empty {@code List<String>} otherwise
+     */
     public List<String> avatarList() {
         List<String> avList = new ArrayList<>();
 
-        String query = "SELECT * FROM avatar";
+        String RETRIEVE_AVATAR_LIST_SQL = "SELECT * FROM avatar";
 
-        try {Class.forName("com.mysql.cj.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"),
-                    Utilities.getdbvar("pass"));
-                 PreparedStatement ps = con.prepareStatement(query);
-                 ResultSet rs = ps.executeQuery()) {
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(RETRIEVE_AVATAR_LIST_SQL)) {
 
-                while (rs.next()) {
-                    int id = rs.getInt("avatar_id");
-                    String path = rs.getString("directory_path");
-                    avList.add(id + "|" + path);
-                }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("avatar_id");
+                String path = rs.getString("directory_path");
+                avList.add(id + "|" + path);
             }
+
         } catch (SQLException e) {
-            printSQLException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            Utilities.printSQLException(e);
         }
+
         return avList;
     }
 
-    //update customer
-private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c ON u.user_id = c.user_id " +
-        "SET c.avatar_id = ? WHERE c.user_id = ?";
 
-
-    public boolean updateCustomer(Customer customer) throws SQLException {
+    /**
+     * Changes the avatar for a customer in the pharmafinder database.
+     * @param customer  object storing avatarId and userId to update the customer table with
+     * @return {@code true} on success and {@code false} on failure
+     */
+    public boolean updateCustomer(Customer customer) {
         boolean rowUpdated = false;
-        try ( Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+        String UPDATE_CUSTOMER_SQL = "UPDATE customer SET avatar_id = ? WHERE user_id = ?";
+
+        try (Connection con = Utilities.createSQLConnection();
               PreparedStatement ps = con.prepareStatement(UPDATE_CUSTOMER_SQL)) {
-            ps.setInt(1,customer.getAvatarId());
+
+            ps.setInt(1, customer.getAvatarId());
             ps.setInt(2, customer.getUserId());
             rowUpdated = ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return rowUpdated;
     }
+
+
 
     public boolean checkEmailAddressUnique(String email) {
         boolean isUnique = false;
         String SELECT_TAX_NUM_SQL = "SELECT COUNT(email_address) FROM customer WHERE email_address = ?";
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL)) {
+
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
@@ -147,21 +170,31 @@ private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c
                 isUnique = (duplicates == 0);
             }
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return isUnique;
     }
 
+
+    /**
+     * Changes the password for a customer in the pharmafinder database.
+     * @param userId             user_id column of the user table
+     * @param userInputPassword  the current password
+     * @param newPassword        a new password to store in the user table
+     * @return                   {@code 1} on success
+     *                           {@code 0} on generic failure <br>
+     *                           {@code 2} on incorrect current password <br>
+     *                           {@code 3} on identical new password
+     */
     public int resetCustomerPassword(int userId, String userInputPassword, String newPassword) {
         int status = 0;
         String RETRIEVE_CUSTOMER_CREDENTIALS_SQL = "SELECT password FROM user WHERE user_id = ?";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement(RETRIEVE_CUSTOMER_CREDENTIALS_SQL);
+
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(RETRIEVE_CUSTOMER_CREDENTIALS_SQL)) {
+
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
@@ -185,25 +218,11 @@ private static final String UPDATE_CUSTOMER_SQL = "UPDATE user u JOIN customer c
                 status = updatePs.executeUpdate();
             }
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            printSQLException((SQLException) e);
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
-    private void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
-            if (e instanceof SQLException) {
-                e.printStackTrace(System.err);
-                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-                System.err.println("Message: " + e.getMessage());
-                Throwable t = ex.getCause();
-                while (t != null) {
-                    System.out.println("Cause: " + t);
-                    t = t.getCause();
-                }
-            }
-        }
-    }
+
 }

@@ -31,21 +31,17 @@ public class PharmacyLoginServlet extends HttpServlet {
         user.setUsername(username);
         user.setPassword(password);
 
-        try {
-            if (loginDao.validate(user, "pharmacy")) {
-            	HttpSession session = request.getSession();
-            	session.setAttribute("user_id", user.getUserId()); // Store user ID in session
-                session.setAttribute("username2", user.getUsername());
+        if (loginDao.validate(user, "pharmacy")) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user_id", user.getUserId()); // Store user ID in session
+            session.setAttribute("username2", user.getUsername());
 
-                response.sendRedirect("pharmDashboard.jsp?success=log_in");
+            response.sendRedirect("pharmDashboard.jsp?success=log_in");
 
 
-            } else {
-                response.sendRedirect("pharmLogIn.jsp?error=invalid_credentials");
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            response.sendRedirect("pharmLogIn.jsp?error=");
+        } else {
+            response.sendRedirect("pharmLogIn.jsp?error=invalid_credentials");
         }
     }
+
 }

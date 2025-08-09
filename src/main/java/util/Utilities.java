@@ -4,30 +4,76 @@ import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
+import java.sql.*;
 import java.util.Properties;
 
 
 public class Utilities {
 
-    //SHA-256 hash for password storage and verification
+    public static void printSQLException(SQLException ex) {
+        for (Throwable e : ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
+    }
+
+    /**
+     * Connects to the pharmafinder database using
+     * the credentials in {@code database.properties}.
+     * @return a {@code Connection} to the SQL server on success and {@code null} on failure
+     */
+    public static Connection createSQLConnection() throws SQLException {
+        Connection connection = null;
+
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
+                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+
+        return connection;
+    }
+
+
+    /**
+     * SHA-256 hash algorithm for password storage and verification.
+     * @param password  the password to be hashed
+     * @return a 64-character long {@code String} on success
+     * <br> {@code null} on failure
+     */
     public static String hash(String password) {
         try {
             MessageDigest d = MessageDigest.getInstance("SHA-256");
+
             byte[] passHashed = d.digest(
                     password.getBytes(StandardCharsets.UTF_8));
+
             StringBuilder sb = new StringBuilder();
             for (byte b : passHashed) {
                 sb.append(String.format("%02x", b));
             }
+
             return sb.toString();
         }
-        catch(Exception e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
-    //Reads the value stored for property v in .\conf\database.properties
+
+    /**
+     * Retrieves the value for a property in {@code .\conf\database.properties}
+     * @param v  the property to be read
+     * @return a {@code String} with the value of the property
+     */
     public static String getdbvar(String v) {
         try {
             String path = Paths.get(System.getProperty("catalina.base"), "conf", "database.properties").toString();
@@ -38,9 +84,16 @@ public class Utilities {
         catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
+
+    /**
+     * Converts a US state to its abbreviation
+     * @param state  the state
+     * @return a {@code String} with the abbreviation
+     */
     public static String stateToAbbrev(String state) {
         if (state == null) {
             return null;
@@ -100,6 +153,12 @@ public class Utilities {
         }
     }
 
+
+    /**
+     * Converts a US state abbreviation to its full name
+     * @param abbrev  the state abbreviation
+     * @return a {@code String} with the full state name
+     */
     public static String abbrevToState(String abbrev) {
         if (abbrev == null) {
             return null;
@@ -158,4 +217,5 @@ public class Utilities {
             default:   return null;
         }
     }
+
 }

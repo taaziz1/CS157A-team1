@@ -75,11 +75,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         address.setZipcode(Integer.parseInt(zipString));
 
         int status = 0;
-        try {
-            status = pharmacyDao.updatePharmacy(pharmacy) * addressDao.updateAddress(address);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        status = pharmacyDao.updatePharmacy(pharmacy) * addressDao.updateAddress(address);
 
         if (status > 0) {
             response.sendRedirect("pharmDashboard.jsp?success=updated_info");
