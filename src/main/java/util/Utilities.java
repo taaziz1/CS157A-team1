@@ -35,7 +35,7 @@ public class Utilities {
         Connection connection = null;
 
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+                getdbvar("user"), getdbvar("pass"));
 
         return connection;
     }

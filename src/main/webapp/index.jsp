@@ -118,6 +118,15 @@
 			integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
 			crossorigin="anonymous">
 
+	<%
+		//Load JDBC driver
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	%>
+
 </head>
 
 <body>
