@@ -1,15 +1,18 @@
 package usermanagement.web;
 
-import java.io.IOException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
-
 import usermanagement.dao.UserDao;
 import util.Utilities;
 
+import java.io.IOException;
+
+/**
+ * Enables a customer to delete their account.
+ */
 @WebServlet("/deleteCustomerAccount")
 public class CustomerDeleteAccountServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -27,12 +30,10 @@ public class CustomerDeleteAccountServlet extends HttpServlet {
             int status = userDao.deleteAccount(userId);
             if (status > 0) {
                 response.sendRedirect("logout");
-            }
-            else {
+            } else {
                 response.sendRedirect("custDashboard.jsp?error=delete_failed");
             }
-        }
-        else {
+        } else {
             response.sendRedirect("custDashboard.jsp?error=invalid_password");
         }
     }

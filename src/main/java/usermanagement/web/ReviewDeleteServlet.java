@@ -10,8 +10,12 @@ import usermanagement.model.Review;
 
 import java.io.IOException;
 
+
+/**
+ * Enables a customer to delete a review.
+ */
 @WebServlet("/deleteReview")
-public class ReviewDeleteServlet extends  HttpServlet {
+public class ReviewDeleteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ReviewDao reviewDao;
 
@@ -31,9 +35,9 @@ public class ReviewDeleteServlet extends  HttpServlet {
         try {
             status = reviewDao.deleteReview(review);
             if (status > 0) {
-                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId +"&success=deleted_review");
+                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId + "&success=deleted_review");
             } else {
-                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId +"&error=delete_failed");
+                response.sendRedirect("pharmacy.jsp?p=" + pharmacyId + "&error=delete_failed");
             }
         } catch (Exception e) {
             e.printStackTrace();

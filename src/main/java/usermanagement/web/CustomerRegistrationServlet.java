@@ -1,16 +1,20 @@
 package usermanagement.web;
 
-import java.io.IOException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
-
+import usermanagement.dao.CustomerDao;
 import usermanagement.dao.UserDao;
 import usermanagement.model.Customer;
-import usermanagement.dao.CustomerDao;
 
+import java.io.IOException;
+
+
+/**
+ * Enables a customer to register an account.
+ */
 @WebServlet("/registerCustomer")
 public class CustomerRegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -39,7 +43,7 @@ public class CustomerRegistrationServlet extends HttpServlet {
         }
 
         //Check for duplicate username or email address
-        if(!userDao.checkUsernameUnique(username) || !customerDao.checkEmailAddressUnique(emailAddress)) {
+        if (!userDao.checkUsernameUnique(username) || !customerDao.checkEmailAddressUnique(emailAddress)) {
             response.sendRedirect("registerCust.jsp?error=duplicate_account");
             return;
         }

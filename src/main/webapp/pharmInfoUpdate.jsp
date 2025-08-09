@@ -240,13 +240,13 @@
       <%--OPERATING HOURS --%>
         <%
           String hours = pharmacy.getOperatingHours();
-          String timings[] =hours.split(",");
+          String[] timings = hours.split(",");
           if (timings.length == 0) {
             // create a 7-element array and fill with "N/A"
             timings = new String[7];
             Arrays.fill(timings, "N/A");
           }
-          String[] daysOfWeek ={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+          String[] daysOfWeek = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
         %>
         <div class="col-sm-12" style="margin: 8px 0 2px">
           <label class="form-label">Operating Hours</label>

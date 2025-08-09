@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+
+/**
+ * Retrieves the Google Maps API key from {@code database.properties}.
+ */
 @WebServlet("/getApiKey")
 public class GetApiKeyServlet extends HttpServlet {
     @Override

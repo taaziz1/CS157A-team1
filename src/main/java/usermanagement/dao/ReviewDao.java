@@ -89,7 +89,7 @@ public class ReviewDao {
         String SELECT_AVERAGE_RATING_SQL = "SELECT AVG(rating) AS average_rating FROM review WHERE pharm_id = ?";
 
         try (Connection con = Utilities.createSQLConnection();
-             PreparedStatement ps = con.prepareStatement(SELECT_AVERAGE_RATING_SQL);) {
+             PreparedStatement ps = con.prepareStatement(SELECT_AVERAGE_RATING_SQL)) {
 
             ps.setInt(1, pharmacyId);
 
@@ -172,7 +172,7 @@ public class ReviewDao {
         String DELETE_REVIEW_SQL = "DELETE FROM review WHERE pharm_id = ? AND customer_id = ?";
 
         try (Connection con = Utilities.createSQLConnection();
-             PreparedStatement ps = con.prepareStatement(DELETE_REVIEW_SQL);) {
+             PreparedStatement ps = con.prepareStatement(DELETE_REVIEW_SQL)) {
 
             ps.setInt(1, review.getPharmacyId());
             ps.setInt(2, review.getCustomerId());

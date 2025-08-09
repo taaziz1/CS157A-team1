@@ -2,8 +2,10 @@ package usermanagement.model;
 
 import java.io.Serializable;
 
-
-public class Review   implements Serializable {
+/**
+ * Represents a review. Provides setter and getter methods.
+ */
+public class Review implements Serializable {
     private static final long serialVersionUID = 1L;
     private int reviewId;
     private int customerId;
@@ -69,7 +71,6 @@ public class Review   implements Serializable {
     public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
     }
-
 
     public Pharmacy getPharmacy() {
         return pharmacy;

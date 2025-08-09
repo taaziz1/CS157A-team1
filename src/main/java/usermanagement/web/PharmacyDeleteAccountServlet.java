@@ -1,20 +1,22 @@
 package usermanagement.web;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
-
-import usermanagement.dao.UserDao;
 import usermanagement.dao.AddressDao;
 import usermanagement.dao.PharmacyDao;
+import usermanagement.dao.UserDao;
 import usermanagement.model.Pharmacy;
 import util.Utilities;
 
+import java.io.IOException;
+
+
+/**
+ * Enables a pharmacy to delete their account.
+ */
 @WebServlet("/deletePharmacyAccount")
 public class PharmacyDeleteAccountServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -34,8 +36,7 @@ public class PharmacyDeleteAccountServlet extends HttpServlet {
         String taxNumber = request.getParameter("taxNumber");
         String password = request.getParameter("password");
 
-        if (userDao.checkPasswordMatch(userId, Utilities.hash(password))
-                && pharmacyDao.checkTaxNumMatch(userId, taxNumber)) {
+        if (userDao.checkPasswordMatch(userId, Utilities.hash(password)) && pharmacyDao.checkTaxNumMatch(userId, taxNumber)) {
             // If password and tax number match, proceed with deletion
             Pharmacy pharmacy = pharmacyDao.getPharmacyDashboard(userId);
             int addressId = pharmacy.getAddressId();
@@ -47,12 +48,10 @@ public class PharmacyDeleteAccountServlet extends HttpServlet {
 
             if (status > 0) {
                 response.sendRedirect("logout");
-            }
-            else{
+            } else {
                 response.sendRedirect("pharmDashboard.jsp?error=delete_acc_failed");
             }
-        }
-        else {
+        } else {
             // If password or tax number does not match, redirect with error
             response.sendRedirect("pharmDashboard.jsp?error=invalid_credentials");
         }

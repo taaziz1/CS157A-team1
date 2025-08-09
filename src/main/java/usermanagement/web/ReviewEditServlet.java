@@ -1,4 +1,5 @@
 package usermanagement.web;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,8 +10,12 @@ import usermanagement.model.Review;
 
 import java.io.IOException;
 
+
+/**
+ * Adds a customer to edit a review.
+ */
 @WebServlet("/editReview")
-public class ReviewEditServlet  extends HttpServlet {
+public class ReviewEditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ReviewDao reviewDao;
 

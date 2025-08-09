@@ -2,9 +2,9 @@ package usermanagement.model;
 
 import java.io.Serializable;
 
+
 /**
- * JavaBean class used in jsp action tags.
- * @author Ramesh Fadatare
+ * Represents an address. Provides setter and getter methods.
  */
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -54,10 +54,9 @@ public class Address implements Serializable {
         this.zipcode = zipcode;
     }
 
-   @Override
-   public String toString(){
+    @Override
+    public String toString() {
         return streetName + ", " + city + ", " + state + ", " + zipcode;
-   }
-
+    }
 
 }

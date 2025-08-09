@@ -62,7 +62,7 @@ public class UserDao {
         String DELETE_CUSTOMER_SQL = "DELETE FROM user WHERE user_id = ?";
 
         try (Connection con = Utilities.createSQLConnection();
-             PreparedStatement ps = con.prepareStatement(DELETE_CUSTOMER_SQL);) {
+             PreparedStatement ps = con.prepareStatement(DELETE_CUSTOMER_SQL)) {
 
             ps.setInt(1, userId);
             status = ps.executeUpdate();
@@ -86,7 +86,7 @@ public class UserDao {
         String SELECT_PASSWORD_SQL = "SELECT password FROM user WHERE user_id = ?";
 
         try (Connection con = Utilities.createSQLConnection();
-             PreparedStatement ps = con.prepareStatement(SELECT_PASSWORD_SQL);) {
+             PreparedStatement ps = con.prepareStatement(SELECT_PASSWORD_SQL)) {
 
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
@@ -114,7 +114,7 @@ public class UserDao {
         String SELECT_TAX_NUM_SQL = "SELECT COUNT(username) FROM user WHERE username = ?";
 
         try (Connection con = Utilities.createSQLConnection();
-             PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL);){
+             PreparedStatement ps = con.prepareStatement(SELECT_TAX_NUM_SQL)){
 
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();

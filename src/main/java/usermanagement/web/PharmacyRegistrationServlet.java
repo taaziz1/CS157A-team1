@@ -1,20 +1,22 @@
 package usermanagement.web;
 
-import java.io.IOException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
-
-
+import usermanagement.dao.PharmacyDao;
 import usermanagement.dao.UserDao;
 import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
-import usermanagement.dao.PharmacyDao;
-
 import util.Utilities;
 
+import java.io.IOException;
+
+
+/**
+ * Enables a pharmacy to register an account.
+ */
 @WebServlet("/registerPharmacy")
 public class PharmacyRegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -25,12 +27,6 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         userDao = new UserDao();
         pharmacyDao = new PharmacyDao();
     }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println("Servlet is working!");
-    }
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -47,17 +43,13 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         String[] operatingHoursArray = request.getParameterValues("operating_hours");
 
         // Basic validation
-        if (username == null || username.isEmpty() || password == null || password.isEmpty() ||
-                pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() ||
-                streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() ||
-                state == null || state.isEmpty() || zipString == null || zipString.isEmpty() ||
-                operatingHoursArray == null || operatingHoursArray.length != 7) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty() || pharmacyName == null || pharmacyName.isEmpty() || taxNum == null || taxNum.isEmpty() || streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() || state == null || state.isEmpty() || zipString == null || zipString.isEmpty() || operatingHoursArray == null || operatingHoursArray.length != 7) {
             response.sendRedirect("registerPharm.jsp?error=invalid_form");
             return;
         }
 
         //Check for duplicate username or tax number
-        if(!userDao.checkUsernameUnique(username) || !pharmacyDao.checkTaxNumberUnique(taxNum)) {
+        if (!userDao.checkUsernameUnique(username) || !pharmacyDao.checkTaxNumberUnique(taxNum)) {
             response.sendRedirect("registerPharm.jsp?error=duplicate_account");
             return;
         }
@@ -68,7 +60,7 @@ public class PharmacyRegistrationServlet extends HttpServlet {
         // Check if operatingHoursArray is not null and has exactly 7 elements
         if (operatingHoursArray != null && operatingHoursArray.length == 7) {
             // Join with commas (or any other separator)
-           operatingHours = String.join(",", operatingHoursArray);
+            operatingHours = String.join(",", operatingHoursArray);
         } else {
             // Handle missing or malformed input
             operatingHours = "N/A,N/A,N/A,N/A,N/A,N/A,N/A";

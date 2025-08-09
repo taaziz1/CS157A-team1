@@ -4,6 +4,9 @@ package usermanagement.model;
 import java.io.Serializable;
 
 
+/**
+ * Represents a medication. Provides setter and getter methods.
+ */
 public class Medication implements Serializable {
     private static final long serialVersionUID = 1L;
     private String medName;
@@ -12,18 +15,15 @@ public class Medication implements Serializable {
     private double price;
     private int medId;
     private int userId;
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+
     public Medication() {
     }
 
-
-    public Medication( int quantity, double price) {
+    public Medication(int quantity, double price) {
         this.quantity = quantity;
         this.price = price;
 
     }
-
 
     public Medication(String medName, String manfName, int quantity, double price) {
         this.medName = medName;
@@ -36,6 +36,15 @@ public class Medication implements Serializable {
     public Medication(double price, int quantity) {
         this.quantity = quantity;
         this.price = price;
+    }
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
 
