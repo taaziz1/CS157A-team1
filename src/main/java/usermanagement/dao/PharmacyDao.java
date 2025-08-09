@@ -56,7 +56,7 @@ public class PharmacyDao {
 
         //Register the pharmacy
         try (Connection con = Utilities.createSQLConnection();
-             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = con.prepareStatement(INSERT_PHARMACY_SQL)) {
 
             ps.setInt(1, pharmacy.getUserId());
             ps.setInt(2, pharmacy.getAddressId());

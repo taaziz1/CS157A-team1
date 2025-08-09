@@ -45,7 +45,7 @@ public class CustomerDao {
 
         //Register the customer
         try(Connection con = Utilities.createSQLConnection();
-            PreparedStatement ps = con.prepareStatement(INSERT_CUSTOMER_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement ps = con.prepareStatement(INSERT_CUSTOMER_SQL)) {
 
             //Randomly generate and set a valid avatar ID in the Customer object
             String SELECT_NUMBER_AVATARS = "SELECT COUNT(*) FROM avatar";

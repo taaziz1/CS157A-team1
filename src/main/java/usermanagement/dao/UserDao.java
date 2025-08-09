@@ -25,8 +25,7 @@ public class UserDao {
         int insertedId = 0;
         String INSERT_USER_SQL = "INSERT INTO user (username, password) VALUES (?, ?)";
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+        try (Connection con = Utilities.createSQLConnection();
              PreparedStatement ps = con.prepareStatement(INSERT_USER_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, user.getUsername());
