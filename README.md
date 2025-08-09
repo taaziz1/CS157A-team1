@@ -86,7 +86,7 @@ git clone https://github.com/taaziz1/CS157A-team1.git
 ```properties
 user=<Your MySQL username>
 pass=<Your MySQL password>
-apiKey=AIzaSyDgx4EvwZbaI_IetMS_9dBcVaix1ofvMXM
+apiKey=<Will be provided separately>
 ```
 
 6. **Run the Application**
