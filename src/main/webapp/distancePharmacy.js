@@ -1,7 +1,7 @@
 function initMap() {
 
     document.getElementById('submitBtnLocation').addEventListener('click', function () {
-        let distanceAndTime = document.getElementsByClassName("distDisplay");;
+        let distanceAndTime = document.getElementsByClassName("distDisplay");
         let addressFROM = document.getElementById('location').value.trim();
         let isMedicationSearch = (window.location.pathname === "/PharmaFinder/search.jsp" && window.location.search.includes("&cat=Medication"));
 

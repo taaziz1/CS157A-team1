@@ -10,6 +10,10 @@ import usermanagement.model.Review;
 
 import java.io.IOException;
 
+
+/**
+ * Enables a customer to post a review.
+ */
 @WebServlet("/postReview")
 public class ReviewPostServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;

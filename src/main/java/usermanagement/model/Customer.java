@@ -2,6 +2,10 @@ package usermanagement.model;
 
 import java.io.Serializable;
 
+
+/**
+ * Represents a customer. Provides setter and getter methods.
+ */
 public class Customer extends User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -10,12 +14,13 @@ public class Customer extends User implements Serializable {
     //for image display in customer dashboard
     private int avatarId;
     private String avatarDirectory;
-    public void setAvatarDirectory(String avatarDirectory) {
-        this.avatarDirectory = avatarDirectory;
-    }
 
     public String getAvatarDirectory() {
         return avatarDirectory;
+    }
+
+    public void setAvatarDirectory(String avatarDirectory) {
+        this.avatarDirectory = avatarDirectory;
     }
 
     public int getAvatarId() {

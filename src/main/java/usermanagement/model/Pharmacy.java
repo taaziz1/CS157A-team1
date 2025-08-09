@@ -1,9 +1,12 @@
 package usermanagement.model;
 
 import java.io.Serializable;
-import usermanagement.dao.ReviewDao;
 
-public class Pharmacy extends User implements Serializable{
+
+/**
+ * Represents a pharmacy. Provides setter and getter methods.
+ */
+public class Pharmacy extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     private String pharmacyName;
     private int addressId = 0;
@@ -73,28 +76,24 @@ public class Pharmacy extends User implements Serializable{
         this.operatingHours = operatingHours;
     }
 
-    public void setAddress(Address address) {
-        this.address=address;
-    }
-
     public Address getAddress() {
         return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public double getRating() {
+        return rating;
     }
 
     public void setRating(double rating) {
         this.rating = rating;
     }
 
-    public double getRating(){
-        return rating;
-    }
-
-    public double getAverageRating() {
-        ReviewDao reviewDao = new ReviewDao();
-        return reviewDao.getAverageRating(this.getUserId());
-    }
     @Override
-    public String toString(){
+    public String toString() {
         return pharmacyName;
     }
 }

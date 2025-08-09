@@ -1,21 +1,22 @@
 package usermanagement.web;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
-
+import usermanagement.dao.AddressDao;
+import usermanagement.dao.PharmacyDao;
 import usermanagement.model.Address;
 import usermanagement.model.Pharmacy;
-import usermanagement.dao.PharmacyDao;
-import usermanagement.dao.AddressDao;
-
 import util.Utilities;
 
+import java.io.IOException;
+
+
+/**
+ * Enables a pharmacy to update their account information.
+ */
 @WebServlet("/updatePharmacy")
 public class PharmacyUpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -39,10 +40,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         String[] operatingHoursArray = request.getParameterValues("operating_hours");
 
         // Basic validation
-        if (pharmacyName == null || pharmacyName.isEmpty() || streetAddress == null
-                || streetAddress.isEmpty() || city == null || city.isEmpty() ||
-                state == null || state.isEmpty() || zipString == null || zipString.isEmpty()
-                || operatingHoursArray == null || operatingHoursArray.length != 7) {
+        if (pharmacyName == null || pharmacyName.isEmpty() || streetAddress == null || streetAddress.isEmpty() || city == null || city.isEmpty() || state == null || state.isEmpty() || zipString == null || zipString.isEmpty() || operatingHoursArray == null || operatingHoursArray.length != 7) {
             response.sendRedirect("pharmInfoUpdate.jsp?error=invalid_form");
             return;
         }
@@ -75,11 +73,7 @@ public class PharmacyUpdateServlet extends HttpServlet {
         address.setZipcode(Integer.parseInt(zipString));
 
         int status = 0;
-        try {
-            status = pharmacyDao.updatePharmacy(pharmacy) * addressDao.updateAddress(address);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        status = pharmacyDao.updatePharmacy(pharmacy) * addressDao.updateAddress(address);
 
         if (status > 0) {
             response.sendRedirect("pharmDashboard.jsp?success=updated_info");

@@ -1,29 +1,35 @@
 package usermanagement.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
 import usermanagement.model.Address;
 
-import usermanagement.model.Pharmacy;
 import util.Utilities;
 
+
+/**
+ * The AddressDao class hosts methods designed to access and modify the address table
+ * in the pharmafinder database.
+ */
 public class AddressDao {
+
+    /**
+     * Retrieves the fields stored in an Address object to insert
+     * a new tuple into the pharmafinder address table.
+     * @param address  object storing address data to be inserted
+     * @return {@code > 0} on success and {@code 0} on failure
+     */
     public int registerAddress(Address address) {
         int status = 0;
         int insertedId = 0;
         String INSERT_ADDRESS_SQL = "INSERT INTO address (street_address, city, state, zip_code) VALUES (?, ?, ?, ?)";
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(INSERT_ADDRESS_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            // Ask for generated keys
-            PreparedStatement ps = con.prepareStatement(INSERT_ADDRESS_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, address.getStreetName());
             ps.setString(2, address.getCity());
             ps.setString(3, address.getState());
@@ -31,30 +37,35 @@ public class AddressDao {
 
             status = ps.executeUpdate();
 
-            // Get generated ID
+            // Get generated address_id for the newly inserted tuple
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 insertedId = rs.getInt(1);
             }
 
-
-            // Set the addressId in the Address object
             address.setAddressId(insertedId);
 
-            con.close();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
 
         return status;
     }
+
+
+    /**
+     * Retrieves information from an address tuple in the pharmafinder database.
+     * @param addressId  address_id column of an address tuple
+     * @return an {@code Address} object for the stored tuple on success and
+     * {@code null} on failure
+     */
     public Address getAddress(int addressId) {
         Address address = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                    Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM address  WHERE address_id = ?");
+        String RETRIEVE_ADDRESS_SQL = "SELECT * FROM address WHERE address_id = ?";
+
+        try (Connection con = Utilities.createSQLConnection();
+             PreparedStatement ps = con.prepareStatement(RETRIEVE_ADDRESS_SQL)) {
+
             ps.setInt(1, addressId);
             ResultSet rs = ps.executeQuery();
 
@@ -68,23 +79,25 @@ public class AddressDao {
                 address.setStreetName(rs.getString("street_address"));
             }
 
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utilities.printSQLException(e);
         }
 
         return address;
     }
 
-    public int updateAddress(Address address) throws SQLException {
+
+    /**
+     * Updates an address tuple in the pharmafinder database.
+     * @param address  object storing data to update the address table with
+     * @return {@code > 0} on success and {@code 0} on failure
+     */
+    public int updateAddress(Address address) {
         int status = 0;
         String UPDATE_ADDRESS_SQL = "UPDATE address SET street_address = ?, city = ?, state = ?, zip_code = ? WHERE address_id = ?";
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+        try (Connection con = Utilities.createSQLConnection();
              PreparedStatement ps = con.prepareStatement(UPDATE_ADDRESS_SQL)) {
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
 
             ps.setString(1, address.getStreetName());
             ps.setString(2, address.getCity());
@@ -94,47 +107,33 @@ public class AddressDao {
 
             status = ps.executeUpdate();
         } catch (SQLException e) {
-            printSQLException(e);
-            throw e; // Rethrow the exception after logging
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
 
+
+    /**
+     * Deletes an address tuple in the pharmafinder database.
+     * @param addressId  address_id column of an address tuple
+     * @return {@code > 0} on success and {@code 0} on failure
+     */
     public int deleteAddress(int addressId) {
         int status = 0;
         String DELETE_ADDRESS_SQL = "DELETE FROM address WHERE address_id = ?";
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/pharmafinder",
-                Utilities.getdbvar("user"), Utilities.getdbvar("pass"));
+        try (Connection con = Utilities.createSQLConnection();
              PreparedStatement ps = con.prepareStatement(DELETE_ADDRESS_SQL)) {
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
 
             ps.setInt(1, addressId);
             status = ps.executeUpdate();
+
         } catch (SQLException e) {
-            printSQLException(e);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Utilities.printSQLException(e);
         }
+
         return status;
     }
 
-    private void printSQLException(SQLException ex) {
-        for (Throwable e : ex) {
-            if (e instanceof SQLException) {
-                e.printStackTrace(System.err);
-                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-                System.err.println("Message: " + e.getMessage());
-                Throwable t = ex.getCause();
-                while (t != null) {
-                    System.out.println("Cause: " + t);
-                    t = t.getCause();
-                }
-            }
-        }
-    }
 }

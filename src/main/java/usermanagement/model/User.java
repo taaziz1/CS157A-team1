@@ -1,7 +1,12 @@
 package usermanagement.model;
-import java.io.Serializable;
+
 import util.Utilities;
 
+import java.io.Serializable;
+
+/**
+ * Represents a user. Provides setter and getter methods.
+ */
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     private int userId = 0;
@@ -32,5 +37,11 @@ public class User implements Serializable {
         this.password = Utilities.hash(password);
     }
 
-    public void copyPassword(String password) {this.password = password;}
+    /**
+     * Used to prevent double hashing a password when copying to a
+     * {@code Customer} or {@code Pharmacy} object.
+     */
+    public void copyPassword(String password) {
+        this.password = password;
+    }
 }

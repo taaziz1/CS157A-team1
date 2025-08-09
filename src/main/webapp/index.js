@@ -1,3 +1,5 @@
+
+//Show or hide the password field on login and registration pages
 function passwordFunction(){
     var x = document.getElementById("floatingPassword");
     let c =document.getElementById("passwordImage")

@@ -1,15 +1,17 @@
 package usermanagement.web;
-import java.io.IOException;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.ServletException;
-
-
 import usermanagement.dao.CustomerDao;
 
+import java.io.IOException;
+
+/**
+ * Enables a customer to change their password.
+ */
 @WebServlet("/custResetPassword")
 public class CustomerResetPasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -24,7 +26,7 @@ public class CustomerResetPasswordServlet extends HttpServlet {
         String newPassword = request.getParameter("new_password");
 
         // Basic validation
-        if  (newPassword == null || newPassword.isEmpty()) {
+        if (newPassword == null || newPassword.isEmpty()) {
             response.sendRedirect("custDashboard.jsp?error=incomplete_field"); //new password is required.
             return;
         }
@@ -35,15 +37,12 @@ public class CustomerResetPasswordServlet extends HttpServlet {
         int status = customerDao.resetCustomerPassword(userId, currentPassword, newPassword);
         if (status == 1) {
             response.sendRedirect("logout");
-        }
-        else if (status == 2) {
+        } else if (status == 2) {
             response.sendRedirect("custDashboard.jsp?error=incorrect_pass"); //Current password is incorrect. Please try again.
 
-        }
-        else if (status == 3) {
+        } else if (status == 3) {
             response.sendRedirect("custDashboard.jsp?error=identical_pass"); //New password cannot be the same as the current password. Please choose a different password.
-        }
-        else {
+        } else {
             response.sendRedirect("custDashboard.jsp?error="); //An unknown error has occurred. Please try again
         }
     }
