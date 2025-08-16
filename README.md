@@ -14,13 +14,12 @@
 
 * **MySQL Community Server 8.0.42** – [Download](https://downloads.mysql.com/archives/community/)
 * **MySQL Workbench 8.0.42** – [Download](https://downloads.mysql.com/archives/workbench/)
-* **Apache Tomcat 11.0.9** (or later) – [Download](https://tomcat.apache.org)
-
-
+* **Apache Tomcat 11.0.9** (or later) – [Download](https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.9/bin/)
+<br><br/>
 * **MySQL JDBC Driver 8.0.33** – *Included as Maven Dependency*
 * **Jakarta Servlet API 6.1.0** – *Included as Maven Dependency*
 * **Jakarta JSP API 3.1** – *Included as Maven Dependency*
-* **Google Maps API** – *API Key Required*
+* **Google Maps API** – *API Key required*
 
 ## Features
 
@@ -47,7 +46,7 @@
 * **Manage Store Information** – Update store details with the same validation as registration; changes reflected in real time on website
 * **Change Password** – Requires employer identification number and old password; enforces complexity rules and prevents reusing the current password
 * **Delete Account** – Requires employer identification number and password; removes all associated data, including reviews and address records
-* **Medication Management** – Add, edit, and delete medications in inventory
+* **Medication Management** – Add, edit, and delete medications from inventory
 
 ## Setup Instructions
 
@@ -70,11 +69,11 @@ git clone https://github.com/taaziz1/CS157A-team1.git
 4. **Configure Tomcat**
 
     * Add **Apache Tomcat 11.0.9** (or later) as a server runtime environment in your IDE (if needed)
-    * Add **Apache Tomcat** as a run configuration and choose the `src/main/webapp` subdirectory for deployment
+    * Add **Tomcat** as a run configuration and choose the `src/main/webapp` subdirectory of the repository for deployment
 
 5. **Set Up System Properties**
 
-   * Create a `database.properties` file under the `/conf` subdirectory of your **Apache Tomcat** installation with the following properties:
+   * Create a `database.properties` file under the `conf` subdirectory of your **Apache Tomcat** installation with the following properties:
 
 ```properties
 user=<Your MySQL username>
