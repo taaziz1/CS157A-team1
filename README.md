@@ -1,6 +1,8 @@
 # PharmaFinder
 
-**PharmaFinder** is a web application built using **JSP**, **Servlet**, **JDBC**, and **MySQL** that helps customers quickly find the nearest pharmacy stocking their desired medication.
+**PharmaFinder** is a web application built using **JSP**, **Jakarta Servlets**, **MySQL**, and the **JDBC API** that helps customers quickly find the nearest pharmacy stocking their desired medication.
+
+![Home Page](homePage.png)
 
 ## Authors
 
@@ -10,51 +12,42 @@
 
 ## Technologies Used
 
-* **MySQL** – [Download](https://dev.mysql.com/downloads/mysql/)
+* **MySQL Community Server 8.0.42** – [Download](https://downloads.mysql.com/archives/community/)
+* **MySQL Workbench 8.0.42** – [Download](https://downloads.mysql.com/archives/workbench/)
 * **Apache Tomcat 11.0.9** (or later) – [Download](https://tomcat.apache.org)
-* **MySQL JDBC Driver** – [Download](https://dev.mysql.com/downloads/connector/j/)
 
-## Project Overview
 
-The goal of PharmaFinder is to provide a user-friendly platform where customers can:
-
-* Search for medications and find the **nearest pharmacy** with the item in stock
-* View detailed pharmacy information, including **distance** and **travel time** from their location
-* Search by **medication type**, **medication name**, or **pharmacy name**
-* Leave and manage **reviews** about pharmacies
-
-Pharmacies can:
-
-* **Register** on the platform and manage their account
-* **Add, edit, and remove medications** from their inventory
-* Update their store details to reach more customers
+* **MySQL JDBC Driver 8.0.33** – *Included as Maven Dependency*
+* **Jakarta Servlet API 6.1.0** – *Included as Maven Dependency*
+* **Jakarta JSP API 3.1** – *Included as Maven Dependency*
+* **Google Maps API** – *API Key Required*
 
 ## Features
+
+### **Search & Navigation**
+
+* Any user can search by **medication name**, **medication type**, or **pharmacy name**
+* Pharmacies display their **distance and travel time** from a desired location through the **Google Maps API**
+  * In search results, pharmacies are **ordered** based on distance
 
 ### **Customer Features**
 
 * **Account Registration** – Create a customer account with password complexity checks and required field validation
-* **Change Avatar** – Choose from 10 preset avatars with confirmation message upon update
+* **Change Avatar** – Choose from 10 preset avatars
 * **Change Password** – Requires old password; enforces complexity rules and prevents reusing the current password
-* **Delete Account** – Requires password verification; removes customer data, reviews, and account credentials
-* **View Reviews** – See all personal reviews in chronological order, with direct links to the corresponding pharmacy
-* **Post Reviews** – Submit one review per pharmacy; removes review form after posting; stored in the Review table
-* **Edit Reviews** – Modify existing reviews with updated database entries
-* **Delete Reviews** – Confirmation prompt before deletion; updates Review table
+* **Delete Account** – Requires password verification; removes customer data, reviews, and account credentials from the system
+* **Post Review** – Submit one review per pharmacy; review form disappears after posting
+* **Edit Review** – Modify an existing review on a pharmacy page
+* **Delete Review** – Removes the review from the system
+* **View Posted Reviews** – See all reviews one has made in chronological order, with direct links to the corresponding pharmacy
 
 ### **Pharmacy Features**
 
-* **Pharmacy Registration** – Register with business details, tax number, and store address
-* **Manage Store Information** – Update store details with the same validation as registration; changes reflected in database tables
-* **Change Password** – Requires tax number and old password; enforces complexity rules and prevents reusing the current password
-* **Delete Account** – Requires tax number and password; removes all associated data, including reviews and address records
+* **Pharmacy Registration** – Register with business details, employer identification number, and store address
+* **Manage Store Information** – Update store details with the same validation as registration; changes reflected in real time on website
+* **Change Password** – Requires employer identification number and old password; enforces complexity rules and prevents reusing the current password
+* **Delete Account** – Requires employer identification number and password; removes all associated data, including reviews and address records
 * **Medication Management** – Add, edit, and delete medications in inventory
-
-### **Search & Navigation**
-
-* Search by **medication name**, **medication type**, or **pharmacy name**
-* Display nearest pharmacies with **distance and travel time** using the customer’s input address
-* Distance-based ordering of results
 
 ## Setup Instructions
 
@@ -66,36 +59,34 @@ git clone https://github.com/taaziz1/CS157A-team1.git
 
 2. **Import the Database**
 
-    * Open MySQL Workbench
-    * Import the database file `pharmafinderdb.sql` located in the project folder
+    * Open **MySQL Workbench 8.0.42** (or later)
+    * Run the `pharmafinderdb.sql` script from the cloned repository 
 
 3. **Import the Project into Your IDE**
 
-    * Use Eclipse, IntelliJ IDEA, or any Java IDE
-    * Import as a **Maven project**
+    * Use **Eclipse for Enterprise Java and Web Developers**, **IntelliJ IDEA Ultimate Edition**, or any **Java IDE** with **Apache Tomcat** support
+    * Select the top-level directory of the cloned repository to import as a **Maven project**
 
 4. **Configure Tomcat**
 
-    * Set up **Apache Tomcat 11.0.9** (or later) in your IDE
-    * Add the project to your Tomcat server
+    * Add **Apache Tomcat 11.0.9** (or later) as a server runtime environment in your IDE (if needed)
+    * Add **Apache Tomcat** as a run configuration and choose the `src/main/webapp` subdirectory for deployment
 
-5. **Set Up Database Credentials**
+5. **Set Up System Properties**
 
-    * Create a `database.properties` file inside the `Tomcat/conf/` directory with the following:
+   * Create a `database.properties` file under the `/conf` subdirectory of your **Apache Tomcat** installation with the following properties:
 
 ```properties
 user=<Your MySQL username>
 pass=<Your MySQL password>
-apiKey=<Will be provided separately>
+apiKey=<Google Maps API key>
 ```
 
 6. **Run the Application**
 
-    * Start the Tomcat server
-    * Open your browser and go to:
+    * Run the **Apache Tomcat** configuration
+    * Open your browser and navigate to:
 
       ```
-      http://localhost:8080/PharmaFinder/
+      http://localhost:8080/PharmaFinder/index.jsp
       ```
-
----
