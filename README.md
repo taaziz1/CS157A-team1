@@ -2,7 +2,8 @@
 
 **PharmaFinder** is a web application built using **JSP**, **Jakarta Servlets**, **MySQL**, and the **JDBC API** that helps customers quickly find the nearest pharmacy stocking their desired medication.
 
-![Home Page](homePage.png)
+![Home Page](images/homePage.png "Home Page")
+*Home Page*
 
 ## Authors
 
@@ -29,6 +30,9 @@
 * Pharmacies display their **distance and travel time** from a desired location through the **Google Maps API**
   * In search results, pharmacies are **ordered** based on distance
 
+![Search Results](images/searchResults.png)
+*Search Results*
+
 ### **Customer Features**
 
 * **Account Registration** – Create a customer account with password complexity checks and required field validation
@@ -40,6 +44,9 @@
 * **Delete Review** – Removes the review from the system
 * **View Posted Reviews** – See all reviews one has made in chronological order, with direct links to the corresponding pharmacy
 
+![Customer Dashboard](images/customerDashboard.png)
+*Customer Dashboard*
+
 ### **Pharmacy Features**
 
 * **Pharmacy Registration** – Register with business details, employer identification number, and store address
@@ -48,12 +55,15 @@
 * **Delete Account** – Requires employer identification number and password; removes all associated data, including reviews and address records
 * **Medication Management** – Add, edit, and delete medications from inventory
 
+![Pharmacy Dashboard](images/pharmacyDashboard.png)
+*Pharmacy Dashboard*
+
 ## Setup Instructions
 
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/taaziz1/CS157A-team1.git
+git clone https://github.com/taaziz1/PharmaFinder.git
 ```
 
 2. **Import the Database**
